@@ -6,7 +6,7 @@
     <ScrollView>
         <VerticalStackLayout Padding="20">
             <Button Text="Scan for Devices" Clicked="ScanButton_Clicked" />
-            <ListView x:Name="DevicesListView" ItemTapped="DevicesListView_ItemTapped" >
+            <ListView x:Name="DevicesListView">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextCell Text="{Binding Name}" Detail="{Binding Id}" />
