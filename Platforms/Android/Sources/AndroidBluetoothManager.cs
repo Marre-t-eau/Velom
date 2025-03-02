@@ -25,9 +25,12 @@ internal class AndroidBluetoothManager : IBluetoothManager
         adapter.DeviceDiscovered += OnDeviceDiscovered;
     }
 
-    private void OnDeviceDiscovered(object? sender, DeviceEventArgs e)
+    private async void OnDeviceDiscovered(object? sender, DeviceEventArgs e)
     {
-        DiscoveredDevices.Add(new AndroidDeviceManager(e.Device));
+        AndroidDeviceManager androidDevice = new AndroidDeviceManager(e.Device);
+        DiscoveredDevices.Add(androidDevice);
+        await adapter.ConnectToDeviceAsync(e.Device);
+        await androidDevice.Initialize();
     }
 
     public async void StartScan()
@@ -91,6 +94,36 @@ internal class AndroidBluetoothManager : IBluetoothManager
     public bool IsBluetoothEnabled()
     {
         return bluetoothLE.IsOn;
+    }
+
+    public bool AsPower
+    {
+        get
+        {
+            return DiscoveredDevices.Any(d => d.AsPower);
+        }
+    }
+
+    public bool AsCadence
+    {
+        get
+        {
+            return DiscoveredDevices.Any(d => d.AsCadence);
+        }
+    }
+
+    public Task<int> GetPower()
+    {
+        if (!AsPower)
+            return new Task<int>(() => 0);
+        return DiscoveredDevices.First(d => d.AsPower).GetPower();
+    }
+
+    public Task<int> GetCadence()
+    {
+        if (!AsCadence)
+            return new Task<int>(() => 0);
+        return DiscoveredDevices.First(d => d.AsPower).GetCadence();
     }
 
     internal class MyBluetoothPermission : BasePlatformPermission

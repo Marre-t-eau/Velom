@@ -11,4 +11,9 @@ internal interface IBluetoothManager
     void StartScan();
     void StopScan();
     Task<PermissionStatus> CheckAndRequestBluetoothPermissions();
+
+    bool AsPower { get; }
+    Task<int> GetPower();
+    bool AsCadence { get; }
+    Task<int> GetCadence();
 }

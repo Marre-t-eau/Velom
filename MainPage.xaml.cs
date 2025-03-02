@@ -35,5 +35,19 @@ public partial class MainPage : ContentPage
         }
 
         bluetoothManager.StartScan();
+
+        await Task.Delay(5000);
+        while (true)
+        {
+            if (bluetoothManager.AsPower)
+            {
+                PowerLabel.Text = "Power: " + await bluetoothManager.GetPower();
+            }
+            if (bluetoothManager.AsCadence)
+            {
+                CadenceLabel.Text = "Cadence: " + await bluetoothManager.GetCadence();
+            }
+            await Task.Delay(1000);
+        }
     }
 }
