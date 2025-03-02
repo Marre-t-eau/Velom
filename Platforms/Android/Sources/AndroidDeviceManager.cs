@@ -11,11 +11,9 @@ internal class AndroidDeviceManager : IDeviceManager
 {
     #region Services and Characteristics UUIDs
     // Services
-    private readonly Guid cyclingPowerServiceUuid = new Guid("00001818-0000-1000-8000-00805f9b34fb"); // Cycling Power Service
     private readonly Guid fitnessMachineServiceUuid = new Guid("00001826-0000-1000-8000-00805f9b34fb"); // Fitness Machine Service
 
     // Characteristics
-    private readonly Guid cyclingPowerMeasurementCharacteristicUuid = new Guid("00002a63-0000-1000-8000-00805f9b34fb"); // Cycling Power Measurement Characteristic
     private readonly Guid indoorBikeDataCharacteristicUuid = new Guid("00002AD2-0000-1000-8000-00805f9b34fb"); // Indoor Bike Data Characteristic
     #endregion
 
@@ -40,30 +38,10 @@ internal class AndroidDeviceManager : IDeviceManager
 
         foreach (IService service in await Device.GetServicesAsync())
         {
-            if (service.Id == cyclingPowerServiceUuid)
-            {
-                InitializeCyclingPowerService(service);
-            }
-            else if (service.Id == fitnessMachineServiceUuid)
+            if (service.Id == fitnessMachineServiceUuid)
             {
                 InitializeFitnessMachineService(service);
             }
-        }
-    }
-
-    private async void InitializeCyclingPowerService(IService service)
-    {
-        ICharacteristic? characteristic = service.GetCharacteristicsAsync().Result
-            .FirstOrDefault(c => c.Id == cyclingPowerMeasurementCharacteristicUuid);
-
-        if (characteristic == null)
-            return;
-
-        characteristic.ValueUpdated += CyclingPowerMeasurementCharacteristic_ValueUpdated;
-
-        if (characteristic.CanUpdate)
-        {
-            await characteristic.StartUpdatesAsync();
         }
     }
 
@@ -85,10 +63,6 @@ internal class AndroidDeviceManager : IDeviceManager
         if (!AsPower)
             return -1;
         return Power;
-    }
-
-    private void CyclingPowerMeasurementCharacteristic_ValueUpdated(object? sender, Plugin.BLE.Abstractions.EventArgs.CharacteristicUpdatedEventArgs e)
-    {
     }
 
     private void IndoorBikeDataCharacteristic_ValueUpdated(object? sender, Plugin.BLE.Abstractions.EventArgs.CharacteristicUpdatedEventArgs e)
