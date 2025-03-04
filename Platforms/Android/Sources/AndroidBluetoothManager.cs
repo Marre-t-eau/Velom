@@ -16,6 +16,9 @@ internal class AndroidBluetoothManager : IBluetoothManager
 
     private Guid ftmsServiceUuid = new Guid("00001826-0000-1000-8000-00805f9b34fb"); // FTMS Service
 
+    private List<EventHandler<ushort>> powerUpdatedHandlers = new List<EventHandler<ushort>>();
+    private List<EventHandler<ushort>> cadenceUpdatedHandlers = new List<EventHandler<ushort>>();
+
     internal AndroidBluetoothManager()
     {
         bluetoothLE = CrossBluetoothLE.Current;
@@ -31,6 +34,14 @@ internal class AndroidBluetoothManager : IBluetoothManager
         DiscoveredDevices.Add(androidDevice);
         await adapter.ConnectToDeviceAsync(e.Device);
         await androidDevice.Initialize();
+        foreach (EventHandler<ushort> handler in powerUpdatedHandlers)
+        {
+            androidDevice.PowerUpdated += handler;
+        }
+        foreach (EventHandler<ushort> handler in cadenceUpdatedHandlers)
+        {
+            androidDevice.CadenceUpdated += handler;
+        }
     }
 
     public async void StartScan()
@@ -112,18 +123,44 @@ internal class AndroidBluetoothManager : IBluetoothManager
         }
     }
 
-    public Task<int> GetPower()
+    public event EventHandler<ushort> PowerUpdated
     {
-        if (!AsPower)
-            return new Task<int>(() => 0);
-        return DiscoveredDevices.First(d => d.AsPower).GetPower();
+        add
+        {
+            powerUpdatedHandlers.Add(value);
+            foreach (IDeviceManager device in DiscoveredDevices)
+            {
+                device.PowerUpdated += value;
+            }
+        }
+        remove
+        {
+            powerUpdatedHandlers.Remove(value);
+            foreach (IDeviceManager device in DiscoveredDevices)
+            {
+                device.PowerUpdated -= value;
+            }
+        }
     }
 
-    public Task<int> GetCadence()
+    public event EventHandler<ushort> CadenceUpdated
     {
-        if (!AsCadence)
-            return new Task<int>(() => 0);
-        return DiscoveredDevices.First(d => d.AsPower).GetCadence();
+        add
+        {
+            cadenceUpdatedHandlers.Add(value);
+            foreach (IDeviceManager device in DiscoveredDevices)
+            {
+                device.CadenceUpdated += value;
+            }
+        }
+        remove
+        {
+            cadenceUpdatedHandlers.Remove(value);
+            foreach (IDeviceManager device in DiscoveredDevices)
+            {
+                device.CadenceUpdated -= value;
+            }
+        }
     }
 
     internal class MyBluetoothPermission : BasePlatformPermission

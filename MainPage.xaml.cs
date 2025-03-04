@@ -34,20 +34,21 @@ public partial class MainPage : ContentPage
             return;
         }
 
-        bluetoothManager.StartScan();
-
-        await Task.Delay(5000);
-        while (true)
+        bluetoothManager.PowerUpdated += (sender, power) =>
         {
-            if (bluetoothManager.AsPower)
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                PowerLabel.Text = "Power: " + await bluetoothManager.GetPower();
-            }
-            if (bluetoothManager.AsCadence)
+                PowerLabel.Text = "Power: " + power;
+            });
+        };
+        bluetoothManager.CadenceUpdated += (sender, cadence) =>
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                CadenceLabel.Text = "Cadence: " + await bluetoothManager.GetCadence();
-            }
-            await Task.Delay(1000);
-        }
+                CadenceLabel.Text = "Cadence: " + cadence;
+            });
+        };
+
+        bluetoothManager.StartScan();
     }
 }

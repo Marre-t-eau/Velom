@@ -13,7 +13,7 @@ internal interface IBluetoothManager
     Task<PermissionStatus> CheckAndRequestBluetoothPermissions();
 
     bool AsPower { get; }
-    Task<int> GetPower();
+    event EventHandler<ushort> PowerUpdated;
     bool AsCadence { get; }
-    Task<int> GetCadence();
+    event EventHandler<ushort> CadenceUpdated;
 }
