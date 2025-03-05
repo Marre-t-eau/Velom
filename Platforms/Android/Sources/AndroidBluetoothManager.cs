@@ -14,10 +14,9 @@ internal class AndroidBluetoothManager : IBluetoothManager
     private IBluetoothLE bluetoothLE;
     private IAdapter adapter;
 
-    private Guid ftmsServiceUuid = new Guid("00001826-0000-1000-8000-00805f9b34fb"); // FTMS Service
-
     private List<EventHandler<ushort>> powerUpdatedHandlers = new List<EventHandler<ushort>>();
     private List<EventHandler<ushort>> cadenceUpdatedHandlers = new List<EventHandler<ushort>>();
+    private List<EventHandler<ushort>> heartRateUpdatedHandlers = new List<EventHandler<ushort>>();
 
     internal AndroidBluetoothManager()
     {
@@ -42,6 +41,10 @@ internal class AndroidBluetoothManager : IBluetoothManager
         {
             androidDevice.CadenceUpdated += handler;
         }
+        foreach (EventHandler<ushort> handler in heartRateUpdatedHandlers)
+        {
+            androidDevice.HeartRateUpdated += handler;
+        }
     }
 
     public async void StartScan()
@@ -51,7 +54,7 @@ internal class AndroidBluetoothManager : IBluetoothManager
             return;
         }
 
-        await adapter.StartScanningForDevicesAsync([ftmsServiceUuid]);
+        await adapter.StartScanningForDevicesAsync([BluetoothServices.FitnessMachineServiceUuid, BluetoothServices.HeartRateServiceUuid]);
     }
 
     public async void StopScan()
@@ -123,6 +126,14 @@ internal class AndroidBluetoothManager : IBluetoothManager
         }
     }
 
+    public bool AsHeartRate
+    {
+        get
+        {
+            return DiscoveredDevices.Any(d => d.AsHeartRate);
+        }
+    }
+
     public event EventHandler<ushort> PowerUpdated
     {
         add
@@ -159,6 +170,26 @@ internal class AndroidBluetoothManager : IBluetoothManager
             foreach (IDeviceManager device in DiscoveredDevices)
             {
                 device.CadenceUpdated -= value;
+            }
+        }
+    }
+
+    public event EventHandler<ushort> HeartRateUpdated
+    {
+        add
+        {
+            heartRateUpdatedHandlers.Add(value);
+            foreach (IDeviceManager device in DiscoveredDevices)
+            {
+                device.HeartRateUpdated += value;
+            }
+        }
+        remove
+        {
+            heartRateUpdatedHandlers.Remove(value);
+            foreach (IDeviceManager device in DiscoveredDevices)
+            {
+                device.HeartRateUpdated -= value;
             }
         }
     }

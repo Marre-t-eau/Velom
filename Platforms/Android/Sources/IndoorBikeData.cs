@@ -4,6 +4,8 @@ namespace Velom.Platforms.Android.Sources;
 
 internal class IndoorBikeData
 {
+    public static readonly Guid guid = new Guid("00002AD2-0000-1000-8000-00805f9b34fb"); // Indoor Bike Data Characteristic
+
     public ushort Flags { get; private set; }
     public ushort? InstantaneousSpeed { get; private set; }
     public ushort? AverageSpeed { get; private set; }

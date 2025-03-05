@@ -1,25 +1,20 @@
 ﻿using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
 using Velom.Source;
+using Plugin.BLE.Abstractions.EventArgs;
 
 namespace Velom.Platforms.Android.Sources;
 
 internal class AndroidDeviceManager : IDeviceManager
 {
-    #region Services and Characteristics UUIDs
-    // Services
-    private readonly Guid fitnessMachineServiceUuid = new Guid("00001826-0000-1000-8000-00805f9b34fb"); // Fitness Machine Service
-
-    // Characteristics
-    private readonly Guid indoorBikeDataCharacteristicUuid = new Guid("00002AD2-0000-1000-8000-00805f9b34fb"); // Indoor Bike Data Characteristic
-    #endregion
-
     private IDevice Device { get; }
     public string Name => Device.Name;
 
     public bool AsPower { get; private set; }
 
     public bool AsCadence { get; private set; }
+
+    public bool AsHeartRate { get; private set; }
 
     internal AndroidDeviceManager(IDevice device)
     {
@@ -28,6 +23,7 @@ internal class AndroidDeviceManager : IDeviceManager
 
     public event EventHandler<ushort>? PowerUpdated;
     public event EventHandler<ushort>? CadenceUpdated;
+    public event EventHandler<ushort>? HeartRateUpdated;
 
     internal async Task Initialize()
     {
@@ -36,9 +32,13 @@ internal class AndroidDeviceManager : IDeviceManager
 
         foreach (IService service in await Device.GetServicesAsync())
         {
-            if (service.Id == fitnessMachineServiceUuid)
+            if (service.Id == BluetoothServices.FitnessMachineServiceUuid)
             {
                 InitializeFitnessMachineService(service);
+            }
+            else if (service.Id == BluetoothServices.HeartRateServiceUuid)
+            {
+                InitializeHeartRateService(service);
             }
         }
     }
@@ -46,7 +46,7 @@ internal class AndroidDeviceManager : IDeviceManager
     private async void InitializeFitnessMachineService(IService service)
     {
         ICharacteristic? characteristic = service.GetCharacteristicsAsync().Result
-            .FirstOrDefault(c => c.Id == indoorBikeDataCharacteristicUuid);
+            .FirstOrDefault(c => c.Id == IndoorBikeData.guid);
         if (characteristic == null)
             return;
         characteristic.ValueUpdated += IndoorBikeDataCharacteristic_ValueUpdated;
@@ -56,7 +56,20 @@ internal class AndroidDeviceManager : IDeviceManager
         }
     }
 
-    private void IndoorBikeDataCharacteristic_ValueUpdated(object? sender, Plugin.BLE.Abstractions.EventArgs.CharacteristicUpdatedEventArgs e)
+    private async void InitializeHeartRateService(IService service)
+    {
+        ICharacteristic? characteristic = service.GetCharacteristicsAsync().Result
+            .FirstOrDefault(c => c.Id == HeartRateMeasurement.guid);
+        if (characteristic == null)
+            return;
+        characteristic.ValueUpdated += HeartRateMeasurementCharacteristic_ValueUpdated;
+        if (characteristic.CanUpdate)
+        {
+            await characteristic.StartUpdatesAsync();
+        }
+    }
+
+    private void IndoorBikeDataCharacteristic_ValueUpdated(object? sender, CharacteristicUpdatedEventArgs e)
     {
         byte[] data = e.Characteristic.Value;
         IndoorBikeData ibd = new(data);
@@ -69,6 +82,17 @@ internal class AndroidDeviceManager : IDeviceManager
         {
             AsCadence = true;
             CadenceUpdated?.Invoke(this, (ushort)(ibd.InstantaneousCadence.Value * 0.5));
+        }
+    }
+
+    private void HeartRateMeasurementCharacteristic_ValueUpdated(object? sender, CharacteristicUpdatedEventArgs e)
+    {
+        byte[] data = e.Characteristic.Value;
+        HeartRateMeasurement hrm = new(data);
+        if (hrm.HeartRate > 0)
+        {
+            AsHeartRate = true;
+            HeartRateUpdated?.Invoke(this, hrm.HeartRate);
         }
     }
 }

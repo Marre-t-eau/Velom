@@ -48,6 +48,13 @@ public partial class MainPage : ContentPage
                 CadenceLabel.Text = "Cadence: " + cadence;
             });
         };
+        bluetoothManager.HeartRateUpdated += (sender, heartRate) =>
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                HeartRateLabel.Text = "Heart Rate: " + heartRate;
+            });
+        };
 
         bluetoothManager.StartScan();
     }

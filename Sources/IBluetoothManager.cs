@@ -16,4 +16,6 @@ internal interface IBluetoothManager
     event EventHandler<ushort> PowerUpdated;
     bool AsCadence { get; }
     event EventHandler<ushort> CadenceUpdated;
+    bool AsHeartRate { get; }
+    event EventHandler<ushort> HeartRateUpdated;
 }

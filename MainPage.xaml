@@ -15,6 +15,7 @@
             </ListView>
             <Label x:Name="PowerLabel" Text="Power: N/A" FontSize="Large" HorizontalOptions="Center" />
             <Label x:Name="CadenceLabel" Text="Cadence: N/A" FontSize="Large" HorizontalOptions="Center" />
+            <Label x:Name="HeartRateLabel" Text="Heart rate: N/A" FontSize="Large" HorizontalOptions="Center" />
         </VerticalStackLayout>
     </ScrollView>
 
