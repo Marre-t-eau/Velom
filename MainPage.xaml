@@ -16,6 +16,15 @@
             <Label x:Name="PowerLabel" Text="Power: N/A" FontSize="Large" HorizontalOptions="Center" />
             <Label x:Name="CadenceLabel" Text="Cadence: N/A" FontSize="Large" HorizontalOptions="Center" />
             <Label x:Name="HeartRateLabel" Text="Heart rate: N/A" FontSize="Large" HorizontalOptions="Center" />
+            <HorizontalStackLayout>
+                <Label Text="Force power"></Label>
+                <CheckBox x:Name="SetPowerCheckBox" CheckedChanged="SetPowerCheckBox_CheckedChanged" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <Entry x:Name="PowerEntry" Text="100" Placeholder="Enter power" Keyboard="Numeric" TextChanged="PowerEntry_TextChanged" />
+                <Button Text="+" Clicked="AddPower_Clicked" />
+                <Button Text="-" Clicked="SubtractPower_Clicked" />
+            </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 

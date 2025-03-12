@@ -194,6 +194,41 @@ internal class AndroidBluetoothManager : IBluetoothManager
         }
     }
 
+    public bool CanSetPower
+    {
+        get
+        {
+            return DiscoveredDevices.Any(d => d.CanSetPower);
+        }
+    }
+
+    public async Task SetPower(ushort power)
+    {
+        foreach (IDeviceManager device in DiscoveredDevices)
+        {
+            if (device.CanSetPower)
+                await device.SetPower(power);
+        }
+    }
+
+    public async Task StartControllingPower()
+    {
+        foreach (IDeviceManager device in DiscoveredDevices)
+        {
+            if (device.CanSetPower)
+                await device.StartControllingPower();
+        }
+    }
+
+    public async Task StopControllingPower()
+    {
+        foreach (IDeviceManager device in DiscoveredDevices)
+        {
+            if (device.CanSetPower)
+                await device.StopControllingPower();
+        }
+    }
+
     internal class MyBluetoothPermission : BasePlatformPermission
     {
         public override (string androidPermission, bool isRuntime)[] RequiredPermissions =>

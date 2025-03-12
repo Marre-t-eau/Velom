@@ -16,6 +16,8 @@ internal class AndroidDeviceManager : IDeviceManager
 
     public bool AsHeartRate { get; private set; }
 
+    public bool CanSetPower { get; private set; }
+
     internal AndroidDeviceManager(IDevice device)
     {
         Device = device;
@@ -24,6 +26,8 @@ internal class AndroidDeviceManager : IDeviceManager
     public event EventHandler<ushort>? PowerUpdated;
     public event EventHandler<ushort>? CadenceUpdated;
     public event EventHandler<ushort>? HeartRateUpdated;
+
+    private ICharacteristic? fitnessMachineControlPoint = null;
 
     internal async Task Initialize()
     {
@@ -45,14 +49,41 @@ internal class AndroidDeviceManager : IDeviceManager
 
     private async void InitializeFitnessMachineService(IService service)
     {
-        ICharacteristic? characteristic = service.GetCharacteristicsAsync().Result
-            .FirstOrDefault(c => c.Id == IndoorBikeData.guid);
-        if (characteristic == null)
-            return;
-        characteristic.ValueUpdated += IndoorBikeDataCharacteristic_ValueUpdated;
-        if (characteristic.CanUpdate)
+        IReadOnlyList<ICharacteristic> characteristics = await service.GetCharacteristicsAsync();
+
+        ICharacteristic? characteristic = characteristics.FirstOrDefault(c => c.Id == IndoorBikeData.guid);
+
+        if (characteristic != null)
         {
-            await characteristic.StartUpdatesAsync();
+            characteristic.ValueUpdated += IndoorBikeDataCharacteristic_ValueUpdated;
+            if (characteristic.CanUpdate)
+            {
+                await characteristic.StartUpdatesAsync();
+            }
+        }
+
+        characteristic = characteristics.FirstOrDefault(c => c.Id == FitnessMachineControlPoint.guid);
+        if (characteristic != null)
+        {
+            fitnessMachineControlPoint = characteristic;
+            FitnessMachineControlPoint fmc = FitnessMachineControlPoint.CreateRequestControlCommand();
+            await fitnessMachineControlPoint.WriteAsync(fmc.ToByteArray());
+            fmc = FitnessMachineControlPoint.CreateStopAndResetCommand();
+            await fitnessMachineControlPoint.WriteAsync(fmc.ToByteArray());
+        }
+
+        characteristic = characteristics.FirstOrDefault(c => c.Id == FitnessMachineFeature.guid);
+        if (characteristic != null)
+        {
+            (byte[], int) result = await characteristic.ReadAsync();
+            if (result.Item2 == 0)
+            {
+                FitnessMachineFeature fmf = new(result.Item1);
+                if (fmf.HasPowerTargetSettingSupported)
+                {
+                    CanSetPower = true;
+                }
+            }
         }
     }
 
@@ -93,6 +124,33 @@ internal class AndroidDeviceManager : IDeviceManager
         {
             AsHeartRate = true;
             HeartRateUpdated?.Invoke(this, hrm.HeartRate);
+        }
+    }
+
+    public async Task SetPower(ushort power)
+    {
+        if (fitnessMachineControlPoint != null)
+        {
+            FitnessMachineControlPoint fmc = FitnessMachineControlPoint.CreateSetTargetPowerCommand(power);
+            await fitnessMachineControlPoint.WriteAsync(fmc.ToByteArray());
+        }
+    }
+
+    public async Task StartControllingPower()
+    {
+        if (fitnessMachineControlPoint != null)
+        {
+            FitnessMachineControlPoint fmc = FitnessMachineControlPoint.CreateStartOrResumeCommand();
+            await fitnessMachineControlPoint.WriteAsync(fmc.ToByteArray());
+        }
+    }
+
+    public async Task StopControllingPower()
+    {
+        if (fitnessMachineControlPoint != null)
+        {
+            FitnessMachineControlPoint fmc = FitnessMachineControlPoint.CreateStopOrPauseCommand();
+            await fitnessMachineControlPoint.WriteAsync(fmc.ToByteArray());
         }
     }
 }

@@ -58,4 +58,47 @@ public partial class MainPage : ContentPage
 
         bluetoothManager.StartScan();
     }
+
+    private async void SetPowerCheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        if (SetPowerCheckBox.IsChecked)
+        {
+            if (ushort.TryParse(PowerEntry.Text, out ushort power))
+            {
+                await bluetoothManager.SetPower(power);
+            }
+            await bluetoothManager.StartControllingPower();
+        }
+        else
+        {
+            await bluetoothManager.StopControllingPower();
+        }
+    }
+
+    private async void PowerEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (SetPowerCheckBox.IsChecked)
+        {
+            if (ushort.TryParse(PowerEntry.Text, out ushort power))
+            {
+                await bluetoothManager.SetPower(power);
+            }
+        }
+    }
+
+    private void AddPower_Clicked(object sender, EventArgs e)
+    {
+        if (ushort.TryParse(PowerEntry.Text, out ushort power))
+        {
+            PowerEntry.Text = (power + 5).ToString();
+        }
+    }
+
+    private void SubtractPower_Clicked(object sender, EventArgs e)
+    {
+        if (ushort.TryParse(PowerEntry.Text, out ushort power))
+        {
+            PowerEntry.Text = (power - 5).ToString();
+        }
+    }
 }
