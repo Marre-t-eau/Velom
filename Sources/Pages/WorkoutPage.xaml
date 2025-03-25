@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Velom.Sources.Pages.WorkoutPage"
+             Title="WorkoutPage">
+    <VerticalStackLayout>
+        <Button x:Name="StartButton" 
+                Text="Start" 
+                Clicked="OnStartButtonClicked" />
+        <HorizontalStackLayout x:Name="PauseStopButtons" 
+                               IsVisible="False">
+            <Button Text="Pause" 
+                    Clicked="OnPauseButtonClicked"
+                    x:Name="PauseButton"/>
+            <Button Text="Stop" 
+                    Clicked="OnStopButtonClicked" />
+        </HorizontalStackLayout>
+        <Label x:Name="TimerLabel" 
+               Text="00:00:00" 
+               FontSize="24" 
+               HorizontalOptions="Center" 
+               VerticalOptions="Center" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" x:Name="PowerView" FontSize="Large"/>
+            <Label Grid.Column="1" x:Name="TargetPowerView" />
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" x:Name="CadenceView" FontSize="Large"/>
+            <Label Grid.Column="1" x:Name="TargetCadenceView" />
+        </Grid>
+        <Label x:Name="HeartRateView" FontSize="Large"/>
+        <CollectionView x:Name="WorkBlocksCollectionView" 
+                        Grid.Row="1" 
+                        SelectionMode="Single">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" IsVisible="{Binding AsNoTargetPower}" Text="No targeted power"/>
+                            <Label Grid.Column="0" IsVisible="{Binding IsRamp}">
+                                <Label.Text>
+                                    <MultiBinding StringFormat="Ramp {0} W - {1} W">
+                                        <Binding Path="TargetPowerStartString" />
+                                        <Binding Path="TargetPowerEndString" />
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                            <Label Grid.Column="0" IsVisible="{Binding IsConstant}" Text="{Binding TargetPowerString, StringFormat='Constant {0} W'}" />
+
+                            <Label Grid.Column="1" IsVisible="{Binding AsNoTargetedCadence}" Text="No targeted cadence"/>
+                            <Label Grid.Column="1" IsVisible="{Binding AsTargetCadence}" Text="{Binding TargetCadenceString, StringFormat='{0} rpm'}"/>
+
+                            <Label Grid.Column="2">
+                                <Label.Text>
+                                    <MultiBinding StringFormat="Time : {0}/{1}s">
+                                        <Binding Path="TimeDoneString" />
+                                        <Binding Path="DurationString" />
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                        </Grid>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label Text="No blocks to do, enjoy your easy day :)" />
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

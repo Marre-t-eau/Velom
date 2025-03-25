@@ -2,11 +2,14 @@
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using System.Collections.ObjectModel;
-using Velom.Source;
+using System.Composition;
+using Velom.Sources.Objects;
 using static Microsoft.Maui.ApplicationModel.Permissions;
 
 namespace Velom.Platforms.Android.Sources;
 
+[Export(typeof(IBluetoothManager))]
+[Shared]
 internal class AndroidBluetoothManager : IBluetoothManager
 {
     public ObservableCollection<IDeviceManager> DiscoveredDevices { get; } = [];
@@ -18,7 +21,7 @@ internal class AndroidBluetoothManager : IBluetoothManager
     private List<EventHandler<ushort>> cadenceUpdatedHandlers = new List<EventHandler<ushort>>();
     private List<EventHandler<ushort>> heartRateUpdatedHandlers = new List<EventHandler<ushort>>();
 
-    internal AndroidBluetoothManager()
+    public AndroidBluetoothManager()
     {
         bluetoothLE = CrossBluetoothLE.Current;
         adapter = CrossBluetoothLE.Current.Adapter;

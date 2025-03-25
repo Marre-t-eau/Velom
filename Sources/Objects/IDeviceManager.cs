@@ -1,5 +1,4 @@
-﻿
-namespace Velom.Source;
+﻿namespace Velom.Sources.Objects;
 
 internal interface IDeviceManager
 {

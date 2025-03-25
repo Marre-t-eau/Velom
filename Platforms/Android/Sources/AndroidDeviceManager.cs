@@ -1,7 +1,7 @@
 ﻿using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
-using Velom.Source;
 using Plugin.BLE.Abstractions.EventArgs;
+using Velom.Sources.Objects;
 
 namespace Velom.Platforms.Android.Sources;
 

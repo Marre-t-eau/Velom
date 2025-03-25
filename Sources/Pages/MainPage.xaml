@@ -25,6 +25,12 @@
                 <Button Text="+" Clicked="AddPower_Clicked" />
                 <Button Text="-" Clicked="SubtractPower_Clicked" />
             </HorizontalStackLayout>
+            <Button Text="See workouts" Clicked="OnViewWorkoutsClicked" />
+            <HorizontalStackLayout>
+                <Label Text="FTP :" VerticalOptions="Center"></Label>
+                <Entry x:Name="FTP" VerticalOptions="Center" Placeholder="Enter FTP" Keyboard="Numeric" />
+                <Button Text="Ok" Clicked="SetNewFTP_Clicked"/>
+            </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 

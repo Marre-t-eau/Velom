@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Velom.Sources.Pages.WorkoutsListPage"
+             Title="WorkoutsListPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Button Text="✖" 
+                HorizontalOptions="End" 
+                VerticalOptions="Start" 
+                Clicked="OnCloseButtonClicked" />
+        <CollectionView x:Name="WorkoutsCollectionView" 
+                        Grid.Row="1" 
+                        SelectionMode="Single" 
+                        SelectionChanged="OnWorkoutSelected">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10">
+                        <Label Text="{Binding Name}" FontSize="20" />
+                        <Label Text="{Binding TotalDurationMinutes, StringFormat='Total Duration: {0} minutes'}" FontSize="16" />
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label Text="No workouts found" />
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </Grid>
+</ContentPage>

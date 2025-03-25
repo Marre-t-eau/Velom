@@ -1,26 +1,32 @@
 ﻿#if ANDROID
 using Velom.Platforms.Android.Sources;
 #endif
-using Velom.Source;
+using System.Composition;
+using Velom.Sources.Objects;
+using Velom.Sources.Pages;
 
 namespace Velom;
 
 public partial class MainPage : ContentPage
 {
-    private IBluetoothManager bluetoothManager;
+    [Import]
+    private IBluetoothManager BluetoothManager { get; init; }
 
     public MainPage()
     {
         InitializeComponent();
-#if ANDROID
-        bluetoothManager = new AndroidBluetoothManager();
-#endif
-        DevicesListView.ItemsSource = bluetoothManager?.DiscoveredDevices;
+        App.Container.SatisfyImports(this);
+        if (BluetoothManager != null)
+        {
+            DevicesListView.ItemsSource = BluetoothManager.DiscoveredDevices;
+        }
+        FTP.Text = UserInfo.GetUserInfo().Result.FTP.ToString();
+        DeviceDisplay.KeepScreenOn = true;
     }
 
     private async void ScanButton_Clicked(object sender, EventArgs e)
     {
-        PermissionStatus status = await bluetoothManager.CheckAndRequestBluetoothPermissions();
+        PermissionStatus status = await BluetoothManager.CheckAndRequestBluetoothPermissions();
 
         if (status != PermissionStatus.Granted)
         {
@@ -28,27 +34,27 @@ public partial class MainPage : ContentPage
             return;
         }
 
-        if (!bluetoothManager.IsBluetoothEnabled())
+        if (!BluetoothManager.IsBluetoothEnabled())
         {
             await DisplayAlert("Bluetooth désactivé", "Veuillez activer le Bluetooth pour continuer.", "OK");
             return;
         }
 
-        bluetoothManager.PowerUpdated += (sender, power) =>
+        BluetoothManager.PowerUpdated += (sender, power) =>
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 PowerLabel.Text = "Power: " + power;
             });
         };
-        bluetoothManager.CadenceUpdated += (sender, cadence) =>
+        BluetoothManager.CadenceUpdated += (sender, cadence) =>
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 CadenceLabel.Text = "Cadence: " + cadence;
             });
         };
-        bluetoothManager.HeartRateUpdated += (sender, heartRate) =>
+        BluetoothManager.HeartRateUpdated += (sender, heartRate) =>
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
@@ -56,7 +62,7 @@ public partial class MainPage : ContentPage
             });
         };
 
-        bluetoothManager.StartScan();
+        BluetoothManager.StartScan();
     }
 
     private async void SetPowerCheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -65,13 +71,13 @@ public partial class MainPage : ContentPage
         {
             if (ushort.TryParse(PowerEntry.Text, out ushort power))
             {
-                await bluetoothManager.SetPower(power);
+                await BluetoothManager.SetPower(power);
             }
-            await bluetoothManager.StartControllingPower();
+            await BluetoothManager.StartControllingPower();
         }
         else
         {
-            await bluetoothManager.StopControllingPower();
+            await BluetoothManager.StopControllingPower();
         }
     }
 
@@ -81,7 +87,7 @@ public partial class MainPage : ContentPage
         {
             if (ushort.TryParse(PowerEntry.Text, out ushort power))
             {
-                await bluetoothManager.SetPower(power);
+                await BluetoothManager.SetPower(power);
             }
         }
     }
@@ -99,6 +105,19 @@ public partial class MainPage : ContentPage
         if (ushort.TryParse(PowerEntry.Text, out ushort power))
         {
             PowerEntry.Text = (power - 5).ToString();
+        }
+    }
+
+    private async void OnViewWorkoutsClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushModalAsync(new WorkoutsListPage());
+    }
+
+    private async void SetNewFTP_Clicked(object sender, EventArgs e)
+    {
+        if (ushort.TryParse(this.FTP.Text, out ushort FTP))
+        {
+            (await UserInfo.GetUserInfo()).FTP = FTP;
         }
     }
 }
