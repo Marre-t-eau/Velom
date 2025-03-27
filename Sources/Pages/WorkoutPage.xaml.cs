@@ -106,12 +106,12 @@ public partial class WorkoutPage : ContentPage
             {
                 _actualTargetPower = newTargetedPower;
                 TargetPowerView.Text = string.Format("Target power : {0}", _actualTargetPower?.ToString() ?? "0");
+                await BluetoothManager.SetPower(newTargetedPower ?? 0);
             }
             if (newTargetedCadence != _actualCadenceTarget)
             {
                 _actualCadenceTarget = newTargetedCadence;
                 TargetCadenceView.Text = string.Format("Target cadence : {0}", _actualCadenceTarget?.ToString() ?? "0");
-                await BluetoothManager.SetPower(newTargetedPower ?? 0);
             }
         });
     }
