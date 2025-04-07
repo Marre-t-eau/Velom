@@ -120,7 +120,7 @@ public partial class WorkoutPage : ContentPage
     {
         uint elapsedTime = (uint)_elapsedTime.TotalSeconds;
         int indice = 0;
-        while (WorkoutView.Blocks.Count < indice && elapsedTime > WorkoutView.Blocks[indice].Duration)
+        while (WorkoutView.Blocks.Count > indice && elapsedTime > WorkoutView.Blocks[indice].Duration)
         {
             elapsedTime -= WorkoutView.Blocks[indice].Duration;
             indice++;
@@ -141,7 +141,7 @@ public partial class WorkoutPage : ContentPage
     {
         uint elapsedTime = (uint)_elapsedTime.TotalSeconds;
         int indice = 0;
-        while (WorkoutView.Blocks.Count < indice && elapsedTime > WorkoutView.Blocks[indice].Duration)
+        while (WorkoutView.Blocks.Count > indice && elapsedTime > WorkoutView.Blocks[indice].Duration)
         {
             elapsedTime -= WorkoutView.Blocks[indice].Duration;
             indice++;
@@ -156,7 +156,7 @@ public partial class WorkoutPage : ContentPage
     {
         uint elapsedTime = (uint)_elapsedTime.TotalSeconds;
         int indice = 0;
-        while (WorkoutView.Blocks.Count < indice && elapsedTime > WorkoutView.Blocks[indice].Duration)
+        while (WorkoutView.Blocks.Count > indice && elapsedTime > WorkoutView.Blocks[indice].Duration)
         {
             elapsedTime -= WorkoutView.Blocks[indice].Duration;
             indice++;
@@ -171,7 +171,7 @@ public partial class WorkoutPage : ContentPage
     {
         uint elapsedTime = (uint)_elapsedTime.TotalSeconds;
         int indice = 0;
-        while (WorkoutView.Blocks.Count < indice && elapsedTime > WorkoutView.Blocks[indice].Duration)
+        while (WorkoutView.Blocks.Count > indice && elapsedTime > WorkoutView.Blocks[indice].Duration)
         {
             elapsedTime -= WorkoutView.Blocks[indice].Duration;
             indice++;
