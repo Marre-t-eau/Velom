@@ -1,7 +1,4 @@
-﻿#if ANDROID
-using Velom.Platforms.Android.Sources;
-#endif
-using System.Composition;
+﻿using System.Composition;
 using Velom.Sources.Objects;
 using Velom.Sources.Pages;
 
@@ -9,7 +6,7 @@ namespace Velom;
 
 public partial class MainPage : ContentPage
 {
-    [Import]
+    [Import(AllowDefault = true)]
     private IBluetoothManager BluetoothManager { get; init; }
 
     public MainPage()
@@ -119,5 +116,10 @@ public partial class MainPage : ContentPage
         {
             (await UserInfo.GetUserInfo()).FTP = FTP;
         }
+    }
+
+    private async void GoToGamePage_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushModalAsync(new GamePage());
     }
 }

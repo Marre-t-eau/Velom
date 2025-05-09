@@ -20,7 +20,7 @@ public partial class WorkoutsListPage : ContentPage
     private async void LoadWorkouts()
     {
         Assembly assembly = typeof(WorkoutsListPage).Assembly;
-        IEnumerable<string> resourceNames = assembly.GetManifestResourceNames().Where(r => r.Contains("Resources.Raw.Workouts") && r.EndsWith(".json"));
+        IEnumerable<string> resourceNames = assembly.GetManifestResourceNames().Where(r => r.Contains("Workouts") && r.EndsWith(".json"));
         foreach (string resourceName in resourceNames)
         {
             using Stream stream = assembly.GetManifestResourceStream(resourceName);
