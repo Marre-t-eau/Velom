@@ -1,11 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading.Tasks;
 using VelomMonoGame.Core.Localization;
-using static System.Net.Mime.MediaTypeNames;
+using VelomMonoGame.Core.Sources.Bluetooth.Interfaces;
+using VelomMonoGame.Core.Sources.Pages;
+using VelomMonoGame.Core.Sources.Tools;
 
 namespace VelomMonoGame.Core
 {
@@ -18,7 +22,9 @@ namespace VelomMonoGame.Core
         // Resources for drawing.
         private GraphicsDeviceManager graphicsDeviceManager;
         private SpriteBatch spriteBatch;
-        private SpriteFont font;
+
+        private IBluetoothManager BluetoothManager { get; init; }
+        internal IPage Page { get; set; }
 
         /// <summary>
         /// Indicates if the game is running on a mobile platform.
@@ -35,8 +41,10 @@ namespace VelomMonoGame.Core
         /// initializes services like settings and leaderboard managers, and sets up the 
         /// screen manager for screen transitions.
         /// </summary>
-        public VelomMonoGameGame()
+        public VelomMonoGameGame(IBluetoothManager bluetoothManager = null)
         {
+            BluetoothManager = bluetoothManager;
+
             graphicsDeviceManager = new GraphicsDeviceManager(this);
 
             // Share GraphicsDeviceManager as a service.
@@ -46,6 +54,18 @@ namespace VelomMonoGame.Core
 
             // Configure screen orientations.
             graphicsDeviceManager.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
+
+            if (IsDesktop)
+            {
+                IsMouseVisible = true;
+                Window.AllowUserResizing = true;
+                Window.ClientSizeChanged += Window_ClientSizeChanged;
+            }
+        }
+
+        private void Window_ClientSizeChanged(object sender, EventArgs e)
+        {
+            Page.Size = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         }
 
         /// <summary>
@@ -68,6 +88,13 @@ namespace VelomMonoGame.Core
             // based on what the user or operating system selected.
             var selectedLanguage = LocalizationManager.DEFAULT_CULTURE_CODE;
             LocalizationManager.SetCulture(selectedLanguage);
+
+            TextureBank.Initialize(GraphicsDevice);
+            FontBank.Initialize(Content);
+
+            // Initialize the page manager and add the main page.
+            Page = new MainPage(this, BluetoothManager);
+            Page.Size = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         }
 
         /// <summary>
@@ -77,7 +104,6 @@ namespace VelomMonoGame.Core
         {
             base.LoadContent();
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            font = Content.Load<SpriteFont>("Fonts/Hud");
         }
 
         /// <summary>
@@ -93,7 +119,7 @@ namespace VelomMonoGame.Core
                 || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            Page.Update();
 
             base.Update(gameTime);
         }
@@ -104,14 +130,13 @@ namespace VelomMonoGame.Core
         /// <param name="gameTime">
         /// Provides a snapshot of timing values used for rendering.
         /// </param>
-        protected override void Draw(GameTime gameTime)
+        protected override async void Draw(GameTime gameTime)
         {
             // Clears the screen with the MonoGame orange color before drawing.
-            GraphicsDevice.Clear(Color.MonoGameOrange);
+            GraphicsDevice.Clear(Color.AliceBlue);
 
-            // TODO: Add your drawing code here
             spriteBatch.Begin();
-            spriteBatch.DrawString(font, "Hello World", new Vector2(100, 100), Color.White);
+            Page.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

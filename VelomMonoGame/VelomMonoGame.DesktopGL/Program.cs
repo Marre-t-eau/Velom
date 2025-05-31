@@ -1,4 +1,5 @@
 ﻿using VelomMonoGame.Core;
+using VelomMonoGame.Core.Sources.Bluetooth.Interfaces;
 
 internal class Program
 {
@@ -9,7 +10,11 @@ internal class Program
     /// <param name="args">Command-line arguments passed to the application.</param>
     private static void Main(string[] args)
     {
-        using var game = new VelomMonoGameGame();
+        IBluetoothManager bluetoothManager = null;
+#if DEBUG
+        bluetoothManager = new VelomMonoGame.DesktopGL.Sources.Debug.MockBluetoothManager();
+#endif
+        using var game = new VelomMonoGameGame(bluetoothManager);
         game.Run();
     }
 }

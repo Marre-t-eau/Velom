@@ -1,11 +1,15 @@
 ﻿using Android.App;
+using Android.Bluetooth;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 
 using Microsoft.Xna.Framework;
-
+using System.Linq;
+using System.Threading.Tasks;
+using VelomMonoGame.Android.Sources;
 using VelomMonoGame.Core;
+using VelomMonoGame.Core.Sources.Bluetooth.Interfaces;
 
 namespace VelomMonoGame.Android
 {
@@ -31,6 +35,9 @@ namespace VelomMonoGame.Android
     {
         private VelomMonoGameGame _game;
         private View _view;
+        public static TaskCompletionSource<IBluetoothManager.PermissionStatus> BluetoothPermissionTcs;
+
+        public static Activity CurrentActivity { get; private set; }
 
         /// <summary>
         /// Called when the activity is first created. Initializes the game instance,
@@ -41,12 +48,36 @@ namespace VelomMonoGame.Android
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            CurrentActivity = this;
 
-            _game = new VelomMonoGameGame();
+            // Request Bluetooth permissions if needed.
+            IBluetoothManager bluetoothManager = new AndroidBluetoothManager();
+            IBluetoothManager.PermissionStatus status = bluetoothManager.CheckAndRequestBluetoothPermissions().Result;
+            if (status != IBluetoothManager.PermissionStatus.Granted)
+            {
+                // TODO : Handle permission request and user feedback
+            }
+
+            _game = new VelomMonoGameGame(bluetoothManager);
             _view = _game.Services.GetService(typeof(View)) as View;
 
             SetContentView(_view);
             _game.Run();
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            if (requestCode == 1001 && BluetoothPermissionTcs != null)
+            {
+                if (grantResults.All(r => r == Permission.Granted))
+                    BluetoothPermissionTcs.TrySetResult(IBluetoothManager.PermissionStatus.Granted);
+                else
+                    BluetoothPermissionTcs.TrySetResult(IBluetoothManager.PermissionStatus.Denied);
+
+                BluetoothPermissionTcs = null;
+            }
         }
     }
 }
