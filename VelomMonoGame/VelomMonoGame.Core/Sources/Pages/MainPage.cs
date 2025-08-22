@@ -133,7 +133,7 @@ internal class MainPage : IPage
             TextContent = bluetoothManager?.AsHeartRate == true ? "Yes" : "No"
         };
         Elements.Add(AsHeartrateResult);
-        GoToControlGame = Button.CreateButtonWithText("Go to control Game", Color.White, Color.Purple, () => Game.Page = new GamePage(Size, bluetoothManager, GamePage.Layout.Control)); // Navigue vers GamePage
+        GoToControlGame = Button.CreateButtonWithText("Go to control Game", Color.White, Color.Purple, () => Game.Page = new GamePage(game, Size, bluetoothManager, GamePage.Layout.Control)); // Navigue vers GamePage
         GoToControlGame.Position = new Vector2(Size.X / 4 * 3 - GoToControlGame.Size.X / 2 - stringHeight, Size.Y / 3 - GoToControlGame.Size.Y / 2 - stringHeight / 2);
         Elements.Add(GoToControlGame);
     }
@@ -165,7 +165,7 @@ internal class MainPage : IPage
         return position;
     }
 
-    void IPage.Update()
+    void IPage.Update(GameTime _)
     {
         // Update elements
         foreach (IElement element in Elements)
@@ -183,8 +183,10 @@ internal class MainPage : IPage
         }
     }
 
-    void IPage.Draw(SpriteBatch spriteBatch)
+    void IPage.Draw()
     {
+        SpriteBatch spriteBatch = new SpriteBatch(Game.GraphicsDevice);
+        spriteBatch.Begin();
         foreach (IElement element in Elements)
         {
             if (element is IDrawableElement drawableElement)
@@ -192,6 +194,7 @@ internal class MainPage : IPage
                 drawableElement.Draw(spriteBatch);
             }
         }
+        spriteBatch.End();
     }
 
     bool AsAllDevices()

@@ -12,6 +12,6 @@ internal interface IPage
     List<IElement> Elements { get; set; }
 
     // Methods
-    void Update();
-    void Draw(SpriteBatch spriteBatch);
+    void Update(GameTime gameTime);
+    void Draw();
 }

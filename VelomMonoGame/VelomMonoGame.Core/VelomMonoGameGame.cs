@@ -91,6 +91,7 @@ namespace VelomMonoGame.Core
 
             TextureBank.Initialize(GraphicsDevice);
             FontBank.Initialize(Content);
+            ModelBank.Initialize(Content);
 
             // Initialize the page manager and add the main page.
             Page = new MainPage(this, BluetoothManager);
@@ -119,7 +120,7 @@ namespace VelomMonoGame.Core
                 || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            Page.Update();
+            Page.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -135,9 +136,7 @@ namespace VelomMonoGame.Core
             // Clears the screen with the MonoGame orange color before drawing.
             GraphicsDevice.Clear(Color.AliceBlue);
 
-            spriteBatch.Begin();
-            Page.Draw(spriteBatch);
-            spriteBatch.End();
+            Page.Draw();
 
             base.Draw(gameTime);
         }
