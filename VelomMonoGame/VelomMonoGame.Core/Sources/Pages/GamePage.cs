@@ -8,41 +8,32 @@ using VelomMonoGame.Core.Sources.Tools;
 
 namespace VelomMonoGame.Core.Sources.Pages;
 
-internal class GamePage : IPage
+internal abstract class GamePage : IPage
 {
     public Vector2 Size { get; set; }
     public List<IElement> Elements { get; set; } = new List<IElement>();
-    IBluetoothManager BluetoothManager { get; init; }
-    private Game Game { get; }
-    private Bike Bike { get; } = new Bike();
+    protected IBluetoothManager BluetoothManager { get; init; }
+    protected Game Game { get; }
+    protected Bike Bike { get; } = new Bike();
 
-    ushort ActualPower { get; set; }
-    ushort ActualTargetPower { get; set; } = 100;
-    Text ActualTargetPowerText { get; set; }
-    Text ActualPowerText { get; set; }
-    Text ActualSpeed { get; set; }
-    Text ActualCadence { get; set; }
-    Text ActualHeartRate { get; set; }
+    protected ushort ActualPower { get; set; }
+    protected Text ActualPowerText { get; set; }
+    protected Text ActualSpeed { get; set; }
+    protected Text ActualCadence { get; set; }
+    protected Text ActualHeartRate { get; set; }
 
-    Scene Scene { get; set; }
+    protected Scene Scene { get; set; }
 
-    public GamePage(Game game, Vector2 size, IBluetoothManager bluetoothManager, Layout layout)
+    public GamePage(Game game, Vector2 size, IBluetoothManager bluetoothManager)
     {
         Game = game;
         Scene = new Scene(game.GraphicsDevice, Bike);
         Size = size;
         BluetoothManager = bluetoothManager;
-        switch (layout)
-        {
-            case Layout.Control:
-                PrepareControl();
-                break;
-            default:
-                throw new ArgumentException("Unsupported layout type.");
-        }
+        PrepareControl();
     }
 
-    public void Draw()
+    public virtual void Draw(GameTime gameTime)
     {
         Scene.Draw();
 
@@ -56,7 +47,7 @@ internal class GamePage : IPage
         spriteBatch.End();
     }
 
-    public void Update(GameTime gameTime)
+    public virtual void Update(GameTime gameTime)
     {
         float speed = GetSpeed(); // m/s
         Bike.Distance += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -69,31 +60,10 @@ internal class GamePage : IPage
         }
     }
 
-    private async void PrepareControl()
+    protected float marge = 10f;
+    protected float bigMarge = 50f;
+    private void PrepareControl()
     {
-        float marge = 10f;
-        float bigMarge = 50f;
-        // Buttons to control the power of the device
-        if (BluetoothManager.CanSetPower)
-        {
-            // By default we set the power at 100
-            await BluetoothManager.SetPower(ActualTargetPower);
-            await BluetoothManager.StartControllingPower();
-            // Add 2 buttons to control the power
-            Button increasePowerButton = Button.CreateButtonWithText("+", Color.White, Color.Purple, IncreaseTargetPower);
-            increasePowerButton.Position = new Vector2(marge, marge);
-            Elements.Add(increasePowerButton);
-            ActualTargetPowerText = new Text
-            {
-                Position = new Vector2(marge, increasePowerButton.Position.Y + increasePowerButton.Size.Y + marge),
-                TextContent = ActualTargetPower.ToString(),
-                Color = Color.DarkGray
-            };
-            Elements.Add(ActualTargetPowerText);
-            Button decreasePowerButton = Button.CreateButtonWithText("-", Color.White, Color.Purple, DecreaseTargetPower);
-            decreasePowerButton.Position = new Vector2(marge, ActualTargetPowerText.Position.Y + ActualTargetPowerText.Size.Y + marge);
-            Elements.Add(decreasePowerButton);
-        }
         Text powerText = new Text
         {
             TextContent = "Power : ",
@@ -174,25 +144,6 @@ internal class GamePage : IPage
         {
             ActualHeartRate.TextContent = heartRate.ToString();
         };
-    }
-
-    private async void IncreaseTargetPower()
-    {
-        ActualTargetPower += 5;
-        ActualTargetPowerText.TextContent = ActualTargetPower.ToString();
-        await BluetoothManager.SetPower(ActualTargetPower);
-    }
-
-    private async void DecreaseTargetPower()
-    {
-        ActualTargetPower -= 5;
-        ActualTargetPowerText.TextContent = ActualTargetPower.ToString();
-        await BluetoothManager.SetPower(ActualTargetPower);
-    }
-
-    public enum Layout
-    {
-        Control
     }
 
     private float GetSpeed()

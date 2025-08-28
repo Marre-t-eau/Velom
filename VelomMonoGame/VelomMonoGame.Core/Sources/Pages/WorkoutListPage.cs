@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using VelomMonoGame.Core.Sources.Bluetooth.Interfaces;
 using VelomMonoGame.Core.Sources.InterfaceElements;
 using VelomMonoGame.Core.Sources.Objects;
 using VelomMonoGame.Core.Sources.Tools;
@@ -14,9 +15,9 @@ internal class WorkoutListPage : IPage
 {
     public Vector2 Size { get; set; }
     public List<IElement> Elements { get; set; } = new();
-    private Game Game { get; }
+    private VelomMonoGameGame Game { get; }
 
-    public WorkoutListPage(Game game, Vector2 size)
+    public WorkoutListPage(VelomMonoGameGame game, Vector2 size, IBluetoothManager bluetoothManager)
     {
         Size = size;
         Game = game;
@@ -38,18 +39,14 @@ internal class WorkoutListPage : IPage
         float y = FontBank.GetFontHeight(FontsType.Default);
         foreach (Workout workout in workouts)
         {
-            Button button = Button.CreateButtonWithText(workout.Name, Color.White, Color.Purple, () =>
-            {
-                // Action lors du clic sur le bouton (par exemple, charger l'entraînement)
-                Console.WriteLine($"Workout selected: {workout.Name}");
-            });
+            Button button = Button.CreateButtonWithText(workout.Name, Color.White, Color.Purple, () => Game.Page = new WorkoutGamePage(game, size, bluetoothManager, workout));
             button.Position = new Vector2(50, y);
             Elements.Add(button);
             y += FontBank.GetFontHeight(FontsType.Default) + button.Size.Y;
         }
     }
 
-    public void Draw()
+    public void Draw(GameTime gameTime)
     {
         SpriteBatch spriteBatch = new SpriteBatch(Game.GraphicsDevice);
         spriteBatch.Begin();
@@ -63,6 +60,10 @@ internal class WorkoutListPage : IPage
 
     public void Update(GameTime gameTime)
     {
-        // Rien à mettre ici pour une simple liste
+        foreach (IElement element in Elements)
+        {
+            if (element is IUpdatableElement updatable)
+                updatable.Update();
+        }
     }
 }

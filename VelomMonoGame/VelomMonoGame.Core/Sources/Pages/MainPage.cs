@@ -143,10 +143,10 @@ internal class MainPage : IPage
             TextContent = bluetoothManager?.AsHeartRate == true ? "Yes" : "No"
         };
         Elements.Add(AsHeartrateResult);
-        GoToControlGame = Button.CreateButtonWithText("Go to control Game", Color.White, Color.Purple, () => Game.Page = new GamePage(game, Size, bluetoothManager, GamePage.Layout.Control)); // Navigue vers GamePage
+        GoToControlGame = Button.CreateButtonWithText("Go to control Game", Color.White, Color.Purple, () => Game.Page = new ControlGamePage(game, Size, bluetoothManager)); // Navigue vers GamePage
         GoToControlGame.Position = new Vector2(Size.X / 4 * 3 - GoToControlGame.Size.X / 2 - stringHeight, Size.Y / 3 - GoToControlGame.Size.Y / 2 - stringHeight / 2);
         Elements.Add(GoToControlGame);
-        GoToWorkouts = Button.CreateButtonWithText("Go to workouts", Color.White, Color.Purple, () => Game.Page = new WorkoutListPage(game, Size));
+        GoToWorkouts = Button.CreateButtonWithText("Go to workouts", Color.White, Color.Purple, () => Game.Page = new WorkoutListPage(game, Size, bluetoothManager));
         GoToWorkouts.Position = new Vector2(Size.X / 4 * 3 - GoToWorkouts.Size.X / 2 - stringHeight, (Size.Y / 3) * 2 + GoToWorkouts.Size.Y / 2 + stringHeight / 2);
         Elements.Add(GoToWorkouts);
 
@@ -197,7 +197,7 @@ internal class MainPage : IPage
         }
     }
 
-    void IPage.Draw()
+    void IPage.Draw(GameTime gameTime)
     {
         SpriteBatch spriteBatch = new SpriteBatch(Game.GraphicsDevice);
         spriteBatch.Begin();

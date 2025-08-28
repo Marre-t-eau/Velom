@@ -13,5 +13,5 @@ internal interface IPage
 
     // Methods
     void Update(GameTime gameTime);
-    void Draw();
+    void Draw(GameTime gameTime);
 }

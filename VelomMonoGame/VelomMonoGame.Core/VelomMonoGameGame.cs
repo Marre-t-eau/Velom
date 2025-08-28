@@ -21,7 +21,6 @@ namespace VelomMonoGame.Core
     {
         // Resources for drawing.
         private GraphicsDeviceManager graphicsDeviceManager;
-        private SpriteBatch spriteBatch;
 
         private IBluetoothManager BluetoothManager { get; init; }
         internal IPage Page { get; set; }
@@ -104,7 +103,6 @@ namespace VelomMonoGame.Core
         protected override void LoadContent()
         {
             base.LoadContent();
-            spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         /// <summary>
@@ -136,7 +134,7 @@ namespace VelomMonoGame.Core
             // Clears the screen with the MonoGame orange color before drawing.
             GraphicsDevice.Clear(Color.AliceBlue);
 
-            Page.Draw();
+            Page.Draw(gameTime);
 
             base.Draw(gameTime);
         }
