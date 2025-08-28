@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Xml.Linq;
 using VelomMonoGame.Core.Sources.Bluetooth.Interfaces;
 using VelomMonoGame.Core.Sources.InterfaceElements;
 using VelomMonoGame.Core.Sources.Tools;
@@ -35,12 +36,20 @@ internal class MainPage : IPage
             AsHeartrateResult.Position = new Vector2(resultXPos, StaticAsHearthrateText.Position.Y);
             // Set the new position of GoToControlGame button
             GoToControlGame.Position = new Vector2(Size.X / 4 * 3 - GoToControlGame.Size.X / 2 - stringHeight, Size.Y / 3 - GoToControlGame.Size.Y / 2 - stringHeight / 2);
-            // Update positions of inner elements of button*
+            GoToWorkouts.Position = new Vector2(Size.X / 4 * 3 - GoToWorkouts.Size.X / 2 - stringHeight, (Size.Y / 3) * 2 + GoToWorkouts.Size.Y / 2 + stringHeight / 2);
+            // Update positions of inner elements of buttons*
             foreach (IElement element in GoToControlGame.Elements)
             {
                 if (element is Text textElement)
                 {
                     textElement.Position = new Vector2(GoToControlGame.Position.X + GoToControlGame.Size.X / 2 - textElement.Size.X / 2, GoToControlGame.Position.Y + GoToControlGame.Size.Y / 2 - textElement.Size.Y / 2);
+                }
+            }
+            foreach (IElement element1 in GoToWorkouts.Elements)
+            {
+                if (element1 is Text textElement)
+                {
+                    textElement.Position = new Vector2(GoToWorkouts.Position.X + GoToWorkouts.Size.X / 2 - textElement.Size.X / 2, GoToWorkouts.Position.Y + GoToWorkouts.Size.Y / 2 - textElement.Size.Y / 2);
                 }
             }
         }
@@ -59,6 +68,7 @@ internal class MainPage : IPage
     private IBluetoothManager BluetoothManager { get; }
     private VelomMonoGameGame Game { get; init; }
     private Button GoToControlGame { get; }
+    private Button GoToWorkouts { get; }
 
     internal MainPage(VelomMonoGameGame game, IBluetoothManager bluetoothManager)
     {
@@ -136,6 +146,10 @@ internal class MainPage : IPage
         GoToControlGame = Button.CreateButtonWithText("Go to control Game", Color.White, Color.Purple, () => Game.Page = new GamePage(game, Size, bluetoothManager, GamePage.Layout.Control)); // Navigue vers GamePage
         GoToControlGame.Position = new Vector2(Size.X / 4 * 3 - GoToControlGame.Size.X / 2 - stringHeight, Size.Y / 3 - GoToControlGame.Size.Y / 2 - stringHeight / 2);
         Elements.Add(GoToControlGame);
+        GoToWorkouts = Button.CreateButtonWithText("Go to workouts", Color.White, Color.Purple, () => Game.Page = new WorkoutListPage(game, Size));
+        GoToWorkouts.Position = new Vector2(Size.X / 4 * 3 - GoToWorkouts.Size.X / 2 - stringHeight, (Size.Y / 3) * 2 + GoToWorkouts.Size.Y / 2 + stringHeight / 2);
+        Elements.Add(GoToWorkouts);
+
     }
 
     private void DiscoveredDevices_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

@@ -1,0 +1,131 @@
+{
+  "Name": "VO2 Max Developer",
+  "Blocks": [
+    {
+      "Duration": 300,
+      "TargetPowerStart": 50,
+      "TargetPowerEnd": 60,
+      "TargetCadence": 85,
+      "PowerType": 0
+    },
+    {
+      "Duration": 180,
+      "TargetPowerStart": 60,
+      "TargetPowerEnd": 80,
+      "TargetCadence": 90,
+      "PowerType": 0
+    },
+    {
+      "Duration": 30,
+      "TargetPowerStart": 100,
+      "TargetPowerEnd": 100,
+      "TargetCadence": 100,
+      "PowerType": 0
+    },
+    {
+      "Duration": 60,
+      "TargetPowerStart": 60,
+      "TargetPowerEnd": 60,
+      "TargetCadence": 85,
+      "PowerType": 0
+    },
+    {
+      "Duration": 30,
+      "TargetPowerStart": 100,
+      "TargetPowerEnd": 100,
+      "TargetCadence": 100,
+      "PowerType": 0
+    },
+    {
+      "Duration": 60,
+      "TargetPowerStart": 60,
+      "TargetPowerEnd": 60,
+      "TargetCadence": 85,
+      "PowerType": 0
+    },
+    {
+      "Duration": 120,
+      "TargetPowerStart": 70,
+      "TargetPowerEnd": 70,
+      "TargetCadence": 90,
+      "PowerType": 0
+    },
+    {
+      "Duration": 180,
+      "TargetPowerStart": 105,
+      "TargetPowerEnd": 115,
+      "TargetCadence": 95,
+      "PowerType": 0
+    },
+    {
+      "Duration": 180,
+      "TargetPowerStart": 50,
+      "TargetPowerEnd": 60,
+      "TargetCadence": 85,
+      "PowerType": 0
+    },
+    {
+      "Duration": 180,
+      "TargetPowerStart": 105,
+      "TargetPowerEnd": 115,
+      "TargetCadence": 95,
+      "PowerType": 0
+    },
+    {
+      "Duration": 180,
+      "TargetPowerStart": 50,
+      "TargetPowerEnd": 60,
+      "TargetCadence": 85,
+      "PowerType": 0
+    },
+    {
+      "Duration": 180,
+      "TargetPowerStart": 105,
+      "TargetPowerEnd": 115,
+      "TargetCadence": 95,
+      "PowerType": 0
+    },
+    {
+      "Duration": 180,
+      "TargetPowerStart": 50,
+      "TargetPowerEnd": 60,
+      "TargetCadence": 85,
+      "PowerType": 0
+    },
+    {
+      "Duration": 180,
+      "TargetPowerStart": 105,
+      "TargetPowerEnd": 115,
+      "TargetCadence": 95,
+      "PowerType": 0
+    },
+    {
+      "Duration": 180,
+      "TargetPowerStart": 50,
+      "TargetPowerEnd": 60,
+      "TargetCadence": 85,
+      "PowerType": 0
+    },
+    {
+      "Duration": 180,
+      "TargetPowerStart": 105,
+      "TargetPowerEnd": 115,
+      "TargetCadence": 95,
+      "PowerType": 0
+    },
+    {
+      "Duration": 180,
+      "TargetPowerStart": 50,
+      "TargetPowerEnd": 60,
+      "TargetCadence": 85,
+      "PowerType": 0
+    },
+    {
+      "Duration": 480,
+      "TargetPowerStart": 55,
+      "TargetPowerEnd": 50,
+      "TargetCadence": 85,
+      "PowerType": 0
+    }
+  ]
+}
