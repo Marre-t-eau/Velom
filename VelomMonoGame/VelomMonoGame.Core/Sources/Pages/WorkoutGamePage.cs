@@ -14,8 +14,6 @@ internal class WorkoutGamePage : GamePage
 
     private Dictionary<WorkBlock, RectangleElement> Backgrounds { get; } = new();
 
-    private TimeSpan TimeStartWorkout { get; set; }
-
     private Text CurrentTimeInBlock { get; set; }
 
     private WorkBlock LastWorkBlock { get; set; }
@@ -82,40 +80,33 @@ internal class WorkoutGamePage : GamePage
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-        if (TimeStartWorkout == default)
+        // Set the right position of the current time in block
+        TimeSpan timeInWorkout = gameTime.TotalGameTime - StartTime;
+        WorkBlock currentBlock = GetCurrentWorkBlock(timeInWorkout);
+        if (currentBlock == null)
         {
-            TimeStartWorkout = gameTime.TotalGameTime;
+            // Workout is finished
+            return;
         }
-        else
+        RectangleElement currentRectangle = Backgrounds[currentBlock];
+        CurrentTimeInBlock.Position = new Vector2(CurrentTimeInBlock.Position.X, currentRectangle.Position.Y + marge / 2);
+        // Update the text with the current time
+        double timeInSecondInCurrentBlock = timeInWorkout.TotalSeconds;
+        int indice = 0;
+        while (currentBlock != Workout.Blocks[indice])
         {
-            // Set the right position of the current time in block
-            TimeSpan timeInWorkout = gameTime.TotalGameTime - TimeStartWorkout;
-            WorkBlock currentBlock = GetCurrentWorkBlock(timeInWorkout);
-            if (currentBlock == null)
-            {
-                // Workout is finished
-                return;
-            }
-            RectangleElement currentRectangle = Backgrounds[currentBlock];
-            CurrentTimeInBlock.Position = new Vector2(CurrentTimeInBlock.Position.X, currentRectangle.Position.Y + marge / 2);
-            // Update the text with the current time
-            double timeInSecondInCurrentBlock = timeInWorkout.TotalSeconds;
-            int indice = 0;
-            while (currentBlock != Workout.Blocks[indice])
-            {
-                timeInSecondInCurrentBlock -= Workout.Blocks[indice].Duration;
-                indice++;
-            }
-            TimeSpan timeSpanInCurrentBlock = new TimeSpan(0, 0, (int)timeInSecondInCurrentBlock);
-            CurrentTimeInBlock.TextContent = $"{timeSpanInCurrentBlock.Minutes:00}:{timeSpanInCurrentBlock.Seconds:00}";
-            currentRectangle.Texture = TextureBank.GetTextureColor(Color.Blue);
-            UpdateTargetPower(currentBlock, (int)timeInSecondInCurrentBlock);
-            if (LastWorkBlock != currentBlock)
-            {
-                // The block changed
-                Backgrounds[LastWorkBlock].Texture = TextureBank.GetTextureColor(Color.Green);
-                LastWorkBlock = currentBlock;
-            }
+            timeInSecondInCurrentBlock -= Workout.Blocks[indice].Duration;
+            indice++;
+        }
+        TimeSpan timeSpanInCurrentBlock = new TimeSpan(0, 0, (int)timeInSecondInCurrentBlock);
+        CurrentTimeInBlock.TextContent = $"{timeSpanInCurrentBlock.Minutes:00}:{timeSpanInCurrentBlock.Seconds:00}";
+        currentRectangle.Texture = TextureBank.GetTextureColor(Color.Blue);
+        UpdateTargetPower(currentBlock, (int)timeInSecondInCurrentBlock);
+        if (LastWorkBlock != currentBlock)
+        {
+            // The block changed
+            Backgrounds[LastWorkBlock].Texture = TextureBank.GetTextureColor(Color.Green);
+            LastWorkBlock = currentBlock;
         }
     }
 

@@ -21,6 +21,10 @@ internal abstract class GamePage : IPage
     protected Text ActualSpeed { get; set; }
     protected Text ActualCadence { get; set; }
     protected Text ActualHeartRate { get; set; }
+    protected Text TotalDistance { get; set; }
+    protected Text TotalTime { get; set; }
+
+    protected TimeSpan StartTime { get; set; }
 
     protected Scene Scene { get; set; }
 
@@ -49,10 +53,19 @@ internal abstract class GamePage : IPage
 
     public virtual void Update(GameTime gameTime)
     {
+        if (StartTime == default)
+        {
+            StartTime = gameTime.TotalGameTime;
+        }
         float speed = GetSpeed(); // m/s
         Bike.Distance += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
         // Update the actual speed displayed
         ActualSpeed.TextContent = $"{(speed * 3.6f).ToString("F1")} km/h"; // Convert m/s to km/h
+        // Update the total distance displayed
+        TotalDistance.TextContent = $"{Bike.Distance.ToString("F1")} km";
+        // Update the total time displayed
+        TimeSpan totalTime = gameTime.TotalGameTime - StartTime;
+        TotalTime.TextContent = $"{totalTime.Minutes:00}:{totalTime.Seconds:00}";
         foreach (var element in Elements)
         {
             if (element is IUpdatableElement updatableElement)
@@ -84,7 +97,17 @@ internal abstract class GamePage : IPage
             TextContent = "Heart Rate : ",
             Color = Color.Black
         };
-        float width = bigMarge * 4 + powerText.Size.X + heartRateText.Size.X + FontBank.GetFont(FontsType.Default).MeasureString("999.9 km/h").X + FontBank.GetFont(FontsType.Default).MeasureString("999").X;
+        Text distanceText = new Text
+        {
+            TextContent = "Distance : ",
+            Color = Color.Black
+        };
+        Text timeText = new Text
+        {
+            TextContent = "Time : ",
+            Color = Color.Black
+        };
+        float width = bigMarge * 4 + powerText.Size.X + heartRateText.Size.X + distanceText.Size.X + FontBank.GetFont(FontsType.Default).MeasureString("999.9 km/h").X + FontBank.GetFont(FontsType.Default).MeasureString("999").X + FontBank.GetFont(FontsType.Default).MeasureString("999.9 km").X;
         float height = FontBank.GetFontHeight(FontsType.Default) * 2 + bigMarge * 2;
         // Draw a rectangle to show the datas
         RectangleElement rectangle = new RectangleElement
@@ -130,6 +153,24 @@ internal abstract class GamePage : IPage
             Color = Color.DarkGray
         };
         Elements.Add(ActualHeartRate);
+        distanceText.Position = new Vector2(ActualCadence.Position.X + FontBank.GetFont(FontsType.Default).MeasureString("999").X + bigMarge, ActualCadence.Position.Y);
+        Elements.Add(distanceText);
+        timeText.Position = new Vector2(distanceText.Position.X, heartRateText.Position.Y);
+        Elements.Add(timeText);
+        TotalDistance = new Text
+        {
+            Position = new Vector2(distanceText.Position.X + distanceText.Size.X, distanceText.Position.Y),
+            TextContent = "0 km",
+            Color = Color.DarkGray
+        };
+        Elements.Add(TotalDistance);
+        TotalTime = new Text
+        {
+            Position = new Vector2(TotalDistance.Position.X, timeText.Position.Y),
+            TextContent = "00:00",
+            Color = Color.DarkGray
+        };
+        Elements.Add(TotalTime);
         // Subscribe to the events to update the texts
         BluetoothManager.PowerUpdated += (sender, power) =>
         {
