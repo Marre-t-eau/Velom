@@ -50,10 +50,44 @@ internal class WorkoutListPage : IPage
         float y = returnButton.Position.Y + returnButton.Size.Y + 50;
         foreach (Workout workout in workouts)
         {
-            Button button = Button.CreateButtonWithText(workout.Name, Color.White, Color.Purple, () => Game.Page = new WorkoutGamePage(game, size, bluetoothManager, workout));
+            // Calcul de la durée totale de l'entraînement
+            TimeSpan totalDuration = CalculateTotalDuration(workout);
+            string formattedDuration = FormatDuration(totalDuration);
+
+            // Création du bouton avec nom et durée
+            string buttonText = $"{workout.Name} ({formattedDuration})";
+            Button button = Button.CreateButtonWithText(buttonText, Color.White, Color.Purple, () => Game.Page = new WorkoutGamePage(game, size, bluetoothManager, workout));
             button.Position = new Vector2(50, y);
             Elements.Add(button);
             y += FontBank.GetFontHeight(FontsType.Default) + button.Size.Y;
+        }
+    }
+
+    /// <summary>
+    /// Calcule la durée totale d'un entraînement en sommant les durées de tous les blocs
+    /// </summary>
+    private TimeSpan CalculateTotalDuration(Workout workout)
+    {
+        uint totalSeconds = 0;
+        foreach (var block in workout.Blocks)
+        {
+            totalSeconds += block.Duration;
+        }
+        return TimeSpan.FromSeconds(totalSeconds);
+    }
+
+    /// <summary>
+    /// Formate une durée en format lisible (hh:mm:ss ou mm:ss selon la longueur)
+    /// </summary>
+    private string FormatDuration(TimeSpan duration)
+    {
+        if (duration.Hours > 0)
+        {
+            return $"{duration.Hours:D1}:{duration.Minutes:D2}:{duration.Seconds:D2}";
+        }
+        else
+        {
+            return $"{duration.Minutes:D2}:{duration.Seconds:D2}";
         }
     }
 
