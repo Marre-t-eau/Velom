@@ -22,6 +22,17 @@ internal class WorkoutListPage : IPage
         Size = size;
         Game = game;
 
+        // Add Return button at the top
+        Button returnButton = Button.CreateButtonWithText("Return", Color.White, Color.Purple, () =>
+        {
+            // Return to main page
+            IPage page = new MainPage(Game, bluetoothManager);
+            page.Size = size;
+            Game.Page = page;
+        });
+        returnButton.Position = new Vector2(20, 20); // Position in top-right corner
+        Elements.Add(returnButton);
+
         // Load the workouts
         string workoutsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Content", "Workouts");
         var workoutFiles = Directory.GetFiles(workoutsDir, "*.json");
@@ -36,7 +47,7 @@ internal class WorkoutListPage : IPage
         }
 
         // Exemple de liste d'entraînements
-        float y = FontBank.GetFontHeight(FontsType.Default);
+        float y = returnButton.Position.Y + returnButton.Size.Y + 50;
         foreach (Workout workout in workouts)
         {
             Button button = Button.CreateButtonWithText(workout.Name, Color.White, Color.Purple, () => Game.Page = new WorkoutGamePage(game, size, bluetoothManager, workout));
