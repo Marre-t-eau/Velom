@@ -149,7 +149,6 @@ internal class MainPage : IPage
         GoToWorkouts = Button.CreateButtonWithText("Go to workouts", Color.White, Color.Purple, () => Game.Page = new WorkoutListPage(game, Size, bluetoothManager));
         GoToWorkouts.Position = new Vector2(Size.X / 4 * 3 - GoToWorkouts.Size.X / 2 - stringHeight, (Size.Y / 3) * 2 + GoToWorkouts.Size.Y / 2 + stringHeight / 2);
         Elements.Add(GoToWorkouts);
-
     }
 
     private void DiscoveredDevices_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

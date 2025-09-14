@@ -13,7 +13,7 @@ internal class ControlGamePage : GamePage
     internal ControlGamePage(Game game, Vector2 size, IBluetoothManager bluetoothManager) : base(game, size, bluetoothManager)
     {
         PrepareControl();
-        if (ControlPowerCheckbox.IsChecked)
+        if (ControlPowerCheckbox?.IsChecked ?? false)
         {
             bluetoothManager.StartControllingPower().Wait();
         }

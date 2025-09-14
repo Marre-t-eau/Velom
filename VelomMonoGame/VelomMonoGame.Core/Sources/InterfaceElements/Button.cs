@@ -20,7 +20,7 @@ internal class Button : IDrawableElement, IUpdatableElement
         set
         {
             _position = value;
-            ButtonRectangle = new Rectangle((int)_position.X, (int)_position.Y, (int)Size.X, (int)Size.Y);
+            UpdateButtonRectangle();
             // Set the position of the elements in the middle of the button
             foreach (IElement element in Elements)
             {
@@ -43,7 +43,7 @@ internal class Button : IDrawableElement, IUpdatableElement
         set
         {
             _size = value;
-            ButtonRectangle = new Rectangle((int)Position.X, (int)Position.Y, (int)_size.X, (int)_size.Y);
+            UpdateButtonRectangle();
         }
     }
     internal Action OnClick { get; set; } = null;
@@ -96,7 +96,7 @@ internal class Button : IDrawableElement, IUpdatableElement
             TouchCollection touchState = TouchPanel.GetState();
             foreach (TouchLocation touch in touchState)
             {
-                if (touch.State == TouchLocationState.Pressed && ButtonRectangle.Contains(touch.Position.ToPoint()))
+                if (IsPressed(touch) && ButtonRectangle.Contains(touch.Position.ToPoint()))
                 {
                     isPressed = true;
                     break;
@@ -109,6 +109,20 @@ internal class Button : IDrawableElement, IUpdatableElement
             OnClick?.Invoke();
         }
         wasPressed = isPressed;
+    }
+
+    private bool IsPressed(TouchLocation touch)
+    {
+        if (touch.State == TouchLocationState.Pressed)
+            return true;
+        if (touch.State == TouchLocationState.Moved)
+        {
+            if (touch.TryGetPreviousLocation(out TouchLocation previousTouch))
+            {
+                return touch.Position == previousTouch.Position;
+            }
+        }
+        return false;
     }
 
     public static Button CreateButtonWithText(string text, Color textColor, Color backgroundColor, Action action)
@@ -129,5 +143,10 @@ internal class Button : IDrawableElement, IUpdatableElement
         textOfButton.Position = new Vector2(button.Size.X / 2 - textOfButton.Size.X / 2, button.Size.Y / 2 - textOfButton.Size.Y / 2);
         button.Elements.Add(textOfButton);
         return button;
+    }
+
+    private void UpdateButtonRectangle()
+    {
+        ButtonRectangle = new Rectangle((int)_position.X, (int)_position.Y, (int)_size.X, (int)_size.Y);
     }
 }

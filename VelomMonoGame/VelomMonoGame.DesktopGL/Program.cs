@@ -1,4 +1,5 @@
-﻿using VelomMonoGame.Core;
+﻿using System;
+using VelomMonoGame.Core;
 using VelomMonoGame.Core.Sources.Bluetooth.Interfaces;
 
 internal class Program
@@ -14,7 +15,10 @@ internal class Program
 #if DEBUG
         bluetoothManager = new VelomMonoGame.DesktopGL.Sources.Debug.MockBluetoothManager();
 #endif
+        var fileProvider = new DesktopFileProvider(AppDomain.CurrentDomain.BaseDirectory);
+
         using var game = new VelomMonoGameGame(bluetoothManager);
+        game.Services.AddService(typeof(IFileProvider), fileProvider);
         game.Run();
     }
 }

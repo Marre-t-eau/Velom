@@ -1,5 +1,4 @@
 ﻿using Android.App;
-using Android.Bluetooth;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
@@ -58,7 +57,14 @@ namespace VelomMonoGame.Android
                 // TODO : Handle permission request and user feedback
             }
 
+            // Création du provider et enregistrement comme service
+            IFileProvider fileProvider = new AndroidFileProvider(CurrentActivity.Assets);
+
             _game = new VelomMonoGameGame(bluetoothManager);
+
+            // Enregistre le service pour accès global
+            _game.Services.AddService(typeof(IFileProvider), fileProvider);
+
             _view = _game.Services.GetService(typeof(View)) as View;
 
             SetContentView(_view);
