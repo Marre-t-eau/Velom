@@ -13,7 +13,7 @@ internal abstract class GamePage : IPage
     public Vector2 Size { get; set; }
     public List<IElement> Elements { get; set; } = new List<IElement>();
     protected IBluetoothManager BluetoothManager { get; init; }
-    protected Game Game { get; }
+    protected VelomMonoGameGame Game { get; }
     protected Bike Bike { get; } = new Bike();
 
     protected ushort ActualPower { get; set; }
@@ -28,13 +28,23 @@ internal abstract class GamePage : IPage
 
     protected Scene Scene { get; set; }
 
-    public GamePage(Game game, Vector2 size, IBluetoothManager bluetoothManager)
+    // Variables pour le contrôle du jeu
+    protected bool IsPaused { get; set; } = false;
+    protected TimeSpan TotalPausedTime { get; set; } = TimeSpan.Zero;
+    protected Button StartButton { get; set; }
+    protected Button PauseButton { get; set; }
+    protected Button ResumeButton { get; set; }
+    protected Button StopButton { get; set; }
+    protected bool IsStarted { get; set; } = false;
+
+    public GamePage(VelomMonoGameGame game, Vector2 size, IBluetoothManager bluetoothManager)
     {
         Game = game;
         Scene = new Scene(game.GraphicsDevice, Bike);
         Size = size;
         BluetoothManager = bluetoothManager;
         PrepareControl();
+        CreateControlButtons();
     }
 
     public virtual void Draw(GameTime gameTime)
@@ -53,10 +63,31 @@ internal abstract class GamePage : IPage
 
     public virtual void Update(GameTime gameTime)
     {
-        if (StartTime == default)
+        foreach (var element in Elements)
+        {
+            if (element is IUpdatableElement updatableElement)
+                updatableElement.Update();
+        }
+
+        if (!IsStarted)
+            return;
+
+        if (StartTime == default && IsStarted)
         {
             StartTime = gameTime.TotalGameTime;
         }
+
+        // Si le jeu est en pause, incrémente TotalPausedTime à chaque frame
+        if (IsPaused)
+        {
+            // Ajoute le temps écoulé depuis la dernière frame à TotalPausedTime
+            TotalPausedTime += gameTime.ElapsedGameTime;
+            return;
+        }
+
+        // Calculer le temps ajusté (temps écoulé moins les pauses)
+        TimeSpan adjustedGameTime = gameTime.TotalGameTime - StartTime - TotalPausedTime;
+
         float speed = GetSpeed(); // m/s
         Bike.Distance += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
         // Update the actual speed displayed
@@ -64,13 +95,7 @@ internal abstract class GamePage : IPage
         // Update the total distance displayed
         TotalDistance.TextContent = $"{Bike.Distance.ToString("F1")} km";
         // Update the total time displayed
-        TimeSpan totalTime = gameTime.TotalGameTime - StartTime;
-        TotalTime.TextContent = $"{totalTime.Minutes:00}:{totalTime.Seconds:00}";
-        foreach (var element in Elements)
-        {
-            if (element is IUpdatableElement updatableElement)
-                updatableElement.Update();
-        }
+        TotalTime.TextContent = $"{adjustedGameTime.Minutes:00}:{adjustedGameTime.Seconds:00}";
     }
 
     protected float marge = 10f;
@@ -199,5 +224,87 @@ internal abstract class GamePage : IPage
         float speed = (float)Math.Pow(totalPower / (0.5f * rho * Cx * S), 1.0 / 3.0); // m/s
 
         return speed;
+    }
+
+    protected virtual void CreateControlButtons()
+    {
+        // Création du bouton Démarrer
+        StartButton = Button.CreateButtonWithText("Start", Color.White, Color.Green, () =>
+        {
+            if (!IsStarted)
+            {
+                IsStarted = true;
+                StartTime = Game.Services.GetService<GameTime>()?.TotalGameTime ?? TimeSpan.Zero;
+                SetButtonVisibility(start: false, pause: true, resume: false, stop: true);
+                OnGameStarted();
+            }
+        });
+        StartButton.Position = new Vector2(Size.X / 2 - StartButton.Size.X / 2, Size.Y - StartButton.Size.Y - marge);
+        Elements.Add(StartButton);
+
+        // Création du bouton Pause
+        PauseButton = Button.CreateButtonWithText("Pause", Color.White, Color.Gray, () =>
+        {
+            if (IsStarted && !IsPaused)
+            {
+                IsPaused = true;
+                SetButtonVisibility(start: false, pause: false, resume: true, stop: true);
+                OnGamePaused();
+            }
+        });
+        PauseButton.Position = new Vector2(Size.X / 2 - PauseButton.Size.X / 2, Size.Y - PauseButton.Size.Y - marge);
+        Elements.Add(PauseButton);
+
+        // Création du bouton Reprendre
+        ResumeButton = Button.CreateButtonWithText("Resume", Color.White, Color.Gray, () =>
+        {
+            if (IsPaused)
+            {
+                IsPaused = false;
+                SetButtonVisibility(start: false, pause: true, resume: false, stop: true);
+                OnGameResumed();
+            }
+        });
+        ResumeButton.Position = new Vector2(Size.X / 2 - ResumeButton.Size.X / 2, Size.Y - PauseButton.Size.Y - marge);
+        Elements.Add(ResumeButton);
+
+        // Création du bouton Arrêter
+        StopButton = Button.CreateButtonWithText("Stop", Color.White, Color.Red, () =>
+        {
+            SetButtonVisibility(start: true, pause: false, resume: false, stop: false);
+            OnGameStopped();
+            Game.Page = new MainPage(Game, BluetoothManager);
+        });
+        StopButton.Position = new Vector2(Size.X - StopButton.Size.X - marge, Size.Y - StopButton.Size.Y - marge);
+        Elements.Add(StopButton);
+
+        // Initial state: only Start visible
+        SetButtonVisibility(start: true, pause: false, resume: false, stop: false);
+    }
+
+    // Méthodes virtuelles qui peuvent être surchargées par les classes dérivées
+    protected virtual void OnGameStarted() { }
+    protected virtual void OnGamePaused()
+    {
+        // Par défaut, arrêter le contrôle de la puissance pendant la pause
+        BluetoothManager?.StopControllingPower().Wait();
+    }
+    protected virtual void OnGameResumed() { }
+    protected virtual void OnGameStopped()
+    {
+        // Par défaut, arrêter le contrôle de la puissance
+        BluetoothManager?.StopControllingPower().Wait();
+    }
+
+    private void SetButtonVisibility(bool start, bool pause, bool resume, bool stop)
+    {
+        StartButton.Visible = start;
+        StartButton.IsUpdatable = start;
+        PauseButton.Visible = pause;
+        PauseButton.IsUpdatable = pause;
+        ResumeButton.Visible = resume;
+        ResumeButton.IsUpdatable = resume;
+        StopButton.Visible = stop;
+        StopButton.IsUpdatable = stop;
     }
 }

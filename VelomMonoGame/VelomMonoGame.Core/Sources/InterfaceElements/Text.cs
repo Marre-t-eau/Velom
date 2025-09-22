@@ -10,6 +10,9 @@ internal class Text : IDrawableElement
     public string TextContent { get; set; } = string.Empty;
     public Color Color { get; set; } = Color.White;
     public SpriteFont Font { get; set; } = FontBank.GetFont(FontsType.Default);
+
+    public bool Visible { get; set; } = true;
+
     public Vector2 Size
     {
         get
@@ -20,6 +23,7 @@ internal class Text : IDrawableElement
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.DrawString(Font, TextContent, Position, Color);
+        if (Visible)
+            spriteBatch.DrawString(Font, TextContent, Position, Color);
     }
 }

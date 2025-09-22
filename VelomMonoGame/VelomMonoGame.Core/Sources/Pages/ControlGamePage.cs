@@ -10,7 +10,7 @@ internal class ControlGamePage : GamePage
     Text ActualTargetPowerText { get; set; }
     private Checkbox ControlPowerCheckbox { get; set; }
 
-    internal ControlGamePage(Game game, Vector2 size, IBluetoothManager bluetoothManager) : base(game, size, bluetoothManager)
+    internal ControlGamePage(VelomMonoGameGame game, Vector2 size, IBluetoothManager bluetoothManager) : base(game, size, bluetoothManager)
     {
         PrepareControl();
         if (ControlPowerCheckbox?.IsChecked ?? false)

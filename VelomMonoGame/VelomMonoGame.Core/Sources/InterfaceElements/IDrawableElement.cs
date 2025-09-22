@@ -7,5 +7,6 @@ internal interface IDrawableElement : IElement
 {
     Vector2 Size { get; }
     Vector2 Position { get; set; }
+    bool Visible { get; set; }
     void Draw(SpriteBatch spriteBatch);
 }

@@ -33,6 +33,9 @@ internal class Checkbox : IDrawableElement, IUpdatableElement
         }
     }
 
+    public bool Visible { get; set; } = true;
+    public bool IsUpdatable { get; set; } = true;
+
     public bool IsChecked { get; set; }
     public Text Label { get; set; }
     public Action<bool> OnValueChanged { get; set; }
@@ -52,6 +55,9 @@ internal class Checkbox : IDrawableElement, IUpdatableElement
 
     public void Draw(SpriteBatch spriteBatch)
     {
+        if (!Visible)
+            return;
+
         // Draw checkbox border
         spriteBatch.Draw(UncheckedTexture, new Rectangle((int)Position.X - 1, (int)Position.Y - 1, (int)Size.X + 2, (int)Size.Y + 2), Color.Black);
         
@@ -75,6 +81,9 @@ internal class Checkbox : IDrawableElement, IUpdatableElement
 
     public void Update()
     {
+        if (!IsUpdatable)
+            return;
+
         bool isPressed = false;
         
         // Desktop mouse input

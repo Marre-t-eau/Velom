@@ -50,8 +50,15 @@ internal class Button : IDrawableElement, IUpdatableElement
 
     private Rectangle ButtonRectangle { get; set; } = new Rectangle(0, 0, 0, 0);
 
+    public bool Visible { get; set; } = true;
+
+    public bool IsUpdatable { get; set; } = true;
+
     public void Draw(SpriteBatch spriteBatch)
     {
+        if (!Visible)
+            return;
+
         // Draw the background
         spriteBatch.Draw(Background, new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y), Color.White);
 
@@ -79,6 +86,9 @@ internal class Button : IDrawableElement, IUpdatableElement
 
     public void Update()
     {
+        if (!IsUpdatable)
+            return;
+
         bool isPressed = false;
         if (IsDesktop)
         {

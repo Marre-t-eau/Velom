@@ -40,9 +40,12 @@ internal class RectangleElement : IDrawableElement
 
     public Texture2D Texture { get; set; } = TextureBank.GetTextureColor(Color.White);
 
+    public bool Visible { get; set; } = true;
+
     public void Draw(SpriteBatch spriteBatch)
     {
         // Draw the rectangle using the sprite batch
-        spriteBatch.Draw(Texture, _rectangle, Color.White);
+        if (Visible)
+            spriteBatch.Draw(Texture, _rectangle, Color.White);
     }
 }

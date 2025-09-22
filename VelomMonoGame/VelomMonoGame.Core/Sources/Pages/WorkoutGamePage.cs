@@ -19,7 +19,7 @@ internal class WorkoutGamePage : GamePage
     private WorkBlock LastWorkBlock { get; set; }
     private ushort LastPowerSet { get; set; }
 
-    public WorkoutGamePage(Game game, Vector2 size, IBluetoothManager bluetoothManager, Workout workout) : base(game, size, bluetoothManager)
+    public WorkoutGamePage(VelomMonoGameGame game, Vector2 size, IBluetoothManager bluetoothManager, Workout workout) : base(game, size, bluetoothManager)
     {
         Workout = workout;
         PrepareWorkout();
@@ -81,7 +81,7 @@ internal class WorkoutGamePage : GamePage
     {
         base.Update(gameTime);
         // Set the right position of the current time in block
-        TimeSpan timeInWorkout = gameTime.TotalGameTime - StartTime;
+        TimeSpan timeInWorkout = gameTime.TotalGameTime - StartTime - TotalPausedTime;
         WorkBlock currentBlock = GetCurrentWorkBlock(timeInWorkout);
         if (currentBlock == null)
         {

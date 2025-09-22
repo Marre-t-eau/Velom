@@ -39,9 +39,7 @@ internal class WorkoutListPage : IPage
         Button returnButton = Button.CreateButtonWithText("Return", Color.White, Color.Purple, () =>
         {
             // Return to main page
-            IPage page = new MainPage(Game, bluetoothManager);
-            page.Size = size;
-            Game.Page = page;
+            Game.Page = new MainPage(Game, bluetoothManager);
         });
         returnButton.Position = new Vector2(20, 20); // Position in top-right corner
         Elements.Add(returnButton);

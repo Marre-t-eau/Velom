@@ -73,11 +73,13 @@ internal class MainPage : IPage
     internal MainPage(VelomMonoGameGame game, IBluetoothManager bluetoothManager)
     {
         Game = game;
+        if ((game.Page?.Size ?? Vector2.Zero) != Vector2.Zero)
+            size = game.Page.Size;
         BluetoothManager = bluetoothManager;
         StaticConnectedDeviceText = new Text()
         {
             Color = Color.Black,
-            Position = new Vector2(Size.X / 2, Size.Y / 6),
+            Position = new Vector2(Size.X / 4, Size.Y / 6),
             TextContent = "Connected devices :"
         };
         Elements.Add(StaticConnectedDeviceText);
@@ -89,28 +91,28 @@ internal class MainPage : IPage
         StaticAsPowerText = new Text()
         {
             Color = Color.Black,
-            Position = new Vector2(Size.X / 2, Size.Y - stringHeight * 8),
+            Position = new Vector2(Size.X / 4, Size.Y - stringHeight * 8),
             TextContent = "As Power :"
         };
         Elements.Add(StaticAsPowerText);
         StaticCanControlPowerText = new Text()
         {
             Color = Color.Black,
-            Position = new Vector2(Size.X / 2, Size.Y - stringHeight * 6),
+            Position = new Vector2(Size.X / 4, Size.Y - stringHeight * 6),
             TextContent = "Can control power :"
         };
         Elements.Add(StaticCanControlPowerText);
         StaticAsCadenceText = new Text()
         {
             Color = Color.Black,
-            Position = new Vector2(Size.X / 2, Size.Y - stringHeight * 4),
+            Position = new Vector2(Size.X / 4, Size.Y - stringHeight * 4),
             TextContent = "As Cadence :"
         };
         Elements.Add(StaticAsCadenceText);
         StaticAsHearthrateText = new Text()
         {
             Color = Color.Black,
-            Position = new Vector2(Size.X / 2, Size.Y - stringHeight * 2),
+            Position = new Vector2(Size.X / 4, Size.Y - stringHeight * 2),
             TextContent = "As Heart Rate :"
         };
         Elements.Add(StaticAsHearthrateText);
