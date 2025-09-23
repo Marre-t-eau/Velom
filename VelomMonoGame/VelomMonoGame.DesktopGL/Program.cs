@@ -17,8 +17,9 @@ internal class Program
 #endif
         var fileProvider = new DesktopFileProvider(AppDomain.CurrentDomain.BaseDirectory);
 
-        using var game = new VelomMonoGameGame(bluetoothManager);
+        using var game = new VelomMonoGameGame();
         game.Services.AddService(typeof(IFileProvider), fileProvider);
+        game.Services.AddService(typeof(IBluetoothManager), bluetoothManager);
         game.Run();
     }
 }

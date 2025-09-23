@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Xml.Linq;
 using VelomMonoGame.Core.Sources.Bluetooth.Interfaces;
 using VelomMonoGame.Core.Sources.InterfaceElements;
 using VelomMonoGame.Core.Sources.Tools;
@@ -70,12 +69,12 @@ internal class MainPage : IPage
     private Button GoToControlGame { get; }
     private Button GoToWorkouts { get; }
 
-    internal MainPage(VelomMonoGameGame game, IBluetoothManager bluetoothManager)
+    internal MainPage(VelomMonoGameGame game)
     {
         Game = game;
         if ((game.Page?.Size ?? Vector2.Zero) != Vector2.Zero)
             size = game.Page.Size;
-        BluetoothManager = bluetoothManager;
+        BluetoothManager = game.Services.GetService<IBluetoothManager>();
         StaticConnectedDeviceText = new Text()
         {
             Color = Color.Black,
@@ -83,9 +82,9 @@ internal class MainPage : IPage
             TextContent = "Connected devices :"
         };
         Elements.Add(StaticConnectedDeviceText);
-        if (bluetoothManager != null)
+        if (BluetoothManager != null)
         {
-            bluetoothManager.DiscoveredDevices.CollectionChanged += DiscoveredDevices_CollectionChanged;
+            BluetoothManager.DiscoveredDevices.CollectionChanged += DiscoveredDevices_CollectionChanged;
         }
         float stringHeight = FontBank.GetFont(FontsType.Default).MeasureString("|").Y;
         StaticAsPowerText = new Text()
@@ -121,34 +120,34 @@ internal class MainPage : IPage
         {
             Color = Color.DarkGray,
             Position = new Vector2(resultXPos, StaticAsPowerText.Position.Y),
-            TextContent = bluetoothManager?.AsPower == true ? "Yes" : "No"
+            TextContent = BluetoothManager?.AsPower == true ? "Yes" : "No"
         };
         Elements.Add(AsPowerResult);
         CanControlPowerResult = new Text()
         {
             Color = Color.DarkGray,
             Position = new Vector2(resultXPos, StaticCanControlPowerText.Position.Y),
-            TextContent = bluetoothManager?.CanSetPower == true ? "Yes" : "No"
+            TextContent = BluetoothManager?.CanSetPower == true ? "Yes" : "No"
         };
         Elements.Add(CanControlPowerResult);
         AsCadenceResult = new Text()
         {
             Color = Color.DarkGray,
             Position = new Vector2(resultXPos, StaticAsCadenceText.Position.Y),
-            TextContent = bluetoothManager?.AsCadence == true ? "Yes" : "No"
+            TextContent = BluetoothManager?.AsCadence == true ? "Yes" : "No"
         };
         Elements.Add(AsCadenceResult);
         AsHeartrateResult = new Text()
         {
             Color = Color.DarkGray,
             Position = new Vector2(resultXPos, StaticAsHearthrateText.Position.Y),
-            TextContent = bluetoothManager?.AsHeartRate == true ? "Yes" : "No"
+            TextContent = BluetoothManager?.AsHeartRate == true ? "Yes" : "No"
         };
         Elements.Add(AsHeartrateResult);
-        GoToControlGame = Button.CreateButtonWithText("Go to control Game", Color.White, Color.Purple, () => Game.Page = new ControlGamePage(game, Size, bluetoothManager)); // Navigue vers GamePage
+        GoToControlGame = Button.CreateButtonWithText("Go to control Game", Color.White, Color.Purple, () => Game.Page = new ControlGamePage(game, Size)); // Navigue vers GamePage
         GoToControlGame.Position = new Vector2(Size.X / 4 * 3 - GoToControlGame.Size.X / 2 - stringHeight, Size.Y / 3 - GoToControlGame.Size.Y / 2 - stringHeight / 2);
         Elements.Add(GoToControlGame);
-        GoToWorkouts = Button.CreateButtonWithText("Go to workouts", Color.White, Color.Purple, () => Game.Page = new WorkoutListPage(game, Size, bluetoothManager));
+        GoToWorkouts = Button.CreateButtonWithText("Go to workouts", Color.White, Color.Purple, () => Game.Page = new WorkoutListPage(game, Size));
         GoToWorkouts.Position = new Vector2(Size.X / 4 * 3 - GoToWorkouts.Size.X / 2 - stringHeight, (Size.Y / 3) * 2 + GoToWorkouts.Size.Y / 2 + stringHeight / 2);
         Elements.Add(GoToWorkouts);
     }

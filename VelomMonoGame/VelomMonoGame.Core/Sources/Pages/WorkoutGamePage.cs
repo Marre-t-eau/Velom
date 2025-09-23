@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using VelomMonoGame.Core.Sources.Bluetooth.Interfaces;
 using VelomMonoGame.Core.Sources.InterfaceElements;
 using VelomMonoGame.Core.Sources.Objects;
 using VelomMonoGame.Core.Sources.Tools;
@@ -19,7 +18,7 @@ internal class WorkoutGamePage : GamePage
     private WorkBlock LastWorkBlock { get; set; }
     private ushort LastPowerSet { get; set; }
 
-    public WorkoutGamePage(VelomMonoGameGame game, Vector2 size, IBluetoothManager bluetoothManager, Workout workout) : base(game, size, bluetoothManager)
+    public WorkoutGamePage(VelomMonoGameGame game, Vector2 size, Workout workout) : base(game, size)
     {
         Workout = workout;
         PrepareWorkout();

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using VelomMonoGame.Core.Sources.Bluetooth.Interfaces;
 using VelomMonoGame.Core.Sources.InterfaceElements;
 
 namespace VelomMonoGame.Core.Sources.Pages;
@@ -10,12 +9,12 @@ internal class ControlGamePage : GamePage
     Text ActualTargetPowerText { get; set; }
     private Checkbox ControlPowerCheckbox { get; set; }
 
-    internal ControlGamePage(VelomMonoGameGame game, Vector2 size, IBluetoothManager bluetoothManager) : base(game, size, bluetoothManager)
+    internal ControlGamePage(VelomMonoGameGame game, Vector2 size) : base(game, size)
     {
         PrepareControl();
         if (ControlPowerCheckbox?.IsChecked ?? false)
         {
-            bluetoothManager.StartControllingPower().Wait();
+            BluetoothManager.StartControllingPower().Wait();
         }
     }
 

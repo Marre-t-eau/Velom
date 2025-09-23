@@ -12,7 +12,13 @@ internal abstract class GamePage : IPage
 {
     public Vector2 Size { get; set; }
     public List<IElement> Elements { get; set; } = new List<IElement>();
-    protected IBluetoothManager BluetoothManager { get; init; }
+    protected IBluetoothManager BluetoothManager
+    {
+        get
+        {
+            return Game.Services.GetService<IBluetoothManager>();
+        }
+    }
     protected VelomMonoGameGame Game { get; }
     protected Bike Bike { get; } = new Bike();
 
@@ -37,12 +43,11 @@ internal abstract class GamePage : IPage
     protected Button StopButton { get; set; }
     protected bool IsStarted { get; set; } = false;
 
-    public GamePage(VelomMonoGameGame game, Vector2 size, IBluetoothManager bluetoothManager)
+    public GamePage(VelomMonoGameGame game, Vector2 size)
     {
         Game = game;
         Scene = new Scene(game.GraphicsDevice, Bike);
         Size = size;
-        BluetoothManager = bluetoothManager;
         PrepareControl();
         CreateControlButtons();
     }
@@ -273,7 +278,7 @@ internal abstract class GamePage : IPage
         {
             SetButtonVisibility(start: true, pause: false, resume: false, stop: false);
             OnGameStopped();
-            Game.Page = new MainPage(Game, BluetoothManager);
+            Game.Page = new MainPage(Game);
         });
         StopButton.Position = new Vector2(Size.X - StopButton.Size.X - marge, Size.Y - StopButton.Size.Y - marge);
         Elements.Add(StopButton);

@@ -60,10 +60,11 @@ namespace VelomMonoGame.Android
             // Création du provider et enregistrement comme service
             IFileProvider fileProvider = new AndroidFileProvider(CurrentActivity.Assets);
 
-            _game = new VelomMonoGameGame(bluetoothManager);
+            _game = new VelomMonoGameGame();
 
             // Enregistre le service pour accès global
             _game.Services.AddService(typeof(IFileProvider), fileProvider);
+            _game.Services.AddService(typeof(IBluetoothManager), bluetoothManager);
 
             _view = _game.Services.GetService(typeof(View)) as View;
 

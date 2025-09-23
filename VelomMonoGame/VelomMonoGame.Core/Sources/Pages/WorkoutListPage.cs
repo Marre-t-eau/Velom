@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using VelomMonoGame.Core.Sources.Bluetooth.Interfaces;
 using VelomMonoGame.Core.Sources.InterfaceElements;
 using VelomMonoGame.Core.Sources.Objects;
 using VelomMonoGame.Core.Sources.Tools;
@@ -30,7 +29,7 @@ internal class WorkoutListPage : IPage
 
     private float startWorkoutListY;
 
-    public WorkoutListPage(VelomMonoGameGame game, Vector2 size, IBluetoothManager bluetoothManager)
+    public WorkoutListPage(VelomMonoGameGame game, Vector2 size)
     {
         Size = size;
         Game = game;
@@ -39,7 +38,7 @@ internal class WorkoutListPage : IPage
         Button returnButton = Button.CreateButtonWithText("Return", Color.White, Color.Purple, () =>
         {
             // Return to main page
-            Game.Page = new MainPage(Game, bluetoothManager);
+            Game.Page = new MainPage(Game);
         });
         returnButton.Position = new Vector2(20, 20); // Position in top-right corner
         Elements.Add(returnButton);
@@ -50,10 +49,10 @@ internal class WorkoutListPage : IPage
         LoadWorkouts();
 
         // Créer les boutons de défilement
-        CreateScrollButtons(bluetoothManager, size);
+        CreateScrollButtons(size);
 
         // Afficher les premiers entraînements
-        RefreshWorkoutList(bluetoothManager, size);
+        RefreshWorkoutList(size);
     }
 
     private void LoadWorkouts()
@@ -73,7 +72,7 @@ internal class WorkoutListPage : IPage
         }
     }
 
-    private void CreateScrollButtons(IBluetoothManager bluetoothManager, Vector2 size)
+    private void CreateScrollButtons(Vector2 size)
     {
         if (!Workouts.Any())
             return;
@@ -84,7 +83,7 @@ internal class WorkoutListPage : IPage
             if (CurrentScrollIndex > 0)
             {
                 CurrentScrollIndex--;
-                RefreshWorkoutList(bluetoothManager, size);
+                RefreshWorkoutList(size);
             }
         });
 
@@ -94,7 +93,7 @@ internal class WorkoutListPage : IPage
             if (CurrentScrollIndex < Workouts.Count - 1) // To display at least 1
             {
                 CurrentScrollIndex++;
-                RefreshWorkoutList(bluetoothManager, size);
+                RefreshWorkoutList(size);
             }
         });
 
@@ -123,7 +122,7 @@ internal class WorkoutListPage : IPage
         Elements.Add(DownButton);
     }
 
-    private void RefreshWorkoutList(IBluetoothManager bluetoothManager, Vector2 size)
+    private void RefreshWorkoutList(Vector2 size)
     {
         if (!Workouts.Any())
             return;
@@ -151,7 +150,7 @@ internal class WorkoutListPage : IPage
             // Création du bouton
             string buttonText = $"{workout.Name} ({formattedDuration})";
             Button button = Button.CreateButtonWithText(buttonText, Color.White, Color.Purple,
-                () => Game.Page = new WorkoutGamePage(Game, size, bluetoothManager, workout));
+                () => Game.Page = new WorkoutGamePage(Game, size, workout));
 
             button.Position = new Vector2(150, y);
             Elements.Add(button);

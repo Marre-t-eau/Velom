@@ -1,13 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Input.Touch;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Threading.Tasks;
 using VelomMonoGame.Core.Localization;
-using VelomMonoGame.Core.Sources.Bluetooth.Interfaces;
 using VelomMonoGame.Core.Sources.Pages;
 using VelomMonoGame.Core.Sources.Tools;
 
@@ -22,7 +19,6 @@ namespace VelomMonoGame.Core
         // Resources for drawing.
         private GraphicsDeviceManager graphicsDeviceManager;
 
-        private IBluetoothManager BluetoothManager { get; init; }
         internal IPage Page { get; set; }
 
         /// <summary>
@@ -40,10 +36,8 @@ namespace VelomMonoGame.Core
         /// initializes services like settings and leaderboard managers, and sets up the 
         /// screen manager for screen transitions.
         /// </summary>
-        public VelomMonoGameGame(IBluetoothManager bluetoothManager = null)
+        public VelomMonoGameGame()
         {
-            BluetoothManager = bluetoothManager;
-
             graphicsDeviceManager = new GraphicsDeviceManager(this);
 
             // Share GraphicsDeviceManager as a service.
@@ -93,7 +87,7 @@ namespace VelomMonoGame.Core
             ModelBank.Initialize(Content);
 
             // Initialize the page manager and add the main page.
-            Page = new MainPage(this, BluetoothManager);
+            Page = new MainPage(this);
             Page.Size = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         }
 
