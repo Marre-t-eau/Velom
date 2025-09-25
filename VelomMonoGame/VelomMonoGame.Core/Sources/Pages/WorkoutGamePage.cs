@@ -79,6 +79,8 @@ internal class WorkoutGamePage : GamePage
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
+        if (StartTime == TimeSpan.Zero)
+            return;
         // Set the right position of the current time in block
         TimeSpan timeInWorkout = gameTime.TotalGameTime - StartTime - TotalPausedTime;
         WorkBlock currentBlock = GetCurrentWorkBlock(timeInWorkout);
