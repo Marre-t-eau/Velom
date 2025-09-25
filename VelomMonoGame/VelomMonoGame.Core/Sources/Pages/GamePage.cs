@@ -43,6 +43,9 @@ internal abstract class GamePage : IPage
     protected Button StopButton { get; set; }
     protected bool IsStarted { get; set; } = false;
 
+    // Ajouter cette propriété pour le dialogue de confirmation
+    private ConfirmationDialog StopConfirmationDialog { get; set; }
+
     public GamePage(VelomMonoGameGame game, Vector2 size)
     {
         Game = game;
@@ -68,7 +71,8 @@ internal abstract class GamePage : IPage
 
     public virtual void Update(GameTime gameTime)
     {
-        foreach (var element in Elements)
+        List<IElement> tmpElements = new List<IElement>(Elements);
+        foreach (var element in tmpElements)
         {
             if (element is IUpdatableElement updatableElement)
                 updatableElement.Update();
@@ -217,6 +221,34 @@ internal abstract class GamePage : IPage
         };
     }
 
+    // Ajouter cette nouvelle méthode pour afficher le dialogue de confirmation
+    private void ShowStopConfirmation()
+    {
+        // Créer le dialogue de confirmation
+        StopConfirmationDialog = new ConfirmationDialog(
+            "Do you want to stop and return to the main page ?",
+            Size / 2,
+            // Action à exécuter si l'utilisateur confirme
+            () =>
+            {
+                SetButtonVisibility(start: true, pause: false, resume: false, stop: false);
+                OnGameStopped();
+                Game.Page = new MainPage(Game);
+            },
+            cancelMessage: "No",
+            confirmMessage: "Yes"
+        );
+
+        // Positionner le dialogue au centre de l'écran
+        StopConfirmationDialog.Position = new Vector2(
+            Size.X / 2 - StopConfirmationDialog.Size.X / 2,
+            Size.Y / 2 - StopConfirmationDialog.Size.Y / 2
+        );
+
+        // Ajouter le dialogue à la liste des éléments
+        Elements.Add(StopConfirmationDialog);
+    }
+
     private float GetSpeed()
     {
         // Constantes physiques
@@ -276,9 +308,7 @@ internal abstract class GamePage : IPage
         // Création du bouton Arrêter
         StopButton = Button.CreateButtonWithText("Stop", Color.White, Color.Red, () =>
         {
-            SetButtonVisibility(start: true, pause: false, resume: false, stop: false);
-            OnGameStopped();
-            Game.Page = new MainPage(Game);
+            ShowStopConfirmation();
         });
         StopButton.Position = new Vector2(Size.X - StopButton.Size.X - marge, Size.Y - StopButton.Size.Y - marge);
         Elements.Add(StopButton);

@@ -15,7 +15,7 @@ internal static class FontBank
     }
 
     private static Dictionary<FontsType, SpriteFont> fonts = new Dictionary<FontsType, SpriteFont>();
-    public static SpriteFont GetFont(FontsType font)
+    public static SpriteFont GetFont(FontsType font = FontsType.Default)
     {
         if (Content == null)
             throw new InvalidOperationException("Content is not initialized. Call Initialize() first.");
@@ -28,7 +28,7 @@ internal static class FontBank
         return fonts[font];
     }
 
-    public static float GetFontHeight(FontsType font)
+    public static float GetFontHeight(FontsType font = FontsType.Default)
     {
         if (Content == null)
             throw new InvalidOperationException("Content is not initialized. Call Initialize() first.");
