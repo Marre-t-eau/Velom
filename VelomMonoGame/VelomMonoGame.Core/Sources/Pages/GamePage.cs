@@ -231,7 +231,7 @@ internal abstract class GamePage : IPage
             // Action à exécuter si l'utilisateur confirme
             () =>
             {
-                SetButtonVisibility(start: true, pause: false, resume: false, stop: false);
+                SetButtonVisibility(start: true, pause: false, resume: false);
                 OnGameStopped();
                 Game.Page = new MainPage(Game);
             },
@@ -272,7 +272,7 @@ internal abstract class GamePage : IPage
             {
                 IsStarted = true;
                 StartTime = Game.Services.GetService<GameTime>()?.TotalGameTime ?? TimeSpan.Zero;
-                SetButtonVisibility(start: false, pause: true, resume: false, stop: true);
+                SetButtonVisibility(start: false, pause: true, resume: false);
                 OnGameStarted();
             }
         });
@@ -285,7 +285,7 @@ internal abstract class GamePage : IPage
             if (IsStarted && !IsPaused)
             {
                 IsPaused = true;
-                SetButtonVisibility(start: false, pause: false, resume: true, stop: true);
+                SetButtonVisibility(start: false, pause: false, resume: true);
                 OnGamePaused();
             }
         });
@@ -298,7 +298,7 @@ internal abstract class GamePage : IPage
             if (IsPaused)
             {
                 IsPaused = false;
-                SetButtonVisibility(start: false, pause: true, resume: false, stop: true);
+                SetButtonVisibility(start: false, pause: true, resume: false);
                 OnGameResumed();
             }
         });
@@ -314,7 +314,7 @@ internal abstract class GamePage : IPage
         Elements.Add(StopButton);
 
         // Initial state: only Start visible
-        SetButtonVisibility(start: true, pause: false, resume: false, stop: false);
+        SetButtonVisibility(start: true, pause: false, resume: false);
     }
 
     // Méthodes virtuelles qui peuvent être surchargées par les classes dérivées
@@ -331,7 +331,7 @@ internal abstract class GamePage : IPage
         BluetoothManager?.StopControllingPower().Wait();
     }
 
-    private void SetButtonVisibility(bool start, bool pause, bool resume, bool stop)
+    private void SetButtonVisibility(bool start, bool pause, bool resume)
     {
         StartButton.Visible = start;
         StartButton.IsUpdatable = start;
@@ -339,7 +339,5 @@ internal abstract class GamePage : IPage
         PauseButton.IsUpdatable = pause;
         ResumeButton.Visible = resume;
         ResumeButton.IsUpdatable = resume;
-        StopButton.Visible = stop;
-        StopButton.IsUpdatable = stop;
     }
 }
