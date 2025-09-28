@@ -2,6 +2,9 @@
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
+using Android.Widget;
+using Android.Text;
+using Android.Views.InputMethods;
 
 using Microsoft.Xna.Framework;
 using System.Linq;
@@ -9,6 +12,7 @@ using System.Threading.Tasks;
 using VelomMonoGame.Android.Sources;
 using VelomMonoGame.Core;
 using VelomMonoGame.Core.Sources.Bluetooth.Interfaces;
+using VelomMonoGame.Core.Sources.InterfaceElements;
 
 namespace VelomMonoGame.Android
 {
@@ -60,6 +64,11 @@ namespace VelomMonoGame.Android
             // Création du provider et enregistrement comme service
             IFileProvider fileProvider = new AndroidFileProvider(CurrentActivity.Assets);
 
+            TextBox.OnRequestVirtualKeyboard = (textBox) =>
+            {
+                ShowVirtualKeyboard(textBox);
+            };
+
             _game = new VelomMonoGameGame();
 
             // Enregistre le service pour accès global
@@ -86,5 +95,49 @@ namespace VelomMonoGame.Android
                 BluetoothPermissionTcs = null;
             }
         }
+
+        private void ShowVirtualKeyboard(TextBox textBox)
+        {
+            RunOnUiThread(() =>
+            {
+                EditText editText = new EditText(this);
+                editText.Text = textBox.Text ?? string.Empty;
+
+                if (textBox.IsDigitOnly)
+                    editText.InputType = InputTypes.ClassNumber | InputTypes.NumberFlagDecimal | InputTypes.NumberFlagSigned;
+                else
+                    editText.InputType = InputTypes.ClassText;
+
+                editText.SetSelectAllOnFocus(true);
+
+                var dialog = new AlertDialog.Builder(this)
+                    .SetTitle("Entry")
+                    .SetView(editText)
+                    .SetPositiveButton("OK", (s, e) =>
+                    {
+                        string value = editText.Text ?? string.Empty;
+                        if (value.Length > textBox.MaxLength)
+                            value = value.Substring(0, textBox.MaxLength);
+                        textBox.SetTextFromMobile(value);
+                        textBox.IsFocused = false;
+                    })
+                    .SetNegativeButton("Cancel", (s, e) =>
+                    {
+                        textBox.IsFocused = false;
+                    })
+                    .Create();
+
+                dialog.Show();
+
+                // Sélectionner tout le texte après affichage
+                editText.Post(() => editText.SelectAll());
+
+                // Afficher le clavier virtuel
+                editText.RequestFocus();
+                var imm = (InputMethodManager)GetSystemService(InputMethodService);
+                imm.ShowSoftInput(editText, ShowFlags.Forced);
+            });
+        }
+
     }
 }

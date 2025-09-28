@@ -88,7 +88,6 @@ namespace VelomMonoGame.Core
 
             // Initialize the page manager and add the main page.
             Page = new MainPage(this);
-            Page.Size = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         }
 
         /// <summary>

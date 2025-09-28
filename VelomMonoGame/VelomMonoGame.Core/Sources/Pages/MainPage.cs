@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using VelomMonoGame.Core.Sources.Bluetooth.Interfaces;
 using VelomMonoGame.Core.Sources.InterfaceElements;
+using VelomMonoGame.Core.Sources.Objects;
 using VelomMonoGame.Core.Sources.Tools;
 
 namespace VelomMonoGame.Core.Sources.Pages;
@@ -36,6 +37,8 @@ internal class MainPage : IPage
             // Set the new position of GoToControlGame button
             GoToControlGame.Position = new Vector2(Size.X / 4 * 3 - GoToControlGame.Size.X / 2 - stringHeight, Size.Y / 3 - GoToControlGame.Size.Y / 2 - stringHeight / 2);
             GoToWorkouts.Position = new Vector2(Size.X / 4 * 3 - GoToWorkouts.Size.X / 2 - stringHeight, (Size.Y / 3) * 2 + GoToWorkouts.Size.Y / 2 + stringHeight / 2);
+            ftpInput.Position = new Vector2(Size.X - ftpInput.Size.X - stringHeight, stringHeight);
+            ftpLabel.Position = new Vector2(ftpInput.Position.X - FontBank.GetFont().MeasureString("FTP : ").X, stringHeight);
             // Update positions of inner elements of buttons*
             foreach (IElement element in GoToControlGame.Elements)
             {
@@ -68,12 +71,18 @@ internal class MainPage : IPage
     private VelomMonoGameGame Game { get; init; }
     private Button GoToControlGame { get; }
     private Button GoToWorkouts { get; }
+    private Text ftpLabel { get; }
+    private TextBox ftpInput { get; }
 
     internal MainPage(VelomMonoGameGame game)
     {
         Game = game;
         if ((game.Page?.Size ?? Vector2.Zero) != Vector2.Zero)
             size = game.Page.Size;
+        else
+        {
+            size = new Vector2(game.GraphicsDevice.Viewport.Width, game.GraphicsDevice.Viewport.Height);
+        }
         BluetoothManager = game.Services.GetService<IBluetoothManager>();
         StaticConnectedDeviceText = new Text()
         {
@@ -150,6 +159,31 @@ internal class MainPage : IPage
         GoToWorkouts = Button.CreateButtonWithText("Go to workouts", Color.White, Color.Purple, () => Game.Page = new WorkoutListPage(game, Size));
         GoToWorkouts.Position = new Vector2(Size.X / 4 * 3 - GoToWorkouts.Size.X / 2 - stringHeight, (Size.Y / 3) * 2 + GoToWorkouts.Size.Y / 2 + stringHeight / 2);
         Elements.Add(GoToWorkouts);
+        ftpInput = new TextBox
+        {
+            Text = SaveManager.LoadUserData().FTP.ToString(),
+            MaxLength = 3,
+            OnTextChanged = (val) =>
+            {
+                if (ushort.TryParse(val, out ushort ftp))
+                {
+                    UserData userData = new UserData
+                    {
+                        FTP = ftp
+                    };
+                    SaveManager.SaveUserData(userData);
+                }
+            }
+        };
+        ftpInput.Position = new Vector2(Size.X - ftpInput.Size.X - stringHeight, stringHeight);
+        Elements.Add(ftpInput);
+        ftpLabel = new Text
+        {
+            Position = new Vector2(ftpInput.Position.X - FontBank.GetFont().MeasureString("FTP : ").X, stringHeight),
+            TextContent = "FTP : ",
+            Color = Color.Black
+        };
+        Elements.Add(ftpLabel);
     }
 
     private void DiscoveredDevices_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

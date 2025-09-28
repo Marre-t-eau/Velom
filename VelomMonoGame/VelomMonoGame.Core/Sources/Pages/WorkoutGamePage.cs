@@ -21,6 +21,7 @@ internal class WorkoutGamePage : GamePage
     public WorkoutGamePage(VelomMonoGameGame game, Vector2 size, Workout workout) : base(game, size)
     {
         Workout = workout;
+        workout.FTP = SaveManager.LoadUserData().FTP;
         PrepareWorkout();
     }
 
