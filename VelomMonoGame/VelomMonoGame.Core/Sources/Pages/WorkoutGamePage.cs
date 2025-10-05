@@ -73,8 +73,11 @@ internal class WorkoutGamePage : GamePage
             TextContent = "00:00"
         };
         Elements.Add(CurrentTimeInBlock);
-        LastWorkBlock = Workout.Blocks[0];
-        UpdateTargetPower(LastWorkBlock, 0);
+        if (Workout.Blocks.Count > 0)
+        {
+            LastWorkBlock = Workout.Blocks[0];
+            UpdateTargetPower(LastWorkBlock, 0);
+        }
     }
 
     public override void Update(GameTime gameTime)

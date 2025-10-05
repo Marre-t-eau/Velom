@@ -10,7 +10,14 @@ namespace VelomMonoGame.Core.Sources.InterfaceElements;
 public class  TextBox : IDrawableElement, IUpdatableElement
 {
     public Vector2 Position { get; set; }
-    public Vector2 Size { get; set; }
+    public Vector2 Size
+    {
+        get
+        {
+            float stringHeight = FontBank.GetFontHeight();
+            return new Vector2(stringHeight + FontBank.GetFont().MeasureString(new string('W', MaxLength)).X, stringHeight);
+        }
+    }
     public bool Visible { get; set; } = true;
     public bool IsUpdatable { get; set; } = true;
 
@@ -38,7 +45,6 @@ public class  TextBox : IDrawableElement, IUpdatableElement
     {
         _backgroundTexture = TextureBank.GetTextureColor(BackgroundColor);
         _borderTexture = TextureBank.GetTextureColor(BorderColor);
-        Size = new Vector2(120, FontBank.GetFontHeight(FontsType.Default) + 10);
     }
 
     public void Draw(SpriteBatch spriteBatch)

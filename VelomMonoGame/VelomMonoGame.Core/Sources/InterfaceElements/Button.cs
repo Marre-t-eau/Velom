@@ -114,7 +114,7 @@ internal class Button : IDrawableElement, IUpdatableElement
             }
         }
 
-        if (isPressed && !wasPressed)
+        if (!isPressed && wasPressed)
         {
             OnClick?.Invoke();
         }

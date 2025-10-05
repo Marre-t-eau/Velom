@@ -31,7 +31,7 @@ namespace VelomMonoGame.Core.Sources.InterfaceElements
             };
 
             float stringHeight = FontBank.GetFontHeight();
-            float minWidth = FontBank.GetFont().MeasureString(confirmMessage).X + FontBank.GetFont().MeasureString(cancelMessage).X + padding * 3;
+            float minWidth = FontBank.GetFont().MeasureString(confirmMessage).X + FontBank.GetFont().MeasureString(cancelMessage).X + stringHeight * 4 + padding * 3;
 
             // Calculer la taille du dialogue en fonction du contenu
             float dialogWidth = Math.Max(MessageText.Size.X + padding * 2, minWidth);

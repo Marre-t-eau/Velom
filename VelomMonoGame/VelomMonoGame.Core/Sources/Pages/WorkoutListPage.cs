@@ -17,7 +17,7 @@ internal class WorkoutListPage : IPage
     private VelomMonoGameGame Game { get; }
 
     // Liste complète des entraînements
-    private List<Workout> Workouts { get; set; } = new();
+    private List<(string fileName, Workout workout)> Workouts { get; set; } = new();
 
     // Boutons de défilement
     private Button UpButton { get; set; }
@@ -40,10 +40,19 @@ internal class WorkoutListPage : IPage
             // Return to main page
             Game.Page = new MainPage(Game);
         });
-        returnButton.Position = new Vector2(20, 20); // Position in top-right corner
+        returnButton.Position = new Vector2(20, 20); // Position in top-left corner
         Elements.Add(returnButton);
 
         startWorkoutListY = returnButton.Position.Y + returnButton.Size.Y + 50;
+
+        // Button to create a new workout
+        Button createButton = Button.CreateButtonWithText("Create", Color.White, Color.Purple, () =>
+        {
+            // Ouvre la page d'édition sans entraînement (création)
+            Game.Page = new WorkoutEditPage(Game, new Workout(), null);
+        });
+        createButton.Position = new Vector2(Size.X - 20 - createButton.Size.X, 20);
+        Elements.Add(createButton);
 
         // Load the workouts
         LoadWorkouts();
@@ -58,7 +67,6 @@ internal class WorkoutListPage : IPage
     private void LoadWorkouts()
     {
         IFileProvider fileProvider = Game.Services.GetService(typeof(IFileProvider)) as IFileProvider;
-        Workouts = new List<Workout>();
 
         // Liste tous les fichiers JSON dans le dossier Workouts
         var files = fileProvider.ListFiles("Workouts", "*.json");
@@ -68,7 +76,14 @@ internal class WorkoutListPage : IPage
             string json = fileProvider.GetFileContent($"Workouts/{file}");
             var workout = JsonSerializer.Deserialize<Workout>(json);
             if (workout != null)
-                Workouts.Add(workout);
+                Workouts.Add((null, workout));
+        }
+
+        foreach (string fileName in SaveManager.GetAllWorkoutFiles())
+        {
+            var workout = SaveManager.GetWorkout(fileName);
+            if (workout != null)
+                Workouts.Add((fileName, workout));
         }
     }
 
@@ -100,17 +115,7 @@ internal class WorkoutListPage : IPage
         // Positionnement des boutons de défilement
         float buttonWidth = 50;
         float buttonHeight = 50;
-        // Get the workout with the biggest name
-        float workoutMaxTextSize = FontBank.GetFont(FontsType.Default).MeasureString($"{Workouts[0].Name} ({FormatDuration(TimeSpan.Zero)})").X;
-        for (int i = 1; i < Workouts.Count; i++)
-        {
-            float textSize = FontBank.GetFont(FontsType.Default).MeasureString($"{Workouts[i].Name} ({FormatDuration(TimeSpan.Zero)})").X;
-            if (textSize > workoutMaxTextSize)
-                workoutMaxTextSize = textSize;
-        }
-        // Calculate the width of the button based on the biggest name
-        float stringHeight = FontBank.GetFontHeight(FontsType.Default);
-        float leftMargin = workoutMaxTextSize + stringHeight * 2 + 250; // Max workout button size width + left marge + marge
+        float leftMargin = Size.X / 4 * 3;
 
         UpButton.Size = new Vector2(buttonWidth, buttonHeight);
         DownButton.Size = new Vector2(buttonWidth, buttonHeight);
@@ -141,7 +146,19 @@ internal class WorkoutListPage : IPage
         float y = startWorkoutListY; // Position de départ après le bouton de retour
         for (int i = startIdx; i < Workouts.Count; i++)
         {
-            Workout workout = Workouts[i];
+            int index = i;
+            Workout workout = Workouts[index].workout;
+
+            Button editButton = Button.CreateButtonWithText("Edit", Color.White, Color.Purple, () =>
+            {
+                Game.Page = new WorkoutEditPage(Game, workout, Workouts[index].fileName);
+            });
+            editButton.Position = new Vector2(Size.X / 4, y);
+            if (!string.IsNullOrEmpty(Workouts[index].fileName))
+            {
+                Elements.Add(editButton);
+                CurrentWorkoutButtons.Add(editButton);
+            }
 
             // Calcul de la durée totale
             TimeSpan totalDuration = CalculateTotalDuration(workout);
@@ -152,7 +169,7 @@ internal class WorkoutListPage : IPage
             Button button = Button.CreateButtonWithText(buttonText, Color.White, Color.Purple,
                 () => Game.Page = new WorkoutGamePage(Game, size, workout));
 
-            button.Position = new Vector2(150, y);
+            button.Position = new Vector2(editButton.Position.X + editButton.Size.X + 150, y);
             Elements.Add(button);
             CurrentWorkoutButtons.Add(button);
             _ = button.Size.X;
