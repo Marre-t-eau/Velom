@@ -15,10 +15,8 @@ internal class Program
 #if DEBUG
         bluetoothManager = new VelomMonoGame.DesktopGL.Sources.Debug.MockBluetoothManager();
 #endif
-        var fileProvider = new DesktopFileProvider(AppDomain.CurrentDomain.BaseDirectory);
 
         using var game = new VelomMonoGameGame();
-        game.Services.AddService(typeof(IFileProvider), fileProvider);
         game.Services.AddService(typeof(IBluetoothManager), bluetoothManager);
         game.Run();
     }

@@ -66,19 +66,6 @@ internal class WorkoutListPage : IPage
 
     private void LoadWorkouts()
     {
-        IFileProvider fileProvider = Game.Services.GetService(typeof(IFileProvider)) as IFileProvider;
-
-        // Liste tous les fichiers JSON dans le dossier Workouts
-        var files = fileProvider.ListFiles("Workouts", "*.json");
-        foreach (var file in files)
-        {
-            // Récupère le contenu du fichier
-            string json = fileProvider.GetFileContent($"Workouts/{file}");
-            var workout = JsonSerializer.Deserialize<Workout>(json);
-            if (workout != null)
-                Workouts.Add((null, workout));
-        }
-
         foreach (string fileName in SaveManager.GetAllWorkoutFiles())
         {
             var workout = SaveManager.GetWorkout(fileName);
