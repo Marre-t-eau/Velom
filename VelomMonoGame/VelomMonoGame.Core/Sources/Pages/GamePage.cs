@@ -1,9 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using VelomMonoGame.Core.Sources.Bluetooth.Interfaces;
 using VelomMonoGame.Core.Sources.InterfaceElements;
+using VelomMonoGame.Core.Sources.Objects;
 using VelomMonoGame.Core.Sources.Tools;
 
 namespace VelomMonoGame.Core.Sources.Pages;
@@ -45,6 +48,8 @@ internal abstract class GamePage : IPage
 
     // Ajouter cette propriété pour le dialogue de confirmation
     private ConfirmationDialog StopConfirmationDialog { get; set; }
+
+    protected ConcurrentBag<GameLogEntry> GameLogs { get; } = new ConcurrentBag<GameLogEntry>();
 
     public GamePage(VelomMonoGameGame game, Vector2 size)
     {
@@ -222,7 +227,7 @@ internal abstract class GamePage : IPage
     }
 
     // Ajouter cette nouvelle méthode pour afficher le dialogue de confirmation
-    private void ShowStopConfirmation()
+    protected void ShowStopConfirmation()
     {
         // Créer le dialogue de confirmation
         StopConfirmationDialog = new ConfirmationDialog(
@@ -270,6 +275,19 @@ internal abstract class GamePage : IPage
         {
             if (!IsStarted)
             {
+                BluetoothManager.PowerUpdated += (sender, power) =>
+                {
+                    GameLogs.Add(new GameLogEntry { Type = GameLogEntryType.Power, Data = power.ToString() });
+                };
+                BluetoothManager.CadenceUpdated += (sender, cadence) =>
+                {
+                    GameLogs.Add(new GameLogEntry { Type = GameLogEntryType.Cadence, Data = cadence.ToString() });
+                };
+                BluetoothManager.HeartRateUpdated += (sender, heartRate) =>
+                {
+                    GameLogs.Add(new GameLogEntry { Type = GameLogEntryType.HeartRate, Data = heartRate.ToString() });
+                };
+                GameLogs.Add(new GameLogEntry { Type = GameLogEntryType.Start });
                 IsStarted = true;
                 StartTime = Game.Services.GetService<GameTime>()?.TotalGameTime ?? TimeSpan.Zero;
                 SetButtonVisibility(start: false, pause: true, resume: false);
@@ -284,6 +302,7 @@ internal abstract class GamePage : IPage
         {
             if (IsStarted && !IsPaused)
             {
+                GameLogs.Add(new GameLogEntry { Type = GameLogEntryType.Pause });
                 IsPaused = true;
                 SetButtonVisibility(start: false, pause: false, resume: true);
                 OnGamePaused();
@@ -297,6 +316,7 @@ internal abstract class GamePage : IPage
         {
             if (IsPaused)
             {
+                GameLogs.Add(new GameLogEntry { Type = GameLogEntryType.Resume });
                 IsPaused = false;
                 SetButtonVisibility(start: false, pause: true, resume: false);
                 OnGameResumed();
@@ -308,6 +328,7 @@ internal abstract class GamePage : IPage
         // Création du bouton Arrêter
         StopButton = Button.CreateButtonWithText("Stop", Color.White, Color.Red, () =>
         {
+            GameLogs.Add(new GameLogEntry { Type = GameLogEntryType.Stop });
             ShowStopConfirmation();
         });
         StopButton.Position = new Vector2(Size.X - StopButton.Size.X - marge, Size.Y - StopButton.Size.Y - marge);
@@ -327,6 +348,8 @@ internal abstract class GamePage : IPage
     protected virtual void OnGameResumed() { }
     protected virtual void OnGameStopped()
     {
+        if (!GameLogs.IsEmpty)
+            SaveManager.SaveGameLog(GameLogs);
         // Par défaut, arrêter le contrôle de la puissance
         BluetoothManager?.StopControllingPower().Wait();
     }

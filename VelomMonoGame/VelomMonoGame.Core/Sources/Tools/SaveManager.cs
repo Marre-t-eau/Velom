@@ -10,6 +10,7 @@ internal static class SaveManager
 {
     private const string FolderName = "Velom";
     private const string WorkoutFolderName = "Workouts";
+    private const string GameLogsFolderName = "GameLogs";
     private const string UserDataFileName = "user_data.json";
 
     private static string GetSaveDirectory(string subFolder = null)
@@ -97,5 +98,15 @@ internal static class SaveManager
         {
             File.Delete(filePath);
         }
+    }
+
+    public static void SaveGameLog(IEnumerable<GameLogEntry> logs)
+    {
+        // Nom de fichier unique basé sur la date et l'heure
+        string fileName = $"GameLog_{DateTime.Now:yyyyMMdd_HHmmss}.json";
+        string filePath = Path.Combine(GetSaveDirectory(GameLogsFolderName), fileName);
+
+        string json = JsonSerializer.Serialize(logs, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(filePath, json);
     }
 }

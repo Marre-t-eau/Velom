@@ -37,8 +37,9 @@ internal class MainPage : IPage
             // Set the new position of GoToControlGame button
             GoToControlGame.Position = new Vector2(Size.X / 4 * 3 - GoToControlGame.Size.X / 2 - stringHeight, Size.Y / 3 - GoToControlGame.Size.Y / 2 - stringHeight / 2);
             GoToWorkouts.Position = new Vector2(Size.X / 4 * 3 - GoToWorkouts.Size.X / 2 - stringHeight, (Size.Y / 3) * 2 + GoToWorkouts.Size.Y / 2 + stringHeight / 2);
-            ftpInput.Position = new Vector2(Size.X - ftpInput.Size.X - stringHeight, stringHeight);
-            ftpLabel.Position = new Vector2(ftpInput.Position.X - FontBank.GetFont().MeasureString("FTP : ").X, stringHeight);
+            FtpInput.Position = new Vector2(Size.X - FtpInput.Size.X - stringHeight, stringHeight);
+            FtpLabel.Position = new Vector2(FtpInput.Position.X - FontBank.GetFont().MeasureString("FTP : ").X, stringHeight);
+            FtpTest.Position = new Vector2(Size.X - FtpTest.Size.X - 10, FtpInput.Position.Y + FtpInput.Size.Y + 50);
             // Update positions of inner elements of buttons*
             foreach (IElement element in GoToControlGame.Elements)
             {
@@ -71,8 +72,9 @@ internal class MainPage : IPage
     private VelomMonoGameGame Game { get; init; }
     private Button GoToControlGame { get; }
     private Button GoToWorkouts { get; }
-    private Text ftpLabel { get; }
-    private TextBox ftpInput { get; }
+    private Text FtpLabel { get; }
+    private TextBox FtpInput { get; }
+    private Button FtpTest { get; }
 
     internal MainPage(VelomMonoGameGame game)
     {
@@ -159,7 +161,7 @@ internal class MainPage : IPage
         GoToWorkouts = Button.CreateButtonWithText("Go to workouts", Color.White, Color.Purple, () => Game.Page = new WorkoutListPage(game, Size));
         GoToWorkouts.Position = new Vector2(Size.X / 4 * 3 - GoToWorkouts.Size.X / 2 - stringHeight, (Size.Y / 3) * 2 + GoToWorkouts.Size.Y / 2 + stringHeight / 2);
         Elements.Add(GoToWorkouts);
-        ftpInput = new TextBox
+        FtpInput = new TextBox
         {
             Text = SaveManager.LoadUserData().FTP.ToString(),
             MaxLength = 3,
@@ -175,15 +177,21 @@ internal class MainPage : IPage
                 }
             }
         };
-        ftpInput.Position = new Vector2(Size.X - ftpInput.Size.X - stringHeight, stringHeight);
-        Elements.Add(ftpInput);
-        ftpLabel = new Text
+        FtpInput.Position = new Vector2(Size.X - FtpInput.Size.X - stringHeight, stringHeight);
+        Elements.Add(FtpInput);
+        FtpLabel = new Text
         {
-            Position = new Vector2(ftpInput.Position.X - FontBank.GetFont().MeasureString("FTP : ").X, stringHeight),
+            Position = new Vector2(FtpInput.Position.X - FontBank.GetFont().MeasureString("FTP : ").X, stringHeight),
             TextContent = "FTP : ",
             Color = Color.Black
         };
-        Elements.Add(ftpLabel);
+        Elements.Add(FtpLabel);
+        FtpTest = Button.CreateButtonWithText("Test FTP", Color.White, Color.Purple, () =>
+        {
+            game.Page = new FtpTestPage(game, Size);
+        });
+        FtpTest.Position = new Vector2(Size.X - FtpTest.Size.X - 10, FtpInput.Position.Y + FtpInput.Size.Y + 50);
+        Elements.Add(FtpTest);
     }
 
     private void DiscoveredDevices_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
