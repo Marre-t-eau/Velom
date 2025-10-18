@@ -69,6 +69,7 @@ namespace VelomMonoGame.Core
         {
             base.Initialize();
 
+            /*
             // Load supported languages and set the default language.
             List<CultureInfo> cultures = LocalizationManager.GetSupportedCultures();
             var languages = new List<CultureInfo>();
@@ -80,7 +81,7 @@ namespace VelomMonoGame.Core
             // TODO You should load this from a settings file or similar,
             // based on what the user or operating system selected.
             var selectedLanguage = LocalizationManager.DEFAULT_CULTURE_CODE;
-            LocalizationManager.SetCulture(selectedLanguage);
+            LocalizationManager.SetCulture(selectedLanguage);*/
 
             TextureBank.Initialize(GraphicsDevice);
             FontBank.Initialize(Content);
