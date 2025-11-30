@@ -31,7 +31,6 @@
                 <Entry x:Name="FTP" VerticalOptions="Center" Placeholder="Enter FTP" Keyboard="Numeric" />
                 <Button Text="Ok" Clicked="SetNewFTP_Clicked"/>
             </HorizontalStackLayout>
-            <Button Text="Interface" Clicked="GoToGamePage_Clicked" />
         </VerticalStackLayout>
     </ScrollView>
 

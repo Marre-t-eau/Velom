@@ -1,21 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.13.35507.96
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11222.15 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VelomMAUI", "VelomMAUI\VelomMAUI.csproj", "{BB67DC8F-01C5-4382-9191-3C00860B1C05}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VelomGame", "VelomGame\VelomGame.csproj", "{4705BFFD-D8CB-4691-81C0-A33680998D05}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VelomMonoGame.Android", "VelomMonoGame\VelomMonoGame.Android\VelomMonoGame.Android.csproj", "{3100759A-C2AA-47EB-B4BF-1E1615C70688}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VelomMonoGame.Core", "VelomMonoGame\VelomMonoGame.Core\VelomMonoGame.Core.csproj", "{302C3462-F52D-4BF4-9D14-0E546171D066}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VelomMonoGame.DesktopGL", "VelomMonoGame\VelomMonoGame.DesktopGL\VelomMonoGame.DesktopGL.csproj", "{39320FEB-1F28-4F1B-9CAA-3D36334205D0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VelomMonoGame.iOS", "VelomMonoGame\VelomMonoGame.iOS\VelomMonoGame.iOS.csproj", "{46C5324B-23FC-43D3-ACA4-3DDB44966047}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VelomMonoGame.WindowsDX", "VelomMonoGame\VelomMonoGame.WindowsDX\VelomMonoGame.WindowsDX.csproj", "{B5ABEF36-0F73-4179-83FE-0F3791C43EAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,34 +16,6 @@ Global
 		{BB67DC8F-01C5-4382-9191-3C00860B1C05}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{BB67DC8F-01C5-4382-9191-3C00860B1C05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB67DC8F-01C5-4382-9191-3C00860B1C05}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4705BFFD-D8CB-4691-81C0-A33680998D05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4705BFFD-D8CB-4691-81C0-A33680998D05}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4705BFFD-D8CB-4691-81C0-A33680998D05}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4705BFFD-D8CB-4691-81C0-A33680998D05}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3100759A-C2AA-47EB-B4BF-1E1615C70688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3100759A-C2AA-47EB-B4BF-1E1615C70688}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3100759A-C2AA-47EB-B4BF-1E1615C70688}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{3100759A-C2AA-47EB-B4BF-1E1615C70688}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3100759A-C2AA-47EB-B4BF-1E1615C70688}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3100759A-C2AA-47EB-B4BF-1E1615C70688}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{302C3462-F52D-4BF4-9D14-0E546171D066}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{302C3462-F52D-4BF4-9D14-0E546171D066}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{302C3462-F52D-4BF4-9D14-0E546171D066}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{302C3462-F52D-4BF4-9D14-0E546171D066}.Release|Any CPU.Build.0 = Release|Any CPU
-		{39320FEB-1F28-4F1B-9CAA-3D36334205D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{39320FEB-1F28-4F1B-9CAA-3D36334205D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{39320FEB-1F28-4F1B-9CAA-3D36334205D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{39320FEB-1F28-4F1B-9CAA-3D36334205D0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{46C5324B-23FC-43D3-ACA4-3DDB44966047}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46C5324B-23FC-43D3-ACA4-3DDB44966047}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46C5324B-23FC-43D3-ACA4-3DDB44966047}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{46C5324B-23FC-43D3-ACA4-3DDB44966047}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46C5324B-23FC-43D3-ACA4-3DDB44966047}.Release|Any CPU.Build.0 = Release|Any CPU
-		{46C5324B-23FC-43D3-ACA4-3DDB44966047}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{B5ABEF36-0F73-4179-83FE-0F3791C43EAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5ABEF36-0F73-4179-83FE-0F3791C43EAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5ABEF36-0F73-4179-83FE-0F3791C43EAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5ABEF36-0F73-4179-83FE-0F3791C43EAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

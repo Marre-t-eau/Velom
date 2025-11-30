@@ -117,9 +117,4 @@ public partial class MainPage : ContentPage
             (await UserInfo.GetUserInfo()).FTP = FTP;
         }
     }
-
-    private async void GoToGamePage_Clicked(object sender, EventArgs e)
-    {
-        await Navigation.PushModalAsync(new GamePage());
-    }
 }
