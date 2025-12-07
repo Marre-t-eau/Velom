@@ -113,6 +113,13 @@ public partial class MainPage : ContentPage
         await Navigation.PushModalAsync(new WorkoutsListPage());
     }
 
+    private async void OnViewHistoryClicked(object sender, EventArgs e)
+    {
+        var historyPage = new WorkoutHistoryPage();
+        var navigationPage = new NavigationPage(historyPage);
+        await Navigation.PushModalAsync(navigationPage);
+    }
+
     private async void SetNewFTP_Clicked(object sender, EventArgs e)
     {
         if (ushort.TryParse(this.FTP.Text, out ushort FTP))

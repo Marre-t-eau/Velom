@@ -26,6 +26,11 @@
                 <Button Text="-" Clicked="SubtractPower_Clicked" />
             </HorizontalStackLayout>
             <Button Text="See workouts" Clicked="OnViewWorkoutsClicked" />
+            <Button Text="📊 Workout History" 
+                    Clicked="OnViewHistoryClicked"
+                    BackgroundColor="#4CAF50"
+                    TextColor="White"
+                    Margin="0,10,0,0" />
             <HorizontalStackLayout>
                 <Label Text="FTP :" VerticalOptions="Center"></Label>
                 <Entry x:Name="FTP" VerticalOptions="Center" Placeholder="Enter FTP" Keyboard="Numeric" />

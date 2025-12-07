@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Velom.Sources.Pages.WorkoutHistoryDetailPage"
+             Title="Workout Details">
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            <!-- Workout Header -->
+            <Frame BorderColor="LightGray" CornerRadius="10" Padding="15">
+                <StackLayout Spacing="10">
+                    <Label x:Name="WorkoutNameLabel" 
+                           FontSize="24" 
+                           FontAttributes="Bold" />
+                    <Label x:Name="DateLabel" 
+                           FontSize="16" />
+                    <Label x:Name="DurationLabel" 
+                           FontSize="16" />
+                    <Label x:Name="CompletedLabel" 
+                           FontSize="14" />
+                </StackLayout>
+            </Frame>
+
+            <!-- Key Metrics -->
+            <Label Text="📊 Key Metrics" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   Margin="0,10,0,0" />
+            
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
+                <!-- Power Metrics -->
+                <Frame Grid.Row="0" Grid.Column="0" 
+                       BorderColor="LightGray" 
+                       CornerRadius="10" 
+                       Padding="15"
+                       Margin="5">
+                    <StackLayout>
+                        <Label Text="⚡ Avg Power" 
+                               FontSize="14" 
+                               TextColor="Gray" />
+                        <Label x:Name="AvgPowerLabel" 
+                               FontSize="20" 
+                               FontAttributes="Bold" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="0" Grid.Column="1" 
+                       BorderColor="LightGray" 
+                       CornerRadius="10" 
+                       Padding="15"
+                       Margin="5">
+                    <StackLayout>
+                        <Label Text="⚡ Max Power" 
+                               FontSize="14" 
+                               TextColor="Gray" />
+                        <Label x:Name="MaxPowerLabel" 
+                               FontSize="20" 
+                               FontAttributes="Bold" />
+                    </StackLayout>
+                </Frame>
+
+                <!-- Cadence Metrics -->
+                <Frame Grid.Row="1" Grid.Column="0" 
+                       BorderColor="LightGray" 
+                       CornerRadius="10" 
+                       Padding="15"
+                       Margin="5">
+                    <StackLayout>
+                        <Label Text="🔄 Avg Cadence" 
+                               FontSize="14" 
+                               TextColor="Gray" />
+                        <Label x:Name="AvgCadenceLabel" 
+                               FontSize="20" 
+                               FontAttributes="Bold" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="1" Grid.Column="1" 
+                       BorderColor="LightGray" 
+                       CornerRadius="10" 
+                       Padding="15"
+                       Margin="5">
+                    <StackLayout>
+                        <Label Text="❤️ Avg HR" 
+                               FontSize="14" 
+                               TextColor="Gray" />
+                        <Label x:Name="AvgHRLabel" 
+                               FontSize="20" 
+                               FontAttributes="Bold" />
+                    </StackLayout>
+                </Frame>
+
+                <!-- Energy Metrics -->
+                <Frame Grid.Row="2" Grid.Column="0" 
+                       BorderColor="LightGray" 
+                       CornerRadius="10" 
+                       Padding="15"
+                       Margin="5">
+                    <StackLayout>
+                        <Label Text="⚡ Total Energy" 
+                               FontSize="14" 
+                               TextColor="Gray" />
+                        <Label x:Name="EnergyLabel" 
+                               FontSize="20" 
+                               FontAttributes="Bold" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="2" Grid.Column="1" 
+                       BorderColor="LightGray" 
+                       CornerRadius="10" 
+                       Padding="15"
+                       Margin="5"
+                       BackgroundColor="#E8F5E9">
+                    <StackLayout>
+                        <Label Text="📊 TSS" 
+                               FontSize="14" 
+                               TextColor="Gray" />
+                        <Label x:Name="TSSLabel" 
+                               FontSize="20" 
+                               FontAttributes="Bold"
+                               TextColor="Green" />
+                    </StackLayout>
+                </Frame>
+            </Grid>
+
+            <!-- Advanced Metrics -->
+            <Label Text="🎯 Advanced Metrics" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   Margin="0,10,0,0" />
+            
+            <Frame BorderColor="LightGray" CornerRadius="10" Padding="15">
+                <StackLayout Spacing="10">
+                    <Label x:Name="NormalizedPowerLabel" 
+                           FontSize="16" />
+                    <Label x:Name="IntensityFactorLabel" 
+                           FontSize="16" />
+                    <Label x:Name="FTPLabel" 
+                           FontSize="16" />
+                </StackLayout>
+            </Frame>
+
+            <!-- Notes Section -->
+            <Label Text="📝 Notes" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   Margin="0,10,0,0" />
+            
+            <Frame BorderColor="LightGray" CornerRadius="10" Padding="15">
+                <Editor x:Name="NotesEditor"
+                        Placeholder="Add notes about this workout..."
+                        HeightRequest="100"
+                        TextChanged="OnNotesChanged" />
+            </Frame>
+
+            <!-- Actions -->
+            <Button Text="📤 Export to TCX" 
+                    Clicked="OnExportClicked"
+                    BackgroundColor="#2196F3"
+                    TextColor="White"
+                    Margin="0,20,0,0" />
+            
+            <Button Text="🗑️ Delete Workout" 
+                    Clicked="OnDeleteClicked"
+                    BackgroundColor="Red"
+                    TextColor="White"
+                    Margin="0,10,0,0" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
