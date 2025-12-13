@@ -113,7 +113,6 @@ public partial class WorkoutHistoryDetailPage : ContentPage
         if (confirm)
         {
             await HistoryService.DeleteSessionAsync(_sessionId);
-            await DisplayAlert("Success", "Workout deleted", "OK");
             await Navigation.PopAsync();
         }
     }

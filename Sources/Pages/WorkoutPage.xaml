@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<pages:BaseBikeControlPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Velom.Sources.Pages"
              x:Class="Velom.Sources.Pages.WorkoutPage"
              Title="WorkoutPage">
     <VerticalStackLayout>
@@ -80,4 +81,4 @@
             </CollectionView.EmptyView>
         </CollectionView>
     </VerticalStackLayout>
-</ContentPage>
+</pages:BaseBikeControlPage>

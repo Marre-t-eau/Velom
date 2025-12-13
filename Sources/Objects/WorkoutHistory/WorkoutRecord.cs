@@ -7,7 +7,7 @@ namespace Velom.Sources.Objects.WorkoutHistory;
 /// Follows the structure similar to FIT file records
 /// </summary>
 [Table("workout_records")]
-internal class WorkoutRecord
+public class WorkoutRecord
 {
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }

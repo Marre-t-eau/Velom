@@ -69,7 +69,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Sources\Pages\WorkoutHistoryDetailPage_new.xaml">
+	  <MauiXaml Update="Sources\Pages\ControlPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Sources\Pages\WorkoutPage.xaml">

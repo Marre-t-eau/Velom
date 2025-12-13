@@ -6,7 +6,7 @@ namespace Velom.Sources.Objects.WorkoutHistory;
 /// Represents a completed workout session with all recorded data
 /// </summary>
 [Table("workout_sessions")]
-internal class WorkoutSession
+public class WorkoutSession
 {
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }

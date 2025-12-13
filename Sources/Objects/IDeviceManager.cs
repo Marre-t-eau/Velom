@@ -1,6 +1,6 @@
 ﻿namespace Velom.Sources.Objects;
 
-internal interface IDeviceManager
+public interface IDeviceManager
 {
     string Name { get; }
     bool AsPower { get; }

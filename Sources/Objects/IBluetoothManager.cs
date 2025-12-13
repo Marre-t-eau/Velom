@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace Velom.Sources.Objects;
 
-internal interface IBluetoothManager
+public interface IBluetoothManager
 {
     ObservableCollection<IDeviceManager> DiscoveredDevices { get; }
 

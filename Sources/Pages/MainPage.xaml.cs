@@ -65,47 +65,11 @@ public partial class MainPage : ContentPage
         BluetoothManager.StartScan();
     }
 
-    private async void SetPowerCheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    private async void OnManualControlClicked(object sender, EventArgs e)
     {
-        if (SetPowerCheckBox.IsChecked)
-        {
-            if (ushort.TryParse(PowerEntry.Text, out ushort power))
-            {
-                await BluetoothManager.SetPower(power);
-            }
-            await BluetoothManager.StartControllingPower();
-        }
-        else
-        {
-            await BluetoothManager.StopControllingPower();
-        }
-    }
-
-    private async void PowerEntry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (SetPowerCheckBox.IsChecked)
-        {
-            if (ushort.TryParse(PowerEntry.Text, out ushort power))
-            {
-                await BluetoothManager.SetPower(power);
-            }
-        }
-    }
-
-    private void AddPower_Clicked(object sender, EventArgs e)
-    {
-        if (ushort.TryParse(PowerEntry.Text, out ushort power))
-        {
-            PowerEntry.Text = (power + 5).ToString();
-        }
-    }
-
-    private void SubtractPower_Clicked(object sender, EventArgs e)
-    {
-        if (ushort.TryParse(PowerEntry.Text, out ushort power))
-        {
-            PowerEntry.Text = (power - 5).ToString();
-        }
+        var controlPage = new ControlPage();
+        var navigationPage = new NavigationPage(controlPage);
+        await Navigation.PushModalAsync(navigationPage);
     }
 
     private async void OnViewWorkoutsClicked(object sender, EventArgs e)

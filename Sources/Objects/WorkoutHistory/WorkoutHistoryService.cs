@@ -6,7 +6,7 @@ namespace Velom.Sources.Objects.WorkoutHistory;
 /// <summary>
 /// Service for managing workout history database operations
 /// </summary>
-internal interface IWorkoutHistoryService
+public interface IWorkoutHistoryService
 {
     Task InitializeAsync();
     Task<WorkoutSession> CreateSessionAsync(string workoutName, ushort ftp);
@@ -22,7 +22,7 @@ internal interface IWorkoutHistoryService
 /// <summary>
 /// Statistics calculated from workout records
 /// </summary>
-internal class WorkoutSessionStatistics
+public class WorkoutSessionStatistics
 {
     public double AveragePower { get; set; }
     public ushort MaxPower { get; set; }
