@@ -20,8 +20,9 @@ public partial class WorkoutPage : BaseBikeControlPage
         workout.FTP = UserInfo.GetUserInfo().Result.FTP;
         WorkoutView = new WorkoutView(workout);
         WorkBlocksCollectionView.ItemsSource = WorkoutView.BlocksView;
-        TargetPowerView.Text = string.Format("Target power : {0}", GetActualTargetPower()?.ToString() ?? "0");
-        TargetCadenceView.Text = string.Format("Target cadence : {0}", GetActualCadenceTarget()?.ToString() ?? "0");
+        
+        // Initialize target displays
+        UpdateTargetDisplays();
         
         SubscribeToBluetoothEvents();
     }
@@ -31,7 +32,7 @@ public partial class WorkoutPage : BaseBikeControlPage
         base.OnPowerUpdated(sender, power);
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            PowerView.Text = "Power: " + power;
+            PowerView.Text = $"{power} W";
         });
     }
 
@@ -40,7 +41,7 @@ public partial class WorkoutPage : BaseBikeControlPage
         base.OnCadenceUpdated(sender, cadence);
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            CadenceView.Text = "Cadence: " + cadence;
+            CadenceView.Text = $"{cadence} rpm";
         });
     }
 
@@ -49,7 +50,7 @@ public partial class WorkoutPage : BaseBikeControlPage
         base.OnHeartRateUpdated(sender, heartRate);
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            HeartRateView.Text = "Heart rate: " + heartRate;
+            HeartRateView.Text = $"{heartRate} bpm";
         });
     }
 
@@ -62,22 +63,33 @@ public partial class WorkoutPage : BaseBikeControlPage
         MainThread.BeginInvokeOnMainThread(async () =>
         {
             TimerLabel.Text = _elapsedTime.ToString(@"hh\:mm\:ss");
+            
             if (currentWorkBlock != null)
             {
                 currentWorkBlock.TimeDone = GetTimeDoneInActualWorkBlock();
             }
+            
             if (newTargetedPower != _actualTargetPower)
             {
                 _actualTargetPower = newTargetedPower;
-                TargetPowerView.Text = string.Format("Target power : {0}", _actualTargetPower?.ToString() ?? "0");
+                TargetPowerView.Text = $"{_actualTargetPower?.ToString() ?? "0"} W";
                 await UpdateTargetPowerAsync(newTargetedPower ?? 0);
             }
+            
             if (newTargetedCadence != _actualCadenceTarget)
             {
                 _actualCadenceTarget = newTargetedCadence;
-                TargetCadenceView.Text = string.Format("Target cadence : {0}", _actualCadenceTarget?.ToString() ?? "0");
+                TargetCadenceView.Text = $"{_actualCadenceTarget?.ToString() ?? "0"} rpm";
             }
         });
+    }
+
+    private void UpdateTargetDisplays()
+    {
+        _actualTargetPower = GetActualTargetPower();
+        _actualCadenceTarget = GetActualCadenceTarget();
+        TargetPowerView.Text = $"{_actualTargetPower?.ToString() ?? "0"} W";
+        TargetCadenceView.Text = $"{_actualCadenceTarget?.ToString() ?? "0"} rpm";
     }
 
     protected override ushort? GetCurrentTargetPower() => _actualTargetPower;
@@ -125,7 +137,7 @@ public partial class WorkoutPage : BaseBikeControlPage
 
     private async void OnStopButtonClicked(object sender, EventArgs e)
     {
-        bool confirm = await DisplayAlert("Confirmation", "Are you sure you want to stop?", "Yes", "No");
+        bool confirm = await DisplayAlert("Confirmation", "Are you sure you want to stop this workout?", "Yes", "No");
         if (confirm)
         {
             await StopPowerControlAsync();
@@ -134,6 +146,7 @@ public partial class WorkoutPage : BaseBikeControlPage
             TimerLabel.Text = "00:00:00";
             StartButton.IsVisible = true;
             PauseStopButtons.IsVisible = false;
+            PauseButton.Text = "Pause";
         }
     }
 
@@ -205,6 +218,13 @@ public partial class WorkoutPage : BaseBikeControlPage
             elapsedTime -= WorkoutView.Blocks[indice].Duration;
             indice++;
         }
-        return (uint)elapsedTime;
+        
+        if (WorkoutView.Blocks.Count <= indice)
+            return 0;
+        
+        uint timeDone = (uint)Math.Ceiling(elapsedTime);
+        uint duration = WorkoutView.Blocks[indice].Duration;
+        
+        return Math.Min(timeDone, duration);
     }
 }
