@@ -1,5 +1,5 @@
-﻿
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using Microsoft.Maui.Graphics;
 
 namespace Velom.Sources.Objects.Workout.View;
 
@@ -22,6 +22,24 @@ internal class WorkBlockView : WorkBlock, INotifyPropertyChanged
                 _timeDone = value;
                 OnPropertyChanged(nameof(TimeDone));
                 OnPropertyChanged(nameof(TimeDoneString));
+                OnPropertyChanged(nameof(IsCompleted));
+            }
+        }
+    }
+
+    private bool _isCurrent;
+    public bool IsCurrent
+    {
+        get => _isCurrent;
+        set
+        {
+            if (_isCurrent != value)
+            {
+                _isCurrent = value;
+                OnPropertyChanged(nameof(IsCurrent));
+                OnPropertyChanged(nameof(BlockOpacity));
+                OnPropertyChanged(nameof(BorderColor));
+                OnPropertyChanged(nameof(BackgroundColor));
             }
         }
     }
@@ -40,6 +58,11 @@ internal class WorkBlockView : WorkBlock, INotifyPropertyChanged
     public string TargetCadenceString => TargetCadence?.ToString() ?? string.Empty;
     public string TimeDoneString => TimeDone.ToString();
     public string DurationString => Duration.ToString();
+
+    public bool IsCompleted => TimeDone >= Duration;
+    public double BlockOpacity => IsCompleted ? 0.5 : 1.0;
+    public Color BorderColor => IsCurrent ? Colors.Green : (IsCompleted ? Colors.LightGray : Colors.Gray);
+    public Color BackgroundColor => IsCurrent ? Color.FromRgba(144, 238, 144, 0.2) : Colors.White;
 
     protected void OnPropertyChanged(string propertyName)
     {

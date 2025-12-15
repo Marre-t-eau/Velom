@@ -11,6 +11,7 @@ public partial class WorkoutPage : BaseBikeControlPage
     WorkoutView WorkoutView { get; }
     private ushort? _actualTargetPower = null;
     private ushort? _actualCadenceTarget = null;
+    private int? _lastBlockIndex = null;
 
     internal WorkoutPage(Workout workout) : base()
 	{
@@ -23,6 +24,11 @@ public partial class WorkoutPage : BaseBikeControlPage
         
         // Initialize target displays
         UpdateTargetDisplays();
+        
+        // Initialize progress and time info
+        UpdateProgressInfo();
+        UpdateTimeRemaining();
+        TotalTimeLabel.Text = $"Total: {FormatTime(WorkoutView.TotalDuration)}";
         
         SubscribeToBluetoothEvents();
     }
@@ -59,14 +65,54 @@ public partial class WorkoutPage : BaseBikeControlPage
         ushort? newTargetedPower = GetActualTargetPower();
         ushort? newTargetedCadence = GetActualCadenceTarget();
         WorkBlockView? currentWorkBlock = GetCurrentWorkBlock();
+        int? currentBlockIndex = GetCurrentBlockIndex();
         
         MainThread.BeginInvokeOnMainThread(async () =>
         {
             TimerLabel.Text = _elapsedTime.ToString(@"hh\:mm\:ss");
             
-            if (currentWorkBlock != null)
+            // Update progress and time remaining
+            UpdateProgressInfo();
+            UpdateTimeRemaining();
+            
+            if (currentWorkBlock != null && currentBlockIndex.HasValue)
             {
                 currentWorkBlock.TimeDone = GetTimeDoneInActualWorkBlock();
+                
+                // Update block highlighting when we switch to a new block
+                if (currentBlockIndex != _lastBlockIndex)
+                {
+                    // Remove highlight from previous block
+                    if (_lastBlockIndex.HasValue && _lastBlockIndex.Value < WorkoutView.BlocksView.Count)
+                    {
+                        WorkoutView.BlocksView[_lastBlockIndex.Value].IsCurrent = false;
+                    }
+                    
+                    // Highlight current block
+                    if (currentBlockIndex.Value < WorkoutView.BlocksView.Count)
+                    {
+                        var blockToScroll = WorkoutView.BlocksView[currentBlockIndex.Value];
+                        blockToScroll.IsCurrent = true;
+                        
+                        // Auto-scroll to current block using the object itself
+                        Device.StartTimer(TimeSpan.FromMilliseconds(200), () =>
+                        {
+                            try
+                            {
+                                WorkBlocksCollectionView.ScrollTo(blockToScroll, 
+                                    position: ScrollToPosition.Center, 
+                                    animate: true);
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Diagnostics.Debug.WriteLine($"Scroll error: {ex.Message}");
+                            }
+                            return false; // Don't repeat
+                        });
+                    }
+                    
+                    _lastBlockIndex = currentBlockIndex;
+                }
             }
             
             if (newTargetedPower != _actualTargetPower)
@@ -92,6 +138,52 @@ public partial class WorkoutPage : BaseBikeControlPage
         TargetCadenceView.Text = $"{_actualCadenceTarget?.ToString() ?? "0"} rpm";
     }
 
+    private void UpdateProgressInfo()
+    {
+        int? currentIndex = GetCurrentBlockIndex();
+        if (currentIndex.HasValue)
+        {
+            int currentBlock = currentIndex.Value + 1; // +1 pour affichage humain (1-based)
+            int totalBlocks = WorkoutView.BlocksView.Count;
+            BlockProgressLabel.Text = $"Block {currentBlock}/{totalBlocks}";
+        }
+        else
+        {
+            BlockProgressLabel.Text = $"Block {WorkoutView.BlocksView.Count}/{WorkoutView.BlocksView.Count}";
+        }
+    }
+
+    private void UpdateTimeRemaining()
+    {
+        uint totalDuration = WorkoutView.TotalDuration;
+        uint elapsedSeconds = (uint)_preciseElapsedSeconds;
+        
+        if (elapsedSeconds >= totalDuration)
+        {
+            TimeRemainingValueLabel.Text = "0:00";
+        }
+        else
+        {
+            uint remainingSeconds = totalDuration - elapsedSeconds;
+            TimeRemainingValueLabel.Text = FormatTime(remainingSeconds);
+        }
+    }
+
+    private string FormatTime(uint totalSeconds)
+    {
+        uint minutes = totalSeconds / 60;
+        uint seconds = totalSeconds % 60;
+        
+        if (minutes >= 60)
+        {
+            uint hours = minutes / 60;
+            minutes = minutes % 60;
+            return $"{hours}:{minutes:D2}:{seconds:D2}";
+        }
+        
+        return $"{minutes}:{seconds:D2}";
+    }
+
     protected override ushort? GetCurrentTargetPower() => _actualTargetPower;
     protected override ushort? GetCurrentTargetCadence() => _actualCadenceTarget;
     protected override int? GetCurrentBlockIndex()
@@ -115,6 +207,30 @@ public partial class WorkoutPage : BaseBikeControlPage
         await StartPowerControlAsync(GetActualTargetPower() ?? 0);
         StartButton.IsVisible = false;
         PauseStopButtons.IsVisible = true;
+        
+        // Initialize first block as current
+        if (WorkoutView.BlocksView.Count > 0)
+        {
+            var firstBlock = WorkoutView.BlocksView[0];
+            firstBlock.IsCurrent = true;
+            _lastBlockIndex = 0;
+            
+            // Scroll to first block using the object
+            Device.StartTimer(TimeSpan.FromMilliseconds(200), () =>
+            {
+                try
+                {
+                    WorkBlocksCollectionView.ScrollTo(firstBlock, 
+                        position: ScrollToPosition.Start, 
+                        animate: false);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Scroll error: {ex.Message}");
+                }
+                return false;
+            });
+        }
         
         await StartSessionAsync(WorkoutView.Name);
     }
@@ -147,6 +263,37 @@ public partial class WorkoutPage : BaseBikeControlPage
             StartButton.IsVisible = true;
             PauseStopButtons.IsVisible = false;
             PauseButton.Text = "Pause";
+            
+            // Reset all blocks state
+            foreach (var block in WorkoutView.BlocksView)
+            {
+                block.IsCurrent = false;
+                block.TimeDone = 0;
+            }
+            _lastBlockIndex = null;
+            
+            // Reset progress info
+            UpdateProgressInfo();
+            TimeRemainingValueLabel.Text = FormatTime(WorkoutView.TotalDuration);
+            
+            // Scroll back to top using first block object
+            if (WorkoutView.BlocksView.Count > 0)
+            {
+                Device.StartTimer(TimeSpan.FromMilliseconds(200), () =>
+                {
+                    try
+                    {
+                        WorkBlocksCollectionView.ScrollTo(WorkoutView.BlocksView[0], 
+                            position: ScrollToPosition.Start, 
+                            animate: false);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Scroll error: {ex.Message}");
+                    }
+                    return false;
+                });
+            }
         }
     }
 

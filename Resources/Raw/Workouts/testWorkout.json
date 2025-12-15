@@ -2,21 +2,56 @@
   "Name": "Test Workout",
   "Blocks": [
     {
-      "Duration": 30,
+      "Duration": 15,
       "TargetPowerStart": 50,
       "TargetPowerEnd": 100,
       "TargetCadence": 85,
       "PowerType": 0
     },
     {
-      "Duration": 15,
+      "Duration": 5,
       "TargetPowerStart": 75,
       "TargetPowerEnd": 75,
       "TargetCadence": 90,
       "PowerType": 0
     },
     {
-      "Duration": 30,
+      "Duration": 5,
+      "TargetPowerStart": 100,
+      "TargetPowerEnd": 100,
+      "TargetCadence": 80,
+      "PowerType": 0
+    },
+    {
+      "Duration": 5,
+      "TargetPowerStart": 75,
+      "TargetPowerEnd": 75,
+      "TargetCadence": 90,
+      "PowerType": 0
+    },
+    {
+      "Duration": 5,
+      "TargetPowerStart": 100,
+      "TargetPowerEnd": 100,
+      "TargetCadence": 80,
+      "PowerType": 0
+    },
+    {
+      "Duration": 5,
+      "TargetPowerStart": 75,
+      "TargetPowerEnd": 75,
+      "TargetCadence": 90,
+      "PowerType": 0
+    },
+    {
+      "Duration": 5,
+      "TargetPowerStart": 100,
+      "TargetPowerEnd": 100,
+      "TargetCadence": 80,
+      "PowerType": 0
+    },
+    {
+      "Duration": 15,
       "TargetPowerStart": 75,
       "TargetPowerEnd": 50,
       "TargetCadence": 85,
