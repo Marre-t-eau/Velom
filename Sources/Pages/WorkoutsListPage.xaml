@@ -2,30 +2,143 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Velom.Sources.Pages.WorkoutsListPage"
-             Title="WorkoutsListPage">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Button Text="✖" 
-                HorizontalOptions="End" 
-                VerticalOptions="Start" 
-                Clicked="OnCloseButtonClicked" />
-        <CollectionView x:Name="WorkoutsCollectionView" 
-                        Grid.Row="1" 
-                        SelectionMode="Single" 
-                        SelectionChanged="OnWorkoutSelected">
+             Title="My Workouts"
+             BackgroundColor="#F5F5F5">
+    <Grid RowDefinitions="Auto,*">
+        <!-- Header with close and new buttons -->
+        <Grid Grid.Row="0" 
+              ColumnDefinitions="*,Auto,Auto" 
+              Padding="15"
+              BackgroundColor="#2C3E50">
+            <Label Grid.Column="0" 
+                   Text="My Workouts" 
+                   FontSize="24" 
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   VerticalOptions="Center" />
+            <Button Grid.Column="1"
+                    Text="➕ New"
+                    Clicked="OnNewWorkoutClicked"
+                    BackgroundColor="#27AE60"
+                    TextColor="White"
+                    Margin="0,0,10,0"
+                    Padding="20,10"
+                    CornerRadius="8"
+                    FontAttributes="Bold" />
+            <Button Grid.Column="2"
+                    Text="✖"
+                    Clicked="OnCloseButtonClicked"
+                    BackgroundColor="#E74C3C"
+                    TextColor="White"
+                    Padding="15,10"
+                    CornerRadius="8"
+                    FontAttributes="Bold" />
+        </Grid>
+        
+        <!-- Workouts List -->
+        <CollectionView Grid.Row="1" 
+                        x:Name="WorkoutsCollectionView" 
+                        SelectionMode="None"
+                        Margin="15">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Padding="10">
-                        <Label Text="{Binding Name}" FontSize="20" />
-                        <Label Text="{Binding TotalDurationMinutes, StringFormat='Total Duration: {0} minutes'}" FontSize="16" />
-                    </StackLayout>
+                    <Frame BorderColor="#E0E0E0" 
+                           Padding="0" 
+                           Margin="0,8"
+                           CornerRadius="12"
+                           BackgroundColor="White"
+                           HasShadow="True">
+                        <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,Auto">
+                            <!-- Top Section: Workout Name and Edit Button -->
+                            <Grid Grid.Row="0" 
+                                  Grid.ColumnSpan="2"
+                                  ColumnDefinitions="*,Auto"
+                                  Padding="15,15,15,10"
+                                  BackgroundColor="#34495E">
+                                <Label Grid.Column="0" 
+                                       Text="{Binding Name}" 
+                                       FontSize="20" 
+                                       FontAttributes="Bold"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                                
+                                <!-- Edit Button - Top Right -->
+                                <Button Grid.Column="1"
+                                        Text="✏️"
+                                        Clicked="OnEditWorkoutClicked"
+                                        CommandParameter="{Binding}"
+                                        BackgroundColor="#3498DB"
+                                        TextColor="White"
+                                        Padding="12,8"
+                                        CornerRadius="8"
+                                        FontSize="16"
+                                        VerticalOptions="Center" />
+                            </Grid>
+                            
+                            <!-- Workout Info -->
+                            <HorizontalStackLayout Grid.Row="1" 
+                                                  Grid.ColumnSpan="2"
+                                                  Spacing="20"
+                                                  Padding="15,15,15,15">
+                                <HorizontalStackLayout Spacing="8">
+                                    <Label Text="⏱️" FontSize="16" />
+                                    <Label Text="{Binding TotalDurationMinutes, StringFormat='{0} min'}" 
+                                           FontSize="15" 
+                                           FontAttributes="Bold"
+                                           TextColor="#34495E" />
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Spacing="8">
+                                    <Label Text="💪" FontSize="16" />
+                                    <Label Text="{Binding EstimatedTSS, StringFormat='TSS: {0}'}" 
+                                           FontSize="15" 
+                                           FontAttributes="Bold"
+                                           TextColor="#34495E" />
+                                </HorizontalStackLayout>
+                            </HorizontalStackLayout>
+                            
+                            <!-- Start Button - Full Width -->
+                            <Button Grid.Row="2" 
+                                    Grid.ColumnSpan="2"
+                                    Text="▶️ START WORKOUT"
+                                    Clicked="OnStartWorkoutClicked"
+                                    CommandParameter="{Binding}"
+                                    BackgroundColor="#27AE60"
+                                    TextColor="White"
+                                    Padding="0,15"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    CornerRadius="0"
+                                    Margin="0" />
+                        </Grid>
+                    </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
-                <Label Text="No workouts found" />
+                <VerticalStackLayout HorizontalOptions="Center" 
+                                    VerticalOptions="Center"
+                                    Spacing="20"
+                                    Padding="40">
+                    <Label Text="🏋️" 
+                           FontSize="64" 
+                           HorizontalOptions="Center" />
+                    <Label Text="No workouts yet!" 
+                           FontSize="28" 
+                           FontAttributes="Bold"
+                           TextColor="#34495E"
+                           HorizontalOptions="Center" />
+                    <Label Text="Create your first workout to get started" 
+                           FontSize="16" 
+                           TextColor="#7F8C8D"
+                           HorizontalOptions="Center" />
+                    <Button Text="➕ CREATE WORKOUT"
+                            Clicked="OnNewWorkoutClicked"
+                            BackgroundColor="#27AE60"
+                            TextColor="White"
+                            HorizontalOptions="Center"
+                            Padding="40,15"
+                            CornerRadius="8"
+                            FontAttributes="Bold" />
+                </VerticalStackLayout>
             </CollectionView.EmptyView>
         </CollectionView>
     </Grid>

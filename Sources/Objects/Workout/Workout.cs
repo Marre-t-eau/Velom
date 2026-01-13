@@ -1,21 +1,24 @@
-﻿
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Velom.Sources.Objects.Workout;
 
 internal class Workout
 {
+    public Guid Id { get; set; } = Guid.NewGuid();
     public List<WorkBlock> Blocks { get; set; } = new List<WorkBlock>();
     public string Name { get; set; } = string.Empty;
 
     public Workout() { }
     internal Workout(Workout workout)
     {
+        Name = workout.Name;
+        Id = workout.Id;
+        _FTP = workout._FTP;
+        
         foreach(WorkBlock workBlock in workout.Blocks)
         {
             Blocks.Add(new WorkBlock(workBlock));
         }
-        Name = workout.Name;
     }
 
     private ushort _FTP;

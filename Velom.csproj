@@ -60,6 +60,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0-rc.2.24473.5" />
 		<PackageReference Include="Plugin.BLE" Version="3.1.0" />
@@ -70,6 +71,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Sources\Pages\ControlPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Sources\Pages\WorkoutEditorPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Sources\Pages\WorkoutPage.xaml">
@@ -84,10 +88,6 @@
 	  <MauiXaml Update="Sources\Pages\WorkoutHistoryDetailPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Include="Resources\Raw\Workouts\**\*.json" />
 	</ItemGroup>
 	
 </Project>
