@@ -116,4 +116,11 @@ public partial class WorkoutHistoryDetailPage : ContentPage
             await Navigation.PopAsync();
         }
     }
+
+    private async void OnCloseButtonClicked(object sender, EventArgs e)
+    {
+        // Pop to root (close all modals and go back to main page)
+        await Navigation.PopToRootAsync();
+    }
 }
+

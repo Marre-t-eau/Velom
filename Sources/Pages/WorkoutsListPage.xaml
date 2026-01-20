@@ -9,7 +9,7 @@
         <Grid Grid.Row="0" 
               ColumnDefinitions="*,Auto,Auto" 
               Padding="15"
-              BackgroundColor="#2C3E50">
+              BackgroundColor="#155C5D">
             <Label Grid.Column="0" 
                    Text="My Workouts" 
                    FontSize="24" 
@@ -19,7 +19,7 @@
             <Button Grid.Column="1"
                     Text="➕ New"
                     Clicked="OnNewWorkoutClicked"
-                    BackgroundColor="#27AE60"
+                    BackgroundColor="#2D8B8E"
                     TextColor="White"
                     Margin="0,0,10,0"
                     Padding="20,10"
@@ -28,7 +28,7 @@
             <Button Grid.Column="2"
                     Text="✖"
                     Clicked="OnCloseButtonClicked"
-                    BackgroundColor="#E74C3C"
+                    BackgroundColor="#D32F2F"
                     TextColor="White"
                     Padding="15,10"
                     CornerRadius="8"
@@ -42,7 +42,7 @@
                         Margin="15">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BorderColor="#E0E0E0" 
+                    <Frame BorderColor="#E0F2F2" 
                            Padding="0" 
                            Margin="0,8"
                            CornerRadius="12"
@@ -54,7 +54,7 @@
                                   Grid.ColumnSpan="2"
                                   ColumnDefinitions="*,Auto"
                                   Padding="15,15,15,10"
-                                  BackgroundColor="#34495E">
+                                  BackgroundColor="#155C5D">
                                 <Label Grid.Column="0" 
                                        Text="{Binding Name}" 
                                        FontSize="20" 
@@ -67,7 +67,7 @@
                                         Text="✏️"
                                         Clicked="OnEditWorkoutClicked"
                                         CommandParameter="{Binding}"
-                                        BackgroundColor="#3498DB"
+                                        BackgroundColor="#4DB8BA"
                                         TextColor="White"
                                         Padding="12,8"
                                         CornerRadius="8"
@@ -85,14 +85,14 @@
                                     <Label Text="{Binding TotalDurationMinutes, StringFormat='{0} min'}" 
                                            FontSize="15" 
                                            FontAttributes="Bold"
-                                           TextColor="#34495E" />
+                                           TextColor="#0D3F40" />
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout Spacing="8">
                                     <Label Text="💪" FontSize="16" />
                                     <Label Text="{Binding EstimatedTSS, StringFormat='TSS: {0}'}" 
                                            FontSize="15" 
                                            FontAttributes="Bold"
-                                           TextColor="#34495E" />
+                                           TextColor="#0D3F40" />
                                 </HorizontalStackLayout>
                             </HorizontalStackLayout>
                             
@@ -102,7 +102,7 @@
                                     Text="▶️ START WORKOUT"
                                     Clicked="OnStartWorkoutClicked"
                                     CommandParameter="{Binding}"
-                                    BackgroundColor="#27AE60"
+                                    BackgroundColor="#2D8B8E"
                                     TextColor="White"
                                     Padding="0,15"
                                     FontSize="16"
@@ -124,11 +124,11 @@
                     <Label Text="No workouts yet!" 
                            FontSize="28" 
                            FontAttributes="Bold"
-                           TextColor="#34495E"
+                           TextColor="#0D3F40"
                            HorizontalOptions="Center" />
                     <Label Text="Create your first workout to get started" 
                            FontSize="16" 
-                           TextColor="#7F8C8D"
+                           TextColor="#155C5D"
                            HorizontalOptions="Center" />
                     <Button Text="➕ CREATE WORKOUT"
                             Clicked="OnNewWorkoutClicked"

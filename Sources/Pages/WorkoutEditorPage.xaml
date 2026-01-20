@@ -3,20 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Velom.Sources.Pages.WorkoutEditorPage"
              Title="Workout Editor"
-             BackgroundColor="#E8E8E8">
+             BackgroundColor="#F5F5F5">
     <Grid RowDefinitions="Auto,Auto,*,Auto">
         <!-- Header -->
         <Grid Grid.Row="0" 
               RowDefinitions="Auto,Auto"
               ColumnDefinitions="Auto,*,Auto"
               Padding="15,15,15,0"
-              BackgroundColor="#2C3E50">
+              BackgroundColor="#155C5D">
             <!-- Delete Button - Left -->
             <Button Grid.Row="0" Grid.Column="0"
                     x:Name="DeleteWorkoutButton"
                     Text="🗑️"
                     Clicked="OnDeleteWorkoutClicked"
-                    BackgroundColor="#E74C3C"
+                    BackgroundColor="#D32F2F"
                     TextColor="White"
                     Padding="15,10"
                     CornerRadius="8"
@@ -29,14 +29,14 @@
                                   HorizontalOptions="End">
                 <Button Text="💾 Save"
                         Clicked="OnSaveClicked"
-                        BackgroundColor="#27AE60"
+                        BackgroundColor="#2D8B8E"
                         TextColor="White"
                         Padding="20,10"
                         CornerRadius="8"
                         FontAttributes="Bold" />
                 <Button Text="✖"
                         Clicked="OnCancelClicked"
-                        BackgroundColor="#E74C3C"
+                        BackgroundColor="#D32F2F"
                         TextColor="White"
                         Padding="15,10"
                         CornerRadius="8"
@@ -59,7 +59,7 @@
         
         <!-- Power Type Selector -->
         <Frame Grid.Row="1"
-               BackgroundColor="#34495E"
+               BackgroundColor="#0D3F40"
                Padding="15,10"
                Margin="0"
                CornerRadius="0"
@@ -77,7 +77,7 @@
                            TextColor="White"
                            VerticalOptions="Center" />
                     <Switch x:Name="PowerTypeSwitch"
-                            OnColor="#3498DB"
+                            OnColor="#4DB8BA"
                             ThumbColor="White"
                             Toggled="OnPowerTypeSwitchToggled"
                             VerticalOptions="Center" />
@@ -96,14 +96,14 @@
                 <Label Text="Workout Blocks" 
                        FontSize="22" 
                        FontAttributes="Bold"
-                       TextColor="#2C3E50"
+                       TextColor="#0D3F40"
                        Margin="0,0,0,10" />
                 
                 <CollectionView x:Name="BlocksCollectionView" 
                                 SelectionMode="None">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Frame BorderColor="#2980B9" 
+                            <Frame BorderColor="#155C5D" 
                                    Padding="12" 
                                    Margin="0,5"
                                    CornerRadius="8"
@@ -123,7 +123,7 @@
                                         <Button Text="⬆️"
                                                 Clicked="OnMoveUpClicked"
                                                 CommandParameter="{Binding}"
-                                                BackgroundColor="#7F8C8D"
+                                                BackgroundColor="#4DB8BA"
                                                 TextColor="White"
                                                 WidthRequest="35"
                                                 HeightRequest="35"
@@ -133,7 +133,7 @@
                                         <Button Text="⬇️"
                                                 Clicked="OnMoveDownClicked"
                                                 CommandParameter="{Binding}"
-                                                BackgroundColor="#7F8C8D"
+                                                BackgroundColor="#4DB8BA"
                                                 TextColor="White"
                                                 WidthRequest="35"
                                                 HeightRequest="35"
@@ -154,14 +154,14 @@
                                                Text="⏱️" 
                                                FontSize="16" 
                                                VerticalOptions="Center"
-                                               TextColor="#2C3E50" />
+                                               TextColor="#0D3F40" />
                                         <Entry Grid.Row="0" Grid.Column="1"
                                                Text="{Binding Duration}" 
                                                Keyboard="Numeric"
                                                Placeholder="sec"
                                                FontSize="14"
-                                               BackgroundColor="#ECF0F1"
-                                               TextColor="#2C3E50"
+                                               BackgroundColor="#E0F2F2"
+                                               TextColor="#0D3F40"
                                                PlaceholderColor="#95A5A6"
                                                HeightRequest="35" />
                                         
@@ -170,15 +170,15 @@
                                                Text="🔄" 
                                                FontSize="16" 
                                                VerticalOptions="Center"
-                                               TextColor="#2C3E50"
+                                               TextColor="#0D3F40"
                                                Margin="8,0,0,0" />
                                         <Entry Grid.Row="0" Grid.Column="3"
                                                Text="{Binding TargetCadence}" 
                                                Keyboard="Numeric"
                                                Placeholder="rpm"
                                                FontSize="14"
-                                               BackgroundColor="#ECF0F1"
-                                               TextColor="#2C3E50"
+                                               BackgroundColor="#E0F2F2"
+                                               TextColor="#0D3F40"
                                                PlaceholderColor="#95A5A6"
                                                HeightRequest="35" />
                                         
@@ -187,14 +187,14 @@
                                                Text="💪" 
                                                FontSize="16" 
                                                VerticalOptions="Center"
-                                               TextColor="#2C3E50" />
+                                               TextColor="#0D3F40" />
                                         <Entry Grid.Row="1" Grid.Column="1"
                                                Text="{Binding TargetPowerStart}" 
                                                Keyboard="Numeric"
                                                x:Name="PowerStartEntry"
                                                FontSize="14"
-                                               BackgroundColor="#ECF0F1"
-                                               TextColor="#2C3E50"
+                                               BackgroundColor="#E0F2F2"
+                                               TextColor="#0D3F40"
                                                PlaceholderColor="#95A5A6"
                                                HeightRequest="35" />
                                         
@@ -203,15 +203,15 @@
                                                Text="➡️" 
                                                FontSize="16" 
                                                VerticalOptions="Center"
-                                               TextColor="#2C3E50"
+                                               TextColor="#0D3F40"
                                                Margin="8,0,0,0" />
                                         <Entry Grid.Row="1" Grid.Column="3"
                                                Text="{Binding TargetPowerEnd}" 
                                                Keyboard="Numeric"
                                                x:Name="PowerEndEntry"
                                                FontSize="14"
-                                               BackgroundColor="#ECF0F1"
-                                               TextColor="#2C3E50"
+                                               BackgroundColor="#E0F2F2"
+                                               TextColor="#0D3F40"
                                                PlaceholderColor="#95A5A6"
                                                HeightRequest="35" />
                                     </Grid>
@@ -223,7 +223,7 @@
                                             Text="🗑️"
                                             Clicked="OnDeleteBlockClicked"
                                             CommandParameter="{Binding}"
-                                            BackgroundColor="#E74C3C"
+                                            BackgroundColor="#D32F2F"
                                             TextColor="White"
                                             VerticalOptions="Center"
                                             WidthRequest="35"
@@ -263,7 +263,7 @@
                             <Label Text="No blocks yet!" 
                                    FontSize="18" 
                                    FontAttributes="Bold"
-                                   TextColor="#2C3E50"
+                                   TextColor="#0D3F40"
                                    HorizontalOptions="Center" />
                             <Label Text="Add your first block to get started" 
                                    FontSize="14" 
@@ -276,7 +276,7 @@
                 <!-- Add Block Button -->
                 <Button Text="➕ ADD BLOCK"
                         Clicked="OnAddBlockClicked"
-                        BackgroundColor="#27AE60"
+                        BackgroundColor="#2D8B8E"
                         TextColor="White"
                         FontAttributes="Bold"
                         FontSize="16"

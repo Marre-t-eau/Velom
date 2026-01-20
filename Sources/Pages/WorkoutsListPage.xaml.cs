@@ -20,13 +20,13 @@ public partial class WorkoutsListPage : ContentPage
         // Register as recipient for workout messages
         WeakReferenceMessenger.Default.Register<WorkoutSavedMessage>(this, async (r, m) =>
         {
-            await ReloadWorkoutsAsync();
-        });
+                await ReloadWorkoutsAsync();
+            });
         
         WeakReferenceMessenger.Default.Register<WorkoutDeletedMessage>(this, async (r, m) =>
         {
-            await ReloadWorkoutsAsync();
-        });
+                await ReloadWorkoutsAsync();
+            });
     }
 
     protected override void OnDisappearing()
@@ -40,7 +40,7 @@ public partial class WorkoutsListPage : ContentPage
     private async Task LoadWorkoutsAsync()
     {
         WorkoutViews.Clear();
-
+        
         // Get user FTP
         var userInfo = await UserInfo.GetUserInfo();
         ushort userFTP = userInfo.FTP;

@@ -2,123 +2,174 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Velom.Sources.Pages.WorkoutHistoryDetailPage"
-             Title="Workout Details">
-    <ScrollView>
-        <StackLayout Padding="20" Spacing="15">
+             Title=""
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#F5F5F5">
+    <Grid RowDefinitions="Auto,*">
+        <!-- Header -->
+        <Grid Grid.Row="0" 
+              ColumnDefinitions="*,Auto" 
+              Padding="15"
+              BackgroundColor="#155C5D">
+            <Label Grid.Column="0" 
+                   Text="📊 Workout Details" 
+                   FontSize="24" 
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Start" />
+            <Button Grid.Column="1"
+                    Text="✖"
+                    Clicked="OnCloseButtonClicked"
+                    BackgroundColor="#D32F2F"
+                    TextColor="White"
+                    Padding="12,8"
+                    WidthRequest="45"
+                    HeightRequest="45"
+                    CornerRadius="8"
+                    FontAttributes="Bold"
+                    FontSize="18" />
+        </Grid>
+        
+        <!-- Content -->
+        <ScrollView Grid.Row="1">
+            <StackLayout Padding="20" Spacing="15">
             <!-- Workout Header -->
-            <Frame BorderColor="LightGray" CornerRadius="10" Padding="15">
+            <Frame BorderColor="#155C5D" CornerRadius="12" Padding="15" BackgroundColor="White" HasShadow="True">
                 <StackLayout Spacing="10">
                     <Label x:Name="WorkoutNameLabel" 
                            FontSize="24" 
-                           FontAttributes="Bold" />
+                           FontAttributes="Bold"
+                           TextColor="#0D3F40" />
                     <Label x:Name="DateLabel" 
-                           FontSize="16" />
+                           FontSize="16"
+                           TextColor="#155C5D" />
                     <Label x:Name="DurationLabel" 
-                           FontSize="16" />
+                           FontSize="16"
+                           TextColor="#155C5D" />
                     <Label x:Name="CompletedLabel" 
-                           FontSize="14" />
+                           FontSize="14"
+                           TextColor="#7F8C8D" />
                 </StackLayout>
             </Frame>
 
             <!-- Key Metrics -->
             <Label Text="📊 Key Metrics" 
                    FontSize="20" 
-                   FontAttributes="Bold" 
+                   FontAttributes="Bold"
+                   TextColor="#0D3F40"
                    Margin="0,10,0,0" />
             
             <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
                 <!-- Power Metrics -->
                 <Frame Grid.Row="0" Grid.Column="0" 
-                       BorderColor="LightGray" 
-                       CornerRadius="10" 
+                       BorderColor="#155C5D" 
+                       CornerRadius="12" 
                        Padding="15"
-                       Margin="5">
+                       Margin="5"
+                       BackgroundColor="White"
+                       HasShadow="True">
                     <StackLayout>
                         <Label Text="⚡ Avg Power" 
                                FontSize="14" 
-                               TextColor="Gray" />
+                               TextColor="#7F8C8D" />
                         <Label x:Name="AvgPowerLabel" 
                                FontSize="20" 
-                               FontAttributes="Bold" />
+                               FontAttributes="Bold"
+                               TextColor="#2D8B8E" />
                     </StackLayout>
                 </Frame>
 
                 <Frame Grid.Row="0" Grid.Column="1" 
-                       BorderColor="LightGray" 
-                       CornerRadius="10" 
+                       BorderColor="#155C5D" 
+                       CornerRadius="12" 
                        Padding="15"
-                       Margin="5">
+                       Margin="5"
+                       BackgroundColor="White"
+                       HasShadow="True">
                     <StackLayout>
                         <Label Text="⚡ Max Power" 
                                FontSize="14" 
-                               TextColor="Gray" />
+                               TextColor="#7F8C8D" />
                         <Label x:Name="MaxPowerLabel" 
                                FontSize="20" 
-                               FontAttributes="Bold" />
+                               FontAttributes="Bold"
+                               TextColor="#2D8B8E" />
                     </StackLayout>
                 </Frame>
 
                 <!-- Cadence Metrics -->
                 <Frame Grid.Row="1" Grid.Column="0" 
-                       BorderColor="LightGray" 
-                       CornerRadius="10" 
+                       BorderColor="#155C5D" 
+                       CornerRadius="12" 
                        Padding="15"
-                       Margin="5">
+                       Margin="5"
+                       BackgroundColor="White"
+                       HasShadow="True">
                     <StackLayout>
                         <Label Text="🔄 Avg Cadence" 
                                FontSize="14" 
-                               TextColor="Gray" />
+                               TextColor="#7F8C8D" />
                         <Label x:Name="AvgCadenceLabel" 
                                FontSize="20" 
-                               FontAttributes="Bold" />
+                               FontAttributes="Bold"
+                               TextColor="#2D8B8E" />
                     </StackLayout>
                 </Frame>
 
                 <Frame Grid.Row="1" Grid.Column="1" 
-                       BorderColor="LightGray" 
-                       CornerRadius="10" 
+                       BorderColor="#155C5D" 
+                       CornerRadius="12" 
                        Padding="15"
-                       Margin="5">
+                       Margin="5"
+                       BackgroundColor="White"
+                       HasShadow="True">
                     <StackLayout>
                         <Label Text="❤️ Avg HR" 
                                FontSize="14" 
-                               TextColor="Gray" />
+                               TextColor="#7F8C8D" />
                         <Label x:Name="AvgHRLabel" 
                                FontSize="20" 
-                               FontAttributes="Bold" />
+                               FontAttributes="Bold"
+                               TextColor="#2D8B8E" />
                     </StackLayout>
                 </Frame>
 
                 <!-- Energy Metrics -->
                 <Frame Grid.Row="2" Grid.Column="0" 
-                       BorderColor="LightGray" 
-                       CornerRadius="10" 
+                       BorderColor="#155C5D" 
+                       CornerRadius="12" 
                        Padding="15"
-                       Margin="5">
+                       Margin="5"
+                       BackgroundColor="White"
+                       HasShadow="True">
                     <StackLayout>
                         <Label Text="⚡ Total Energy" 
                                FontSize="14" 
-                               TextColor="Gray" />
+                               TextColor="#7F8C8D" />
                         <Label x:Name="EnergyLabel" 
                                FontSize="20" 
-                               FontAttributes="Bold" />
+                               FontAttributes="Bold"
+                               TextColor="#2D8B8E" />
                     </StackLayout>
                 </Frame>
 
                 <Frame Grid.Row="2" Grid.Column="1" 
-                       BorderColor="LightGray" 
-                       CornerRadius="10" 
+                       BorderColor="#4DB8BA" 
+                       CornerRadius="12" 
                        Padding="15"
                        Margin="5"
-                       BackgroundColor="#E8F5E9">
+                       BackgroundColor="#E0F2F2"
+                       HasShadow="True">
                     <StackLayout>
                         <Label Text="📊 TSS" 
                                FontSize="14" 
-                               TextColor="Gray" />
+                               TextColor="#0D3F40" />
                         <Label x:Name="TSSLabel" 
                                FontSize="20" 
                                FontAttributes="Bold"
-                               TextColor="Green" />
+                               TextColor="#155C5D" />
                     </StackLayout>
                 </Frame>
             </Grid>
@@ -126,45 +177,59 @@
             <!-- Advanced Metrics -->
             <Label Text="🎯 Advanced Metrics" 
                    FontSize="20" 
-                   FontAttributes="Bold" 
+                   FontAttributes="Bold"
+                   TextColor="#0D3F40"
                    Margin="0,10,0,0" />
             
-            <Frame BorderColor="LightGray" CornerRadius="10" Padding="15">
+            <Frame BorderColor="#155C5D" CornerRadius="12" Padding="15" BackgroundColor="White" HasShadow="True">
                 <StackLayout Spacing="10">
                     <Label x:Name="NormalizedPowerLabel" 
-                           FontSize="16" />
+                           FontSize="16"
+                           TextColor="#155C5D" />
                     <Label x:Name="IntensityFactorLabel" 
-                           FontSize="16" />
+                           FontSize="16"
+                           TextColor="#155C5D" />
                     <Label x:Name="FTPLabel" 
-                           FontSize="16" />
+                           FontSize="16"
+                           TextColor="#155C5D" />
                 </StackLayout>
             </Frame>
 
             <!-- Notes Section -->
             <Label Text="📝 Notes" 
                    FontSize="20" 
-                   FontAttributes="Bold" 
+                   FontAttributes="Bold"
+                   TextColor="#0D3F40"
                    Margin="0,10,0,0" />
             
-            <Frame BorderColor="LightGray" CornerRadius="10" Padding="15">
+            <Frame BorderColor="#155C5D" CornerRadius="12" Padding="15" BackgroundColor="White" HasShadow="True">
                 <Editor x:Name="NotesEditor"
                         Placeholder="Add notes about this workout..."
                         HeightRequest="100"
-                        TextChanged="OnNotesChanged" />
+                        TextChanged="OnNotesChanged"
+                        BackgroundColor="#E0F2F2"
+                        TextColor="#0D3F40" />
             </Frame>
 
             <!-- Actions -->
             <Button Text="📤 Export to TCX" 
                     Clicked="OnExportClicked"
-                    BackgroundColor="#2196F3"
+                    BackgroundColor="#2D8B8E"
                     TextColor="White"
+                    CornerRadius="8"
+                    HeightRequest="50"
+                    FontAttributes="Bold"
                     Margin="0,20,0,0" />
             
             <Button Text="🗑️ Delete Workout" 
                     Clicked="OnDeleteClicked"
-                    BackgroundColor="Red"
+                    BackgroundColor="#D32F2F"
                     TextColor="White"
+                    CornerRadius="8"
+                    HeightRequest="50"
+                    FontAttributes="Bold"
                     Margin="0,10,0,0" />
         </StackLayout>
     </ScrollView>
+    </Grid>
 </ContentPage>

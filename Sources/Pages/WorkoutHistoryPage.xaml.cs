@@ -40,6 +40,11 @@ public partial class WorkoutHistoryPage : ContentPage
             await Navigation.PushAsync(new WorkoutHistoryDetailPage(selectedSession.Id));
         }
     }
+
+    private async void OnCloseButtonClicked(object sender, EventArgs e)
+    {
+        await Navigation.PopModalAsync();
+    }
 }
 
 /// <summary>

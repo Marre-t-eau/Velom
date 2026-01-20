@@ -16,9 +16,9 @@ internal class WorkoutView : Workout
 
     internal uint TotalDuration => (uint)Blocks.Sum(block => block.Duration);
 
-    internal uint TotalDurationMinutes => (uint)(Blocks.Sum(block => block.Duration) / 60);
+    public uint TotalDurationMinutes => (uint)(Blocks.Sum(block => block.Duration) / 60);
 
-    internal int EstimatedTSS
+    public int EstimatedTSS
     {
         get
         {

@@ -61,8 +61,8 @@ internal class WorkBlockView : WorkBlock, INotifyPropertyChanged
 
     public bool IsCompleted => TimeDone >= Duration;
     public double BlockOpacity => IsCompleted ? 0.5 : 1.0;
-    public Color BorderColor => IsCurrent ? Colors.Green : (IsCompleted ? Colors.LightGray : Colors.Gray);
-    public Color BackgroundColor => IsCurrent ? Color.FromRgba(144, 238, 144, 0.2) : Colors.White;
+    public Color BorderColor => IsCurrent ? Color.FromArgb("#2D8B8E") : (IsCompleted ? Color.FromArgb("#E0E0E0") : Color.FromArgb("#BDBDBD"));
+    public Color BackgroundColor => IsCurrent ? Color.FromArgb("#E0F2F2") : Colors.White;
 
     protected void OnPropertyChanged(string propertyName)
     {

@@ -22,6 +22,9 @@ public partial class WorkoutPage : BaseBikeControlPage
         WorkoutView = new WorkoutView(workout);
         WorkBlocksCollectionView.ItemsSource = WorkoutView.BlocksView;
         
+        // Set workout name in header
+        WorkoutNameLabel.Text = $"{workout.Name}";
+        
         // Initialize target displays
         UpdateTargetDisplays();
         
@@ -373,5 +376,21 @@ public partial class WorkoutPage : BaseBikeControlPage
         uint duration = WorkoutView.Blocks[indice].Duration;
         
         return Math.Min(timeDone, duration);
+    }
+
+    private async void OnCloseClicked(object sender, EventArgs e)
+    {
+        // If workout is running, ask for confirmation
+        if (_timer.Enabled)
+        {
+            bool confirm = await DisplayAlert("Confirm", "A workout is in progress. Do you really want to exit?", "Yes", "No");
+            if (!confirm)
+                return;
+            
+            await StopPowerControlAsync();
+            await StopSessionAsync();
+        }
+        
+        await Navigation.PopModalAsync();
     }
 }
