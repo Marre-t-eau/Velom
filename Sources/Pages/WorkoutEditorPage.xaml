@@ -104,15 +104,15 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Frame BorderColor="#155C5D" 
-                                   Padding="12" 
-                                   Margin="0,5"
-                                   CornerRadius="8"
+                                   Padding="15" 
+                                   Margin="0,8"
+                                   CornerRadius="12"
                                    BackgroundColor="White"
                                    HasShadow="True">
                                 <Grid RowDefinitions="Auto,Auto" 
                                       ColumnDefinitions="Auto,*,Auto"
-                                      ColumnSpacing="8"
-                                      RowSpacing="6">
+                                      ColumnSpacing="10"
+                                      RowSpacing="10">
                                     
                                     <!-- Move Buttons - Vertical Stack Left -->
                                     <VerticalStackLayout Grid.Row="0" 
@@ -127,7 +127,7 @@
                                                 TextColor="White"
                                                 WidthRequest="35"
                                                 HeightRequest="35"
-                                                CornerRadius="6"
+                                                CornerRadius="8"
                                                 Padding="0"
                                                 FontSize="16" />
                                         <Button Text="⬇️"
@@ -137,7 +137,7 @@
                                                 TextColor="White"
                                                 WidthRequest="35"
                                                 HeightRequest="35"
-                                                CornerRadius="6"
+                                                CornerRadius="8"
                                                 Padding="0"
                                                 FontSize="16" />
                                     </VerticalStackLayout>
@@ -146,8 +146,8 @@
                                     <Grid Grid.Row="0" Grid.Column="1"
                                           RowDefinitions="Auto,Auto"
                                           ColumnDefinitions="Auto,*,Auto,*"
-                                          ColumnSpacing="8"
-                                          RowSpacing="6">
+                                          ColumnSpacing="10"
+                                          RowSpacing="10">
                                         
                                         <!-- Duration -->
                                         <Label Grid.Row="0" Grid.Column="0"
@@ -228,7 +228,7 @@
                                             VerticalOptions="Center"
                                             WidthRequest="35"
                                             HeightRequest="35"
-                                            CornerRadius="6"
+                                            CornerRadius="8"
                                             Padding="0"
                                             FontSize="16" />
                                     

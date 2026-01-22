@@ -34,7 +34,7 @@
         
         <!-- Content -->
         <ScrollView Grid.Row="1">
-            <StackLayout Padding="20" Spacing="15">
+            <StackLayout Padding="15" Spacing="15">
             <!-- Workout Header -->
             <Frame BorderColor="#155C5D" CornerRadius="12" Padding="15" BackgroundColor="White" HasShadow="True">
                 <StackLayout Spacing="10">

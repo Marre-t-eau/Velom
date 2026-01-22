@@ -32,11 +32,11 @@
         <CollectionView Grid.Row="1"
                         x:Name="HistoryCollectionView" 
                         SelectionMode="None"
-                        Margin="10">
+                        Margin="15">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame Padding="15" 
-                           Margin="5" 
+                           Margin="0,8" 
                            BorderColor="#155C5D" 
                            CornerRadius="12"
                            BackgroundColor="White"

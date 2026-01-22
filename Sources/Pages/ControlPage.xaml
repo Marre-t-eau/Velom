@@ -35,7 +35,7 @@
         
         <!-- Content -->
         <ScrollView Grid.Row="1">
-            <VerticalStackLayout Padding="20" Spacing="15">
+            <VerticalStackLayout Padding="15" Spacing="15">
             
             <Frame BorderColor="#155C5D" Padding="15" CornerRadius="12" BackgroundColor="White" HasShadow="True">
                 <VerticalStackLayout Spacing="10">
