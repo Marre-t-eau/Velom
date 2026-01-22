@@ -73,6 +73,6 @@ internal class WorkoutSessionViewModel
 
         // Format duration as HH:MM:SS
         var duration = TimeSpan.FromSeconds(session.TotalDurationSeconds);
-        FormattedDuration = $"⏱️ {duration:hh\\:mm\\:ss}";
+        FormattedDuration = $"{duration:hh\\:mm\\:ss}";
     }
 }

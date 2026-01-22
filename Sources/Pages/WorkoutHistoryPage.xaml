@@ -13,7 +13,7 @@
               Padding="15"
               BackgroundColor="#155C5D">
             <Label Grid.Column="0" 
-                   Text="📊 Workout History" 
+                   Text="Workout History" 
                    FontSize="24" 
                    FontAttributes="Bold"
                    TextColor="White"
@@ -63,7 +63,7 @@
                                    TextColor="#0D3F40" />
                             
                             <Label Grid.Row="1" Grid.Column="0"
-                                   Text="{Binding StartTime, StringFormat='📅 {0:dd/MM/yyyy HH:mm}'}" 
+                                   Text="{Binding StartTime, StringFormat='{0:dd/MM/yyyy HH:mm}'}" 
                                    FontSize="14"
                                    TextColor="#155C5D" />
                             
@@ -74,7 +74,7 @@
                                    HorizontalOptions="End" />
                             
                             <Label Grid.Row="2" Grid.Column="0"
-                                   Text="{Binding AveragePower, StringFormat='⚡ Avg: {0:F0}W'}" 
+                                   Text="{Binding AveragePower, StringFormat='Avg: {0:F0}W'}" 
                                    FontSize="14"
                                    TextColor="#2D8B8E"
                                    FontAttributes="Bold" />
@@ -93,7 +93,7 @@
                                    TextColor="#4DB8BA" />
                             
                             <Label Grid.Row="3" Grid.Column="1"
-                                   Text="{Binding TotalKilojoules, StringFormat='⚡ {0:F0} kJ'}" 
+                                   Text="{Binding TotalKilojoules, StringFormat='{0:F0} kJ'}" 
                                    FontSize="14"
                                    TextColor="#4DB8BA"
                                    FontAttributes="Bold"
@@ -104,7 +104,7 @@
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
                 <StackLayout Padding="20" VerticalOptions="Center">
-                    <Label Text="📊 No workout history yet" 
+                    <Label Text="No workout history yet" 
                            FontSize="22"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" 

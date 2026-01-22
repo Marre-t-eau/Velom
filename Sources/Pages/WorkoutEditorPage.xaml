@@ -184,7 +184,7 @@
                                         
                                         <!-- Power Start -->
                                         <Label Grid.Row="1" Grid.Column="0"
-                                               Text="💪" 
+                                               Text="⚡" 
                                                FontSize="16" 
                                                VerticalOptions="Center"
                                                TextColor="#0D3F40" />
@@ -295,7 +295,6 @@
             <HorizontalStackLayout Spacing="30" 
                                   HorizontalOptions="Center">
                 <HorizontalStackLayout Spacing="8">
-                    <Label Text="📊" FontSize="18" />
                     <Label x:Name="TotalBlocksLabel" 
                            Text="0 blocks" 
                            FontSize="16" 

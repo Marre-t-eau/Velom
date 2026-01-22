@@ -13,7 +13,7 @@
               Padding="15"
               BackgroundColor="#155C5D">
             <Label Grid.Column="0" 
-                   Text="📊 Workout Details" 
+                   Text="Workout Details" 
                    FontSize="24" 
                    FontAttributes="Bold"
                    TextColor="White"
@@ -53,14 +53,6 @@
                            TextColor="#7F8C8D" />
                 </StackLayout>
             </Frame>
-
-            <!-- Key Metrics -->
-            <Label Text="📊 Key Metrics" 
-                   FontSize="20" 
-                   FontAttributes="Bold"
-                   TextColor="#0D3F40"
-                   Margin="0,10,0,0" />
-            
             <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
                 <!-- Power Metrics -->
                 <Frame Grid.Row="0" Grid.Column="0" 
@@ -145,7 +137,7 @@
                        BackgroundColor="White"
                        HasShadow="True">
                     <StackLayout>
-                        <Label Text="⚡ Total Energy" 
+                        <Label Text="Total Energy" 
                                FontSize="14" 
                                TextColor="#7F8C8D" />
                         <Label x:Name="EnergyLabel" 
@@ -163,7 +155,7 @@
                        BackgroundColor="#E0F2F2"
                        HasShadow="True">
                     <StackLayout>
-                        <Label Text="📊 TSS" 
+                        <Label Text="TSS" 
                                FontSize="14" 
                                TextColor="#0D3F40" />
                         <Label x:Name="TSSLabel" 
@@ -173,14 +165,7 @@
                     </StackLayout>
                 </Frame>
             </Grid>
-
-            <!-- Advanced Metrics -->
-            <Label Text="🎯 Advanced Metrics" 
-                   FontSize="20" 
-                   FontAttributes="Bold"
-                   TextColor="#0D3F40"
-                   Margin="0,10,0,0" />
-            
+                
             <Frame BorderColor="#155C5D" CornerRadius="12" Padding="15" BackgroundColor="White" HasShadow="True">
                 <StackLayout Spacing="10">
                     <Label x:Name="NormalizedPowerLabel" 
@@ -196,7 +181,7 @@
             </Frame>
 
             <!-- Notes Section -->
-            <Label Text="📝 Notes" 
+            <Label Text="Notes" 
                    FontSize="20" 
                    FontAttributes="Bold"
                    TextColor="#0D3F40"

@@ -39,14 +39,14 @@ public partial class WorkoutHistoryDetailPage : ContentPage
 
         // Header Info
         WorkoutNameLabel.Text = _session.WorkoutName;
-        DateLabel.Text = $"📅 {_session.StartTime:dddd, MMMM dd, yyyy 'at' HH:mm}";
+        DateLabel.Text = $"{_session.StartTime:dddd, MMMM dd, yyyy 'at' HH:mm}";
         
         var duration = TimeSpan.FromSeconds(_session.TotalDurationSeconds);
-        DurationLabel.Text = $"⏱️ Duration: {duration:hh\\:mm\\:ss}";
+        DurationLabel.Text = $"Duration: {duration:hh\\:mm\\:ss}";
         
         CompletedLabel.Text = _session.IsCompleted 
-            ? "✅ Completed" 
-            : "⚠️ Stopped early";
+            ? "Completed" 
+            : "Stopped early";
         CompletedLabel.TextColor = _session.IsCompleted 
             ? Colors.Green 
             : Colors.Orange;
@@ -64,9 +64,9 @@ public partial class WorkoutHistoryDetailPage : ContentPage
         TSSLabel.Text = $"{_session.TSS:F0}";
 
         // Advanced Metrics
-        NormalizedPowerLabel.Text = $"⚡ Normalized Power (NP): {_session.NormalizedPower:F0} W";
-        IntensityFactorLabel.Text = $"📈 Intensity Factor (IF): {_session.IntensityFactor:F2}";
-        FTPLabel.Text = $"🎯 FTP: {_session.FTP} W";
+        NormalizedPowerLabel.Text = $"Normalized Power (NP): {_session.NormalizedPower:F0} W";
+        IntensityFactorLabel.Text = $"Intensity Factor (IF): {_session.IntensityFactor:F2}";
+        FTPLabel.Text = $"FTP: {_session.FTP} W";
 
         // Notes
         NotesEditor.Text = _session.Notes;

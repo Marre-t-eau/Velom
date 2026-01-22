@@ -14,7 +14,7 @@
               Padding="15"
               BackgroundColor="#155C5D">
             <Label Grid.Column="0" 
-                   Text="🎛️ Manual Control" 
+                   Text="Manual Control" 
                    FontSize="24" 
                    FontAttributes="Bold"
                    TextColor="White"
@@ -39,12 +39,6 @@
             
             <Frame BorderColor="#155C5D" Padding="15" CornerRadius="12" BackgroundColor="White" HasShadow="True">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="⚡ Current Metrics" 
-                           FontSize="22" 
-                           FontAttributes="Bold" 
-                           HorizontalOptions="Center"
-                           TextColor="#0D3F40" />
-                    
                     <Label x:Name="TimerLabel" 
                            Text="00:00:00" 
                            FontSize="28" 
@@ -69,15 +63,9 @@
             <!-- Session Control Buttons -->
             <Frame BorderColor="#155C5D" Padding="15" CornerRadius="12" BackgroundColor="White" HasShadow="True">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="🎮 Session Control" 
-                           FontSize="22" 
-                           FontAttributes="Bold" 
-                           HorizontalOptions="Center"
-                           TextColor="#0D3F40" />
-                    
                     <!-- Start Button -->
                     <Button x:Name="StartButton"
-                            Text="▶️ Start Session"
+                            Text="Start Session"
                             Clicked="OnStartButtonClicked"
                             BackgroundColor="#2D8B8E"
                             TextColor="White"
@@ -116,12 +104,6 @@
 
             <Frame BorderColor="#155C5D" Padding="15" CornerRadius="12" BackgroundColor="White" HasShadow="True">
                 <VerticalStackLayout Spacing="15">
-                    <Label Text="💪 Power Control" 
-                           FontSize="22" 
-                           FontAttributes="Bold" 
-                           HorizontalOptions="Center"
-                           TextColor="#0D3F40" />
-
                     <VerticalStackLayout Spacing="10" x:Name="PowerControlSection" IsEnabled="False">
                         <Label Text="Target Power (W)" 
                                FontSize="18" 

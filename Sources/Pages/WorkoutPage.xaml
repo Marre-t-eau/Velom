@@ -128,7 +128,7 @@
                                 
                                 <!-- Emoji indicators -->
                                 <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
-                                    <Label Text="💪" FontSize="Small" IsVisible="{Binding AsTargetPower}" />
+                                    <Label Text="⚡" FontSize="Small" IsVisible="{Binding AsTargetPower}" />
                                     <Label Text="🔄" FontSize="Small" IsVisible="{Binding AsTargetedCadence}" />
                                 </VerticalStackLayout>
                                 

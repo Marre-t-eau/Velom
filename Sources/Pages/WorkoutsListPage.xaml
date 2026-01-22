@@ -99,7 +99,7 @@
                             <!-- Start Button - Full Width -->
                             <Button Grid.Row="2" 
                                     Grid.ColumnSpan="2"
-                                    Text="▶️ START WORKOUT"
+                                    Text="START WORKOUT"
                                     Clicked="OnStartWorkoutClicked"
                                     CommandParameter="{Binding}"
                                     BackgroundColor="#2D8B8E"
@@ -118,9 +118,6 @@
                                     VerticalOptions="Center"
                                     Spacing="20"
                                     Padding="40">
-                    <Label Text="🏋️" 
-                           FontSize="64" 
-                           HorizontalOptions="Center" />
                     <Label Text="No workouts yet!" 
                            FontSize="28" 
                            FontAttributes="Bold"
