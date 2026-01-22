@@ -4,29 +4,46 @@ using Velom.Sources.Objects.Workout;
 using Velom.Sources.Objects.Workout.View;
 using Velom.Sources.Services;
 using Velom.Sources.Objects;
+using System.Collections.ObjectModel;
 
 namespace Velom.Sources.Pages;
 
 public partial class WorkoutsListPage : ContentPage
 {
     private List<Workout> Workouts { get; set; } = [];
-    private List<WorkoutView> WorkoutViews { get; set; } = [];
+    private ObservableCollection<WorkoutView> WorkoutViews { get; set; } = [];
 
     public WorkoutsListPage()
 	{
 		InitializeComponent();
-        _ = LoadWorkoutsAsync();
+        
+        // Set ItemsSource once at initialization
+        WorkoutsCollectionView.ItemsSource = WorkoutViews;
         
         // Register as recipient for workout messages
         WeakReferenceMessenger.Default.Register<WorkoutSavedMessage>(this, async (r, m) =>
         {
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
                 await ReloadWorkoutsAsync();
             });
+        });
         
         WeakReferenceMessenger.Default.Register<WorkoutDeletedMessage>(this, async (r, m) =>
         {
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
                 await ReloadWorkoutsAsync();
             });
+        });
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        
+        // Reload workouts when page appears (e.g., after returning from editor)
+        _ = ReloadWorkoutsAsync();
     }
 
     protected override void OnDisappearing()
@@ -39,22 +56,31 @@ public partial class WorkoutsListPage : ContentPage
 
     private async Task LoadWorkoutsAsync()
     {
-        WorkoutViews.Clear();
-        
-        // Get user FTP
-        var userInfo = await UserInfo.GetUserInfo();
-        ushort userFTP = userInfo.FTP;
-        
-        // Load workouts
-        Workouts = await WorkoutStorageService.LoadWorkoutsAsync();
-        foreach (var workout in Workouts)
+        try
         {
-            WorkoutView workoutView = new WorkoutView(workout);
-            workoutView.FTP = userFTP;
-            WorkoutViews.Add(workoutView);
+            WorkoutViews.Clear();
+            
+            // Get user FTP
+            var userInfo = await UserInfo.GetUserInfo();
+            ushort userFTP = userInfo.FTP;
+            
+            // Load workouts
+            Workouts = await WorkoutStorageService.LoadWorkoutsAsync();
+            
+            foreach (var workout in Workouts)
+            {
+                WorkoutView workoutView = new WorkoutView(workout);
+                workoutView.FTP = userFTP;
+                WorkoutViews.Add(workoutView);
+            }
         }
-        
-        WorkoutsCollectionView.ItemsSource = WorkoutViews;
+        catch (Exception ex)
+        {
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                await DisplayAlert("Error", $"Failed to load workouts: {ex.Message}", "OK");
+            });
+        }
     }
 
     private async Task ReloadWorkoutsAsync()
