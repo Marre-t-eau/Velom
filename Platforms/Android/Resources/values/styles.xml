@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base application theme with no ActionBar -->
+    <!-- Thème de base héritant d'un thème MaterialComponents compatible avec MAUI -->
     <style name="MainTheme" parent="Maui.SplashTheme">
-        <!-- Status bar color -->
+        <!-- Couleur de la status bar -->
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-        <!-- Light status bar (false = white icons, true = dark icons) -->
+        <!-- Icônes de status bar en blanc (pour fond foncé) -->
         <item name="android:windowLightStatusBar">false</item>
-        <!-- Primary color -->
+        
+        <!-- Material Components colors -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!-- Remove ActionBar/Title bar completely -->
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
+        
+        <!-- Text appearances pour MaterialComponents -->
+        <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.MaterialComponents.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.MaterialComponents.Body2</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.MaterialComponents.Caption</item>
+        
+        <!-- Désactiver le scaling de police système pour un affichage cohérent -->
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>
