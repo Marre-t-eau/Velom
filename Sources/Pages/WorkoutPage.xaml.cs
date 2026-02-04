@@ -18,8 +18,9 @@ public partial class WorkoutPage : BaseBikeControlPage
 		InitializeComponent();
         InitializeImports();
 
-        workout.FTP = UserInfo.GetUserInfo().Result.FTP;
         WorkoutView = new WorkoutView(workout);
+        // Set FTP on WorkoutView to trigger transformation from percentage to watts
+        WorkoutView.FTP = UserInfo.GetUserInfo().Result.FTP;
         WorkBlocksCollectionView.ItemsSource = WorkoutView.BlocksView;
         
         // Set workout name in header

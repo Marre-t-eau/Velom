@@ -10,7 +10,7 @@ public partial class WorkoutEditorPage : ContentPage
 {
     private Workout _workout;
     private ObservableCollection<WorkBlock> _blocks;
-    private bool _isWattsMode = true; // true = Watts, false = % FTP
+    private bool _isWattsMode = false; // true = Watts, false = % FTP
 
     internal WorkoutEditorPage(Workout workout)
     {
@@ -28,7 +28,7 @@ public partial class WorkoutEditorPage : ContentPage
             _isWattsMode = _blocks[0].PowerType.Value == WorkBlock.TargetPowerType.Watts;
             PowerTypeSwitch.IsToggled = _isWattsMode;
         }
-        
+
         BlocksCollectionView.ItemsSource = _blocks;
         UpdateSummary();
     }
