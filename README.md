@@ -53,11 +53,16 @@ git clone https://github.com/Marre-t-eau/Velom.git
 cd Velom
 ```
 
-2. Open `Velom.sln` in Visual Studio
+2. Navigate to the MAUI project:
+```bash
+cd VelomMAUI
+```
 
-3. Restore NuGet packages
+3. Open `VelomMAUI.sln` in Visual Studio
 
-4. Build and deploy to your Android device
+4. Restore NuGet packages
+
+5. Build and deploy to your Android device
 
 ### Quick Start Guide
 
@@ -75,18 +80,19 @@ cd Velom
 
 ```
 Velom/
-├── Sources/
-│   ├── Pages/              # MAUI Pages (UI)
-│   ├── Objects/            # Data models
-│   │   ├── Workout/        # Workout and WorkBlock classes
-│   │   └── WorkoutHistory/ # Session recording models
-│   ├── Services/           # Business logic services
-│   ├── Converters/         # XAML value converters
-│   └── Messages/           # MVVM messaging
-├── Platforms/
-│   └── Android/
-│       └── Sources/        # Android-specific Bluetooth implementation
-└── Resources/              # Images, styles, fonts
+└── VelomMAUI/              # Main .NET MAUI application
+    ├── Sources/
+    │   ├── Pages/          # MAUI Pages (UI)
+    │   ├── Objects/        # Data models
+    │   │   ├── Workout/    # Workout and WorkBlock classes
+    │   │   └── WorkoutHistory/ # Session recording models
+    │   ├── Services/       # Business logic services
+    │   ├── Converters/     # XAML value converters
+    │   └── Messages/       # MVVM messaging
+    ├── Platforms/
+    │   └── Android/
+    │       └── Sources/    # Android-specific Bluetooth implementation
+    └── Resources/          # Images, styles, fonts
 ```
 
 ### Key Components
