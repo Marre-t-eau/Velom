@@ -41,6 +41,24 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<!-- Optimizations -->
+		<AndroidLinkMode>Full</AndroidLinkMode>
+		<PublishTrimmed>true</PublishTrimmed>
+		<RunAOTCompilation>false</RunAOTCompilation>
+		
+		<!-- Signing -->
+		<AndroidKeyStore>true</AndroidKeyStore>
+		<AndroidSigningKeyStore>velom.keystore</AndroidSigningKeyStore>
+		<AndroidSigningKeyAlias>velom</AndroidSigningKeyAlias>
+		<AndroidSigningKeyPass>$(AndroidSigningKeyPass)</AndroidSigningKeyPass>
+		<AndroidSigningStorePass>$(AndroidSigningStorePass)</AndroidSigningStorePass>
+		
+		<!-- Version -->
+		<ApplicationVersion>1</ApplicationVersion>
+		<ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundScale="0.65" Color="#155C5D" />
