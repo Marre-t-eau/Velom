@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Velom.MainPage"
+             Title=""
+             Shell.NavBarIsVisible="False"
+             Padding="0"
+             BackgroundColor="#F5F5F5">
+
+    <Grid RowDefinitions="Auto,*,Auto,Auto" Padding="15" RowSpacing="15">
+        
+        <!-- Sensor Status Indicators -->
+        <HorizontalStackLayout Grid.Row="0" Spacing="10" HorizontalOptions="Center" Padding="0">
+            <Border StrokeThickness="2" 
+                    Stroke="#155C5D" 
+                    BackgroundColor="White"
+                    Padding="8,4"
+                    StrokeShape="RoundRectangle 12">
+                <HorizontalStackLayout Spacing="6">
+                    <Ellipse x:Name="PowerSensorIndicator"
+                             Fill="Gray"
+                             WidthRequest="12"
+                             HeightRequest="12"
+                             VerticalOptions="Center" />
+                    <Label Text="⚡ Power" 
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           TextColor="#0D3F40"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+            
+            <Border StrokeThickness="2" 
+                    Stroke="#155C5D" 
+                    BackgroundColor="White"
+                    Padding="8,4"
+                    StrokeShape="RoundRectangle 12">
+                <HorizontalStackLayout Spacing="6">
+                    <Ellipse x:Name="CadenceSensorIndicator"
+                             Fill="Gray"
+                             WidthRequest="12"
+                             HeightRequest="12"
+                             VerticalOptions="Center" />
+                    <Label Text="🔄 Cadence" 
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           TextColor="#0D3F40"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+            
+            <Border StrokeThickness="2" 
+                    Stroke="#155C5D" 
+                    BackgroundColor="White"
+                    Padding="8,4"
+                    StrokeShape="RoundRectangle 12">
+                <HorizontalStackLayout Spacing="6">
+                    <Ellipse x:Name="HeartRateSensorIndicator"
+                             Fill="Gray"
+                             WidthRequest="12"
+                             HeightRequest="12"
+                             VerticalOptions="Center" />
+                    <Label Text="❤️ HR" 
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           TextColor="#0D3F40"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+        </HorizontalStackLayout>
+
+        <!-- Bluetooth Devices Card -->
+        <Frame Grid.Row="1"
+               CornerRadius="12" 
+               Padding="15" 
+               BackgroundColor="White"
+               HasShadow="True"
+               BorderColor="#155C5D">
+            <Grid RowDefinitions="Auto,Auto,*" RowSpacing="10">
+                
+                <Button Grid.Row="1"
+                        x:Name="ScanButton"
+                        Text="Scan devices" 
+                        Clicked="ScanButton_Clicked"
+                        BackgroundColor="#155C5D"
+                        TextColor="White"
+                        CornerRadius="8"
+                        HeightRequest="40"
+                        FontSize="14"
+                        FontAttributes="Bold" />
+                
+                <ListView Grid.Row="2"
+                          x:Name="DevicesListView"
+                          SelectionMode="None"
+                          BackgroundColor="Transparent">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame Padding="10" 
+                                       Margin="0,5"
+                                       CornerRadius="8"
+                                       BackgroundColor="#E0F2F2"
+                                       HasShadow="False"
+                                       BorderColor="#155C5D">
+                                    <VerticalStackLayout Spacing="2">
+                                        <Label Text="{Binding Name}" 
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="#0D3F40" />
+                                        <Label Text="{Binding Id}" 
+                                               FontSize="10"
+                                               TextColor="#155C5D" />
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Frame>
+
+        <!-- Quick Actions Stacked -->
+        <VerticalStackLayout Grid.Row="2" Spacing="10">
+            <Button Text="Manual Control" 
+                    Clicked="OnManualControlClicked"
+                    BackgroundColor="#155C5D"
+                    TextColor="White"
+                    CornerRadius="8"
+                    HeightRequest="45"
+                    FontSize="14"
+                    FontAttributes="Bold" />
+            
+            <Button Text="Workouts" 
+                    Clicked="OnViewWorkoutsClicked"
+                    BackgroundColor="#2D8B8E"
+                    TextColor="White"
+                    CornerRadius="8"
+                    HeightRequest="45"
+                    FontSize="14"
+                    FontAttributes="Bold" />
+            
+            <Button Text="Workout History" 
+                    Clicked="OnViewHistoryClicked"
+                    BackgroundColor="#4DB8BA"
+                    TextColor="White"
+                    CornerRadius="8"
+                    HeightRequest="45"
+                    FontSize="14"
+                    FontAttributes="Bold" />
+        </VerticalStackLayout>
+
+        <!-- Profile Card (Compact) -->
+        <Frame Grid.Row="3"
+               CornerRadius="12" 
+               Padding="12" 
+               BackgroundColor="White"
+               HasShadow="True"
+               BorderColor="#155C5D">
+            <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
+                <Label Text="FTP:" 
+                       VerticalOptions="Center"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#0D3F40" />
+                <Entry x:Name="FTP" 
+                       VerticalOptions="Center" 
+                       Placeholder="FTP" 
+                       Keyboard="Numeric"
+                       WidthRequest="100"
+                       BackgroundColor="#E0F2F2"
+                       TextColor="#0D3F40"
+                       FontSize="14" />
+                <Button Text="Save" 
+                        Clicked="SetNewFTP_Clicked"
+                        BackgroundColor="#155C5D"
+                        TextColor="White"
+                        CornerRadius="8"
+                        Padding="12,6"
+                        FontSize="14"
+                        FontAttributes="Bold" />
+            </HorizontalStackLayout>
+        </Frame>
+
+    </Grid>
+
+</ContentPage>

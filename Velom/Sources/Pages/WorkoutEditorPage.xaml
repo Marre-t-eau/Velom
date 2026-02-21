@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Velom.Sources.Converters"
+             x:Class="Velom.Sources.Pages.WorkoutEditorPage"
+             Title="Workout Editor"
+             BackgroundColor="#F5F5F5">
+    
+    <ContentPage.Resources>
+        <converters:NullableUShortConverter x:Key="NullableUShortConverter" />
+    </ContentPage.Resources>
+    
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <!-- Header -->
+        <Grid Grid.Row="0" 
+              RowDefinitions="Auto,Auto"
+              ColumnDefinitions="Auto,*,Auto"
+              Padding="15,15,15,0"
+              BackgroundColor="#155C5D">
+            <!-- Delete Button - Left -->
+            <Button Grid.Row="0" Grid.Column="0"
+                    x:Name="DeleteWorkoutButton"
+                    Text="🗑️"
+                    Clicked="OnDeleteWorkoutClicked"
+                    BackgroundColor="#D32F2F"
+                    TextColor="White"
+                    Padding="15,10"
+                    CornerRadius="8"
+                    FontAttributes="Bold"
+                    VerticalOptions="Center" />
+            
+            <!-- Action Buttons - Right -->
+            <HorizontalStackLayout Grid.Row="0" Grid.Column="2"
+                                  Spacing="10"
+                                  HorizontalOptions="End">
+                <Button Text="💾 Save"
+                        Clicked="OnSaveClicked"
+                        BackgroundColor="#2D8B8E"
+                        TextColor="White"
+                        Padding="20,10"
+                        CornerRadius="8"
+                        FontAttributes="Bold" />
+                <Button Text="✖"
+                        Clicked="OnCancelClicked"
+                        BackgroundColor="#D32F2F"
+                        TextColor="White"
+                        Padding="15,10"
+                        CornerRadius="8"
+                        FontAttributes="Bold" />
+            </HorizontalStackLayout>
+            
+            <!-- Workout Name Entry Row -->
+            <Entry Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                   x:Name="WorkoutNameEntry"
+                   Placeholder="Workout Name"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   PlaceholderColor="#BDC3C7"
+                   BackgroundColor="Transparent"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="Center"
+                   Margin="0,10,0,15" />
+        </Grid>
+        
+        <!-- Power Type Selector -->
+        <Frame Grid.Row="1"
+               BackgroundColor="#0D3F40"
+               Padding="15,10"
+               Margin="0"
+               CornerRadius="0"
+               HasShadow="False">
+            <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                <Label Text="Power Unit:" 
+                       FontSize="16" 
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       VerticalOptions="Center" />
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="% FTP" 
+                           FontSize="15"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           VerticalOptions="Center" />
+                    <Switch x:Name="PowerTypeSwitch"
+                            OnColor="#4DB8BA"
+                            ThumbColor="White"
+                            Toggled="OnPowerTypeSwitchToggled"
+                            VerticalOptions="Center" />
+                    <Label Text="Watts" 
+                           FontSize="15"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </HorizontalStackLayout>
+        </Frame>
+        
+        <!-- Blocks List -->
+        <ScrollView Grid.Row="2">
+            <VerticalStackLayout Padding="15" Spacing="10">
+                <Label Text="Workout Blocks" 
+                       FontSize="22" 
+                       FontAttributes="Bold"
+                       TextColor="#0D3F40"
+                       Margin="0,0,0,10" />
+                
+                <CollectionView x:Name="BlocksCollectionView" 
+                                SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BorderColor="#155C5D" 
+                                   Padding="15" 
+                                   Margin="0,8"
+                                   CornerRadius="12"
+                                   BackgroundColor="White"
+                                   HasShadow="True">
+                                <Grid RowDefinitions="Auto,Auto" 
+                                      ColumnDefinitions="Auto,*,Auto"
+                                      ColumnSpacing="10"
+                                      RowSpacing="10">
+                                    
+                                    <!-- Move Buttons - Vertical Stack Left -->
+                                    <VerticalStackLayout Grid.Row="0" 
+                                                        Grid.RowSpan="2"
+                                                        Grid.Column="0"
+                                                        Spacing="4"
+                                                        VerticalOptions="Center">
+                                        <Button Text="⬆️"
+                                                Clicked="OnMoveUpClicked"
+                                                CommandParameter="{Binding}"
+                                                BackgroundColor="#4DB8BA"
+                                                TextColor="White"
+                                                WidthRequest="35"
+                                                HeightRequest="35"
+                                                CornerRadius="8"
+                                                Padding="0"
+                                                FontSize="16" />
+                                        <Button Text="⬇️"
+                                                Clicked="OnMoveDownClicked"
+                                                CommandParameter="{Binding}"
+                                                BackgroundColor="#4DB8BA"
+                                                TextColor="White"
+                                                WidthRequest="35"
+                                                HeightRequest="35"
+                                                CornerRadius="8"
+                                                Padding="0"
+                                                FontSize="16" />
+                                    </VerticalStackLayout>
+                                    
+                                    <!-- Block inputs -->
+                                    <Grid Grid.Row="0" Grid.Column="1"
+                                          RowDefinitions="Auto,Auto"
+                                          ColumnDefinitions="Auto,*,Auto,*"
+                                          ColumnSpacing="10"
+                                          RowSpacing="10">
+                                        
+                                        <!-- Duration -->
+                                        <Label Grid.Row="0" Grid.Column="0"
+                                               Text="⏱️" 
+                                               FontSize="16" 
+                                               VerticalOptions="Center"
+                                               TextColor="#0D3F40" />
+                                        <Entry Grid.Row="0" Grid.Column="1"
+                                               Text="{Binding Duration}" 
+                                               Keyboard="Numeric"
+                                               Placeholder="sec"
+                                               FontSize="14"
+                                               BackgroundColor="#E0F2F2"
+                                               TextColor="#0D3F40"
+                                               PlaceholderColor="#95A5A6"
+                                               HeightRequest="35" />
+                                        
+                                        <!-- Cadence -->
+                                        <Label Grid.Row="0" Grid.Column="2"
+                                               Text="🔄" 
+                                               FontSize="16" 
+                                               VerticalOptions="Center"
+                                               TextColor="#0D3F40"
+                                               Margin="8,0,0,0" />
+                                        <Entry Grid.Row="0" Grid.Column="3"
+                                               Text="{Binding TargetCadence, Converter={StaticResource NullableUShortConverter}}" 
+                                               Keyboard="Numeric"
+                                               Placeholder="rpm (vide = aucun)"
+                                               FontSize="14"
+                                               BackgroundColor="#E0F2F2"
+                                               TextColor="#0D3F40"
+                                               PlaceholderColor="#95A5A6"
+                                               HeightRequest="35" />
+                                        
+                                        <!-- Power Start -->
+                                        <Label Grid.Row="1" Grid.Column="0"
+                                               Text="⚡" 
+                                               FontSize="16" 
+                                               VerticalOptions="Center"
+                                               TextColor="#0D3F40" />
+                                        <Entry Grid.Row="1" Grid.Column="1"
+                                               Text="{Binding TargetPowerStart}" 
+                                               Keyboard="Numeric"
+                                               x:Name="PowerStartEntry"
+                                               FontSize="14"
+                                               BackgroundColor="#E0F2F2"
+                                               TextColor="#0D3F40"
+                                               PlaceholderColor="#95A5A6"
+                                               HeightRequest="35" />
+                                        
+                                        <!-- Power End -->
+                                        <Label Grid.Row="1" Grid.Column="2"
+                                               Text="➡️" 
+                                               FontSize="16" 
+                                               VerticalOptions="Center"
+                                               TextColor="#0D3F40"
+                                               Margin="8,0,0,0" />
+                                        <Entry Grid.Row="1" Grid.Column="3"
+                                               Text="{Binding TargetPowerEnd}" 
+                                               Keyboard="Numeric"
+                                               x:Name="PowerEndEntry"
+                                               FontSize="14"
+                                               BackgroundColor="#E0F2F2"
+                                               TextColor="#0D3F40"
+                                               PlaceholderColor="#95A5A6"
+                                               HeightRequest="35" />
+                                    </Grid>
+                                    
+                                    <!-- Delete Button - Right -->
+                                    <Button Grid.Row="0" 
+                                            Grid.RowSpan="2"
+                                            Grid.Column="2"
+                                            Text="🗑️"
+                                            Clicked="OnDeleteBlockClicked"
+                                            CommandParameter="{Binding}"
+                                            BackgroundColor="#D32F2F"
+                                            TextColor="White"
+                                            VerticalOptions="Center"
+                                            WidthRequest="35"
+                                            HeightRequest="35"
+                                            CornerRadius="8"
+                                            Padding="0"
+                                            FontSize="16" />
+                                    
+                                    <!-- Block summary -->
+                                    <Label Grid.Row="1" Grid.Column="1"
+                                           x:Name="BlockSummaryLabel"
+                                           FontSize="11"
+                                           TextColor="#7F8C8D"
+                                           HorizontalOptions="Start"
+                                           Margin="0,6,0,0">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Duration: " />
+                                                <Span Text="{Binding Duration}" FontAttributes="Bold" />
+                                                <Span Text="s | Power: " />
+                                                <Span Text="{Binding TargetPowerStart}" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout HorizontalOptions="Center" 
+                                            VerticalOptions="Center"
+                                            Spacing="10"
+                                            Padding="40">
+                            <Label Text="📝" 
+                                   FontSize="48" 
+                                   HorizontalOptions="Center" />
+                            <Label Text="No blocks yet!" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold"
+                                   TextColor="#0D3F40"
+                                   HorizontalOptions="Center" />
+                            <Label Text="Add your first block to get started" 
+                                   FontSize="14" 
+                                   TextColor="#7F8C8D"
+                                   HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                </CollectionView>
+                
+                <!-- Add Block Button -->
+                <Button Text="➕ ADD BLOCK"
+                        Clicked="OnAddBlockClicked"
+                        BackgroundColor="#2D8B8E"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HeightRequest="50"
+                        CornerRadius="8"
+                        Margin="0,10,0,0" />
+            </VerticalStackLayout>
+        </ScrollView>
+        
+        <!-- Summary Footer -->
+        <Frame Grid.Row="3" 
+               BackgroundColor="#2C3E50" 
+               Padding="15"
+               CornerRadius="0"
+               HasShadow="True">
+            <HorizontalStackLayout Spacing="30" 
+                                  HorizontalOptions="Center">
+                <HorizontalStackLayout Spacing="8">
+                    <Label x:Name="TotalBlocksLabel" 
+                           Text="0 blocks" 
+                           FontSize="16" 
+                           FontAttributes="Bold"
+                           TextColor="White" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="8">
+                    <Label Text="⏱️" FontSize="18" />
+                    <Label x:Name="TotalDurationLabel" 
+                           Text="0:00" 
+                           FontSize="16" 
+                           FontAttributes="Bold"
+                           TextColor="White" />
+                </HorizontalStackLayout>
+            </HorizontalStackLayout>
+        </Frame>
+    </Grid>
+</ContentPage>

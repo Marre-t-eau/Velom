@@ -1,0 +1,25 @@
+﻿
+using System.Collections.ObjectModel;
+
+namespace Velom.Sources.Objects;
+
+public interface IBluetoothManager
+{
+    ObservableCollection<IDeviceManager> DiscoveredDevices { get; }
+
+    bool IsBluetoothEnabled();
+    void StartScan();
+    void StopScan();
+    Task<PermissionStatus> CheckAndRequestBluetoothPermissions();
+
+    bool AsPower { get; }
+    event EventHandler<ushort> PowerUpdated;
+    bool AsCadence { get; }
+    event EventHandler<ushort> CadenceUpdated;
+    bool AsHeartRate { get; }
+    event EventHandler<ushort> HeartRateUpdated;
+    bool CanSetPower { get; }
+    Task SetPower(ushort power);
+    Task StartControllingPower();
+    Task StopControllingPower();
+}

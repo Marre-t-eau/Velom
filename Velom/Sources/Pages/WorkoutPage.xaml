@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pages:BaseBikeControlPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Velom.Sources.Pages"
+             x:Class="Velom.Sources.Pages.WorkoutPage"
+             Title="Workout">
+    <Grid RowDefinitions="Auto,*,Auto" BackgroundColor="#F5F5F5">
+        <!-- Header with Metrics and Close Button -->
+        <Grid Grid.Row="0" RowDefinitions="Auto,Auto" BackgroundColor="#155C5D">
+            <!-- Title Bar with Close Button -->
+            <Grid Grid.Row="0" 
+                  ColumnDefinitions="*,Auto" 
+                  Padding="15"
+                  BackgroundColor="#155C5D">
+                <Label Grid.Column="0" 
+                       x:Name="WorkoutNameLabel"
+                       Text="🏋️ Workout" 
+                       FontSize="24" 
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Start" />
+                <Button Grid.Column="1"
+                        Text="✖"
+                        Clicked="OnCloseClicked"
+                        BackgroundColor="#D32F2F"
+                        TextColor="White"
+                        Padding="12,8"
+                        WidthRequest="45"
+                        HeightRequest="45"
+                        CornerRadius="8"
+                        FontAttributes="Bold"
+                        FontSize="18" />
+            </Grid>
+            
+            <!-- Metrics Section -->
+            <VerticalStackLayout Grid.Row="1" Padding="15,10,15,15" Spacing="10" BackgroundColor="#155C5D">
+                <!-- Timer and Progress Info -->
+                <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="10">
+                    <!-- Left: Block Progress -->
+                    <VerticalStackLayout Grid.Column="0" HorizontalOptions="Start">
+                        <Label x:Name="BlockProgressLabel" 
+                               Text="Block 0/0" 
+                               FontSize="Small"
+                               FontAttributes="Bold"
+                               TextColor="White" />
+                        <Label x:Name="TotalTimeLabel" 
+                               Text="Total: 0:00" 
+                               FontSize="Micro"
+                               TextColor="#E0F2F2" />
+                    </VerticalStackLayout>
+                    
+                    <!-- Center: Timer -->
+                    <Label Grid.Column="1"
+                           x:Name="TimerLabel" 
+                           Text="00:00:00" 
+                           FontSize="28" 
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center" 
+                           TextColor="White" />
+                    
+                    <!-- Right: Time Remaining -->
+                    <VerticalStackLayout Grid.Column="2" HorizontalOptions="End">
+                        <Label x:Name="TimeRemainingLabel" 
+                               Text="Remaining:" 
+                               FontSize="Small"
+                               FontAttributes="Bold"
+                               TextColor="#FFCDD2"
+                               HorizontalTextAlignment="End" />
+                        <Label x:Name="TimeRemainingValueLabel" 
+                               Text="0:00" 
+                               FontSize="Small"
+                               FontAttributes="Bold"
+                               TextColor="#FFCDD2"
+                               HorizontalTextAlignment="End" />
+                    </VerticalStackLayout>
+                </Grid>
+                
+                <!-- Metrics -->
+                <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto" ColumnSpacing="10" RowSpacing="5">
+                    <Label Grid.Row="0" Grid.Column="0" Text="Power:" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="#E0F2F2" FontSize="12" />
+                    <Label Grid.Row="1" Grid.Column="0" x:Name="PowerView" Text="N/A" HorizontalTextAlignment="Center" FontSize="20" TextColor="White" FontAttributes="Bold" />
+                    
+                    <Label Grid.Row="0" Grid.Column="1" Text="Cadence:" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="#E0F2F2" FontSize="12" />
+                    <Label Grid.Row="1" Grid.Column="1" x:Name="CadenceView" Text="N/A" HorizontalTextAlignment="Center" FontSize="20" TextColor="White" FontAttributes="Bold" />
+                    
+                    <Label Grid.Row="0" Grid.Column="2" Text="Heart Rate:" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="#E0F2F2" FontSize="12" />
+                    <Label Grid.Row="1" Grid.Column="2" x:Name="HeartRateView" Text="N/A" HorizontalTextAlignment="Center" FontSize="20" TextColor="White" FontAttributes="Bold" />
+                </Grid>
+                
+                <!-- Targets in a compact row -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,5,0,0">
+                    <HorizontalStackLayout Grid.Column="0" HorizontalOptions="Center" Spacing="5">
+                        <Label Text="🎯" FontSize="14" />
+                        <Label x:Name="TargetPowerView" Text="0 W" FontAttributes="Bold" TextColor="#4DB8BA" FontSize="14" />
+                    </HorizontalStackLayout>
+                    
+                    <HorizontalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="5">
+                        <Label Text="🔄" FontSize="14" />
+                        <Label x:Name="TargetCadenceView" Text="0 rpm" FontAttributes="Bold" TextColor="#4DB8BA" FontSize="14" />
+                    </HorizontalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </Grid>
+        
+        <!-- Scrollable Workout Blocks -->
+        <Grid Grid.Row="1" RowDefinitions="Auto,*" Margin="15,0,15,15">
+            
+            <CollectionView Grid.Row="1" 
+                            x:Name="WorkBlocksCollectionView" 
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="{Binding BorderColor}" 
+                               Padding="10" 
+                               Margin="0,5"
+                               CornerRadius="8"
+                               BackgroundColor="{Binding BackgroundColor}"
+                               Opacity="{Binding BlockOpacity}"
+                               HasShadow="{Binding IsCurrent}">
+                            <Grid ColumnDefinitions="4,Auto,*,Auto" ColumnSpacing="8">
+                                <!-- Left accent bar for current block -->
+                                <BoxView Grid.Column="0" 
+                                        Color="#2D8B8E" 
+                                        WidthRequest="4"
+                                        CornerRadius="2"
+                                        IsVisible="{Binding IsCurrent}" />
+                                
+                                <!-- Emoji indicators -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="⚡" FontSize="Small" IsVisible="{Binding AsTargetPower}" />
+                                    <Label Text="🔄" FontSize="Small" IsVisible="{Binding AsTargetedCadence}" />
+                                </VerticalStackLayout>
+                                
+                                <!-- Center: Target info -->
+                                <VerticalStackLayout Grid.Column="2" Spacing="2">
+                                    <!-- Power Target -->
+                                    <Label IsVisible="{Binding IsRamp}"
+                                           FontSize="13"
+                                           FontAttributes="Bold"
+                                           TextColor="#FF6F00">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}Ramp {0}W → {1}W">
+                                                <Binding Path="TargetPowerStartString" />
+                                                <Binding Path="TargetPowerEndString" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                    <Label IsVisible="{Binding IsConstant}" 
+                                           Text="{Binding TargetPowerString, StringFormat='{}{0}W'}"
+                                           FontSize="13"
+                                           FontAttributes="Bold"
+                                           TextColor="#2D8B8E" />
+                                    <Label IsVisible="{Binding AsNoTargetPower}" 
+                                           Text="Free power"
+                                           FontSize="13"
+                                           FontAttributes="Italic"
+                                           TextColor="#7F8C8D" />
+                                    
+                                    <!-- Cadence Target -->
+                                    <Label IsVisible="{Binding AsTargetedCadence}" 
+                                           Text="{Binding TargetCadenceString, StringFormat='{}{0} rpm'}"
+                                           FontSize="13"
+                                           TextColor="#2D8B8E" />
+                                </VerticalStackLayout>
+                                
+                                <!-- Right: Time Progress -->
+                                <Label Grid.Column="3" 
+                                       FontSize="Small"
+                                       FontAttributes="Bold" 
+                                       TextColor="#0D3F40"
+                                       VerticalOptions="Center">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}{0}/{1}s">
+                                            <Binding Path="TimeDoneString" />
+                                            <Binding Path="DurationString" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <Label Text="🎉 No blocks to do, enjoy your easy day!"
+                           FontSize="Small"
+                           HorizontalOptions="Center"
+                           Margin="10" />
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </Grid>
+        
+        <!-- Bottom Control Buttons - Fixed at Bottom -->
+        <Frame Grid.Row="2" 
+               BorderColor="#155C5D" 
+               Padding="15" 
+               CornerRadius="12"
+               Margin="15,0,15,15"
+               BackgroundColor="White"
+               HasShadow="True">
+            <VerticalStackLayout Spacing="10">
+                <!-- Start Button -->
+                <Button x:Name="StartButton"
+                        Text="Start Workout"
+                        Clicked="OnStartButtonClicked"
+                        BackgroundColor="#2D8B8E"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        HeightRequest="50"
+                        CornerRadius="8"
+                        IsVisible="True" />
+                
+                <!-- Pause and Stop Buttons (initially hidden) -->
+                <HorizontalStackLayout x:Name="PauseStopButtons" 
+                                      Spacing="10" 
+                                      HorizontalOptions="Center"
+                                      IsVisible="False">
+                    <Button x:Name="PauseButton"
+                            Text="Pause"
+                            Clicked="OnPauseButtonClicked"
+                            BackgroundColor="#4DB8BA"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            WidthRequest="120"
+                            HeightRequest="50"
+                            CornerRadius="8" />
+                    
+                    <Button x:Name="StopButton"
+                            Text="Stop"
+                            Clicked="OnStopButtonClicked"
+                            BackgroundColor="#D32F2F"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            WidthRequest="120"
+                            HeightRequest="50"
+                            CornerRadius="8" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+</pages:BaseBikeControlPage>
