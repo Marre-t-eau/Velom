@@ -8,6 +8,7 @@ namespace Velom.Platforms.Android.Sources;
 internal class AndroidDeviceManager : IDeviceManager
 {
     private IDevice Device { get; }
+    public string Id => Device.Id.ToString();
     public string Name => Device.Name;
 
     public bool AsPower { get; private set; }

@@ -2,6 +2,7 @@
 
 public interface IDeviceManager
 {
+    string Id { get; }
     string Name { get; }
     bool AsPower { get; }
     bool AsCadence { get; }

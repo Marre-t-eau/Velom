@@ -107,19 +107,13 @@
                                        BackgroundColor="#E0F2F2"
                                        HasShadow="False"
                                        BorderColor="#155C5D">
-                                    <VerticalStackLayout Spacing="1">
-                                        <Label Text="{Binding Name}" 
-                                               FontSize="14"
-                                               FontAttributes="Bold"
-                                               TextColor="#0D3F40"
-                                               HorizontalOptions="FillAndExpand"
-                                               LineBreakMode="WordWrap" />
-                                        <Label Text="{Binding Id}" 
-                                               FontSize="10"
-                                               TextColor="#155C5D"
-                                               HorizontalOptions="FillAndExpand"
-                                               LineBreakMode="CharacterWrap" />
-                                    </VerticalStackLayout>
+                                    <Label Text="{Binding Name}" 
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="#0D3F40"
+                                           HorizontalOptions="FillAndExpand"
+                                           VerticalOptions="Center"
+                                           LineBreakMode="WordWrap" />
                                 </Frame>
                             </ViewCell>
                         </DataTemplate>

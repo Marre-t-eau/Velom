@@ -32,6 +32,14 @@ internal class AndroidBluetoothManager : IBluetoothManager
 
     private async void OnDeviceDiscovered(object? sender, DeviceEventArgs e)
     {
+        // Check if device already exists in the collection
+        var existingDevice = DiscoveredDevices.FirstOrDefault(d => d.Id == e.Device.Id.ToString());
+        if (existingDevice != null)
+        {
+            // Device already discovered, skip
+            return;
+        }
+
         AndroidDeviceManager androidDevice = new AndroidDeviceManager(e.Device);
         DiscoveredDevices.Add(androidDevice);
         await adapter.ConnectToDeviceAsync(e.Device);
