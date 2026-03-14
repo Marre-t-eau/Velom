@@ -1,6 +1,7 @@
 using System.Composition;
 using Velom.Sources.Objects;
 using Velom.Sources.Objects.WorkoutHistory;
+using Velom.Resources.Strings;
 
 namespace Velom.Sources.Pages;
 
@@ -94,7 +95,7 @@ public partial class ControlPage : BaseBikeControlPage
 
     private async void OnStopButtonClicked(object sender, EventArgs e)
     {
-        bool confirm = await DisplayAlert("Confirmation", "Are you sure you want to stop the session?", "Yes", "No");
+        bool confirm = await DisplayAlert(AppResources.Confirmation, AppResources.StopSessionConfirmation, AppResources.Yes, AppResources.No);
         if (confirm)
         {
             await StopPowerControlAsync();
@@ -155,9 +156,9 @@ public partial class ControlPage : BaseBikeControlPage
     {
         if (_isControlling)
         {
-            bool confirm = await DisplayAlert("Confirm", 
-                "Session is active. Do you want to stop and save?", 
-                "Yes", "No");
+            bool confirm = await DisplayAlert(AppResources.Confirm, 
+                AppResources.SessionActiveConfirmation, 
+                AppResources.Yes, AppResources.No);
             
             if (confirm)
             {

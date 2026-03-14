@@ -3,6 +3,7 @@ using System.Timers;
 using Velom.Sources.Objects;
 using Velom.Sources.Objects.Workout;
 using Velom.Sources.Objects.Workout.View;
+using Velom.Resources.Strings;
 
 namespace Velom.Sources.Pages;
 
@@ -257,7 +258,7 @@ public partial class WorkoutPage : BaseBikeControlPage
 
     private async void OnStopButtonClicked(object sender, EventArgs e)
     {
-        bool confirm = await DisplayAlert("Confirmation", "Are you sure you want to stop this workout?", "Yes", "No");
+        bool confirm = await DisplayAlert(AppResources.Confirmation, AppResources.StopWorkoutConfirmation, AppResources.Yes, AppResources.No);
         if (confirm)
         {
             await StopPowerControlAsync();
@@ -384,7 +385,7 @@ public partial class WorkoutPage : BaseBikeControlPage
         // If workout is running, ask for confirmation
         if (_timer.Enabled)
         {
-            bool confirm = await DisplayAlert("Confirm", "A workout is in progress. Do you really want to exit?", "Yes", "No");
+            bool confirm = await DisplayAlert(AppResources.Confirm, AppResources.WorkoutInProgressConfirmation, AppResources.Yes, AppResources.No);
             if (!confirm)
                 return;
             

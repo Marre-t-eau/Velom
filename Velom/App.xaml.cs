@@ -1,5 +1,6 @@
 ﻿using System.Composition.Hosting;
 using System.Reflection;
+using Velom.Sources.Services;
 
 namespace Velom;
 
@@ -11,6 +12,7 @@ public partial class App : Application
     {
         InitializeComponent();
         InitializeMefContainer();
+        LocalizationService.Initialize();
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

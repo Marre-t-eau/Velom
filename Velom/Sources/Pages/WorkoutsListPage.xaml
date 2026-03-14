@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:Velom.Resources.Strings"
              x:Class="Velom.Sources.Pages.WorkoutsListPage"
-             Title="My Workouts"
+             Title="{x:Static strings:AppResources.MyWorkouts}"
              BackgroundColor="#F5F5F5">
     <Grid RowDefinitions="Auto,*">
         <!-- Header with close and new buttons -->
@@ -11,13 +12,13 @@
               Padding="15"
               BackgroundColor="#155C5D">
             <Label Grid.Column="0" 
-                   Text="My Workouts" 
+                   Text="{x:Static strings:AppResources.MyWorkouts}" 
                    FontSize="24" 
                    FontAttributes="Bold"
                    TextColor="White"
                    VerticalOptions="Center" />
             <Button Grid.Column="1"
-                    Text="➕ New"
+                    Text="{x:Static strings:AppResources.New}"
                     Clicked="OnNewWorkoutClicked"
                     BackgroundColor="#2D8B8E"
                     TextColor="White"
@@ -99,7 +100,7 @@
                             <!-- Start Button - Full Width -->
                             <Button Grid.Row="2" 
                                     Grid.ColumnSpan="2"
-                                    Text="START WORKOUT"
+                                    Text="{x:Static strings:AppResources.StartWorkout}"
                                     Clicked="OnStartWorkoutClicked"
                                     CommandParameter="{Binding}"
                                     BackgroundColor="#2D8B8E"
@@ -118,16 +119,16 @@
                                     VerticalOptions="Center"
                                     Spacing="20"
                                     Padding="40">
-                    <Label Text="No workouts yet!" 
+                    <Label Text="{x:Static strings:AppResources.NoWorkoutsYet}" 
                            FontSize="28" 
                            FontAttributes="Bold"
                            TextColor="#0D3F40"
                            HorizontalOptions="Center" />
-                    <Label Text="Create your first workout to get started" 
+                    <Label Text="{x:Static strings:AppResources.CreateFirstWorkout}" 
                            FontSize="16" 
                            TextColor="#155C5D"
                            HorizontalOptions="Center" />
-                    <Button Text="➕ CREATE WORKOUT"
+                    <Button Text="{x:Static strings:AppResources.CreateWorkout}"
                             Clicked="OnNewWorkoutClicked"
                             BackgroundColor="#27AE60"
                             TextColor="White"

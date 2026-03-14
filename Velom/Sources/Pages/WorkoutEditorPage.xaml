@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:Velom.Sources.Converters"
+             xmlns:strings="clr-namespace:Velom.Resources.Strings"
              x:Class="Velom.Sources.Pages.WorkoutEditorPage"
              Title="Workout Editor"
              BackgroundColor="#F5F5F5">
@@ -33,7 +34,7 @@
             <HorizontalStackLayout Grid.Row="0" Grid.Column="2"
                                   Spacing="10"
                                   HorizontalOptions="End">
-                <Button Text="💾 Save"
+                <Button Text="{x:Static strings:AppResources.IconAndSave}"
                         Clicked="OnSaveClicked"
                         BackgroundColor="#2D8B8E"
                         TextColor="White"
@@ -52,7 +53,7 @@
             <!-- Workout Name Entry Row -->
             <Entry Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                    x:Name="WorkoutNameEntry"
-                   Placeholder="Workout Name"
+                   Placeholder="{x:Static strings:AppResources.WorkoutName}"
                    FontSize="24"
                    FontAttributes="Bold"
                    TextColor="White"
@@ -71,7 +72,7 @@
                CornerRadius="0"
                HasShadow="False">
             <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
-                <Label Text="Power Unit:" 
+                <Label Text="{x:Static strings:AppResources.PowerUnitC}" 
                        FontSize="16" 
                        FontAttributes="Bold"
                        TextColor="White"
@@ -99,7 +100,7 @@
         <!-- Blocks List -->
         <ScrollView Grid.Row="2">
             <VerticalStackLayout Padding="15" Spacing="10">
-                <Label Text="Workout Blocks" 
+                <Label Text="{x:Static strings:AppResources.WorkoutBlocks}" 
                        FontSize="22" 
                        FontAttributes="Bold"
                        TextColor="#0D3F40"
@@ -247,9 +248,9 @@
                                            Margin="0,6,0,0">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Text="Duration: " />
+                                                <Span Text="{x:Static strings:AppResources.DurationC}" />
                                                 <Span Text="{Binding Duration}" FontAttributes="Bold" />
-                                                <Span Text="s | Power: " />
+                                                <Span Text="{x:Static strings:AppResources.s__PowerC}" />
                                                 <Span Text="{Binding TargetPowerStart}" FontAttributes="Bold" />
                                             </FormattedString>
                                         </Label.FormattedText>
@@ -266,12 +267,12 @@
                             <Label Text="📝" 
                                    FontSize="48" 
                                    HorizontalOptions="Center" />
-                            <Label Text="No blocks yet!" 
+                            <Label Text="{x:Static strings:AppResources.NoBlockYetEP}" 
                                    FontSize="18" 
                                    FontAttributes="Bold"
                                    TextColor="#0D3F40"
                                    HorizontalOptions="Center" />
-                            <Label Text="Add your first block to get started" 
+                            <Label Text="{x:Static strings:AppResources.AddFirstBlockToGetStarted}" 
                                    FontSize="14" 
                                    TextColor="#7F8C8D"
                                    HorizontalOptions="Center" />
@@ -280,7 +281,7 @@
                 </CollectionView>
                 
                 <!-- Add Block Button -->
-                <Button Text="➕ ADD BLOCK"
+                <Button Text="{x:Static strings:AppResources.Icon_ADD_BLOCK}"
                         Clicked="OnAddBlockClicked"
                         BackgroundColor="#2D8B8E"
                         TextColor="White"
@@ -302,7 +303,7 @@
                                   HorizontalOptions="Center">
                 <HorizontalStackLayout Spacing="8">
                     <Label x:Name="TotalBlocksLabel" 
-                           Text="0 blocks" 
+                           Text="{x:Static strings:AppResources._0Block}" 
                            FontSize="16" 
                            FontAttributes="Bold"
                            TextColor="White" />

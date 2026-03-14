@@ -2,8 +2,9 @@
 <pages:BaseBikeControlPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Velom.Sources.Pages"
+             xmlns:strings="clr-namespace:Velom.Resources.Strings"
              x:Class="Velom.Sources.Pages.WorkoutPage"
-             Title="Workout">
+             Title="{x:Static strings:AppResources.Workout}">
     <Grid RowDefinitions="Auto,*,Auto" BackgroundColor="#F5F5F5">
         <!-- Header with Metrics and Close Button -->
         <Grid Grid.Row="0" RowDefinitions="Auto,Auto" BackgroundColor="#155C5D">
@@ -14,7 +15,7 @@
                   BackgroundColor="#155C5D">
                 <Label Grid.Column="0" 
                        x:Name="WorkoutNameLabel"
-                       Text="🏋️ Workout" 
+                       Text="{x:Static strings:AppResources.Workout}" 
                        FontSize="24" 
                        FontAttributes="Bold"
                        TextColor="White"
@@ -40,7 +41,7 @@
                     <!-- Left: Block Progress -->
                     <VerticalStackLayout Grid.Column="0" HorizontalOptions="Start">
                         <Label x:Name="BlockProgressLabel" 
-                               Text="Block 0/0" 
+                               Text="{x:Static strings:AppResources.Block_00}" 
                                FontSize="Small"
                                FontAttributes="Bold"
                                TextColor="White" />
@@ -62,7 +63,7 @@
                     <!-- Right: Time Remaining -->
                     <VerticalStackLayout Grid.Column="2" HorizontalOptions="End">
                         <Label x:Name="TimeRemainingLabel" 
-                               Text="Remaining:" 
+                               Text="{x:Static strings:AppResources.RemainingC}" 
                                FontSize="Small"
                                FontAttributes="Bold"
                                TextColor="#FFCDD2"
@@ -78,13 +79,13 @@
                 
                 <!-- Metrics -->
                 <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto" ColumnSpacing="10" RowSpacing="5">
-                    <Label Grid.Row="0" Grid.Column="0" Text="Power:" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="#E0F2F2" FontSize="12" />
+                    <Label Grid.Row="0" Grid.Column="0" Text="{x:Static strings:AppResources.PowerC}" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="#E0F2F2" FontSize="12" />
                     <Label Grid.Row="1" Grid.Column="0" x:Name="PowerView" Text="N/A" HorizontalTextAlignment="Center" FontSize="20" TextColor="White" FontAttributes="Bold" />
-                    
-                    <Label Grid.Row="0" Grid.Column="1" Text="Cadence:" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="#E0F2F2" FontSize="12" />
+
+                    <Label Grid.Row="0" Grid.Column="1" Text="{x:Static strings:AppResources.CadenceC}" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="#E0F2F2" FontSize="12" />
                     <Label Grid.Row="1" Grid.Column="1" x:Name="CadenceView" Text="N/A" HorizontalTextAlignment="Center" FontSize="20" TextColor="White" FontAttributes="Bold" />
-                    
-                    <Label Grid.Row="0" Grid.Column="2" Text="Heart Rate:" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="#E0F2F2" FontSize="12" />
+
+                    <Label Grid.Row="0" Grid.Column="2" Text="{x:Static strings:AppResources.HearthRateC}" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="#E0F2F2" FontSize="12" />
                     <Label Grid.Row="1" Grid.Column="2" x:Name="HeartRateView" Text="N/A" HorizontalTextAlignment="Center" FontSize="20" TextColor="White" FontAttributes="Bold" />
                 </Grid>
                 
@@ -201,7 +202,7 @@
             <VerticalStackLayout Spacing="10">
                 <!-- Start Button -->
                 <Button x:Name="StartButton"
-                        Text="Start Workout"
+                        Text="{x:Static strings:AppResources.StartWorkout}"
                         Clicked="OnStartButtonClicked"
                         BackgroundColor="#2D8B8E"
                         TextColor="White"
@@ -216,7 +217,7 @@
                                       HorizontalOptions="Center"
                                       IsVisible="False">
                     <Button x:Name="PauseButton"
-                            Text="Pause"
+                            Text="{x:Static strings:AppResources.Pause}"
                             Clicked="OnPauseButtonClicked"
                             BackgroundColor="#4DB8BA"
                             TextColor="White"
@@ -226,7 +227,7 @@
                             CornerRadius="8" />
                     
                     <Button x:Name="StopButton"
-                            Text="Stop"
+                            Text="{x:Static strings:AppResources.Stop}"
                             Clicked="OnStopButtonClicked"
                             BackgroundColor="#D32F2F"
                             TextColor="White"

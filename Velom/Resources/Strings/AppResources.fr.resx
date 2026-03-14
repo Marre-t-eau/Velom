@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Cadence" xml:space="preserve">
+    <value>Cadence</value>
+  </data>
+  <data name="HR" xml:space="preserve">
+    <value>FC</value>
+  </data>
+  <data name="ManualControl" xml:space="preserve">
+    <value>Contrôle manuel</value>
+  </data>
+  <data name="Power" xml:space="preserve">
+    <value>Puissance</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Sauvegarder</value>
+  </data>
+  <data name="ScanDevices" xml:space="preserve">
+    <value>Scanner</value>
+  </data>
+  <data name="SettingsWithIcon" xml:space="preserve">
+    <value>⚙ Paramètres</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>Historique</value>
+  </data>
+  <data name="Workouts" xml:space="preserve">
+    <value>Entraînements</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="SelectLanguage" xml:space="preserve">
+    <value>Choisir la langue</value>
+  </data>
+  <data name="PowerC" xml:space="preserve">
+    <value>Puissance :</value>
+  </data>
+  <data name="CadenceC" xml:space="preserve">
+    <value>Cadence :</value>
+  </data>
+  <data name="HearthRateC" xml:space="preserve">
+    <value>Fréquence Cardiaque :</value>
+  </data>
+  <data name="StartSession" xml:space="preserve">
+    <value>Démarrer la session</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="TargetPower" xml:space="preserve">
+    <value>Puissance cible (W)</value>
+  </data>
+  <data name="QuickPresets" xml:space="preserve">
+    <value>Actions rapides</value>
+  </data>
+  <data name="IconAndSave" xml:space="preserve">
+    <value>💾 Sauvegarder</value>
+  </data>
+  <data name="WorkoutName" xml:space="preserve">
+    <value>Nom de l'entraînement</value>
+  </data>
+  <data name="PowerUnitC" xml:space="preserve">
+    <value>Unité de puissance :</value>
+  </data>
+  <data name="WorkoutBlocks" xml:space="preserve">
+    <value>Bloc d'entraînement</value>
+  </data>
+  <data name="DurationC" xml:space="preserve">
+    <value>Durée :</value>
+  </data>
+  <data name="s__PowerC" xml:space="preserve">
+    <value>s | Puissance : </value>
+  </data>
+  <data name="NoBlockYetEP" xml:space="preserve">
+    <value>Aucun bloc !</value>
+  </data>
+  <data name="AddFirstBlockToGetStarted" xml:space="preserve">
+    <value>Ajouter un bloc pour commençer</value>
+  </data>
+  <data name="Icon_ADD_BLOCK" xml:space="preserve">
+    <value>➕ AJOUTER UN BLOC</value>
+  </data>
+  <data name="0Block" xml:space="preserve">
+    <value>0 bloc</value>
+  </data>
+  <data name="WorkoutDetails" xml:space="preserve">
+    <value>Détails de l'entraînement</value>
+  </data>
+  <data name="Icon_and_AvgPower" xml:space="preserve">
+    <value>⚡ Puissance moyenne</value>
+  </data>
+  <data name="Icon_and_MaxPower" xml:space="preserve">
+    <value>⚡ Puissance max</value>
+  </data>
+  <data name="Icon_and_AvgCadence" xml:space="preserve">
+    <value>🔄 Cadence moyenne</value>
+  </data>
+  <data name="Icon_and_AvgHR" xml:space="preserve">
+    <value>❤️ FC moyenne</value>
+  </data>
+  <data name="TotalEnergy" xml:space="preserve">
+    <value>Energie total</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="AddNotesAboutThisWorkout" xml:space="preserve">
+    <value>Ajouter des notes sur cet entraînement...</value>
+  </data>
+  <data name="Icon_and_DeleteWorkout" xml:space="preserve">
+    <value>🗑️ Supprimer l'entraînement</value>
+  </data>
+  <data name="Icon_and_ExportToTCX" xml:space="preserve">
+    <value>📤 Exporter en TCX</value>
+  </data>
+  <data name="WorkoutHistory" xml:space="preserve">
+    <value>Historique d'entraînement</value>
+  </data>
+  <data name="NoWorkoutHistoryYet" xml:space="preserve">
+    <value>Pas d'historique d'entraînement</value>
+  </data>
+  <data name="CompleteAWorkoutToSeeItHere" xml:space="preserve">
+    <value>Compléter un entraînement pour le voir ici !</value>
+  </data>
+  <data name="StartWorkout" xml:space="preserve">
+    <value>Démarrer l'entraînement</value>
+  </data>
+  <data name="Workout" xml:space="preserve">
+    <value>Entraînement</value>
+  </data>
+  <data name="Block_00" xml:space="preserve">
+    <value>Bloc 0/0</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="MaxWFormat" xml:space="preserve">
+    <value>Max : {0:F0}W</value>
+  </data>
+  <data name="AvgWFormat" xml:space="preserve">
+    <value>Moy : {0:F0}W</value>
+  </data>
+  <data name="RemainingC" xml:space="preserve">
+    <value>Restant :</value>
+  </data>
+  <data name="MyWorkouts" xml:space="preserve">
+    <value>Mes entraînements</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>➕ Nouveau</value>
+  </data>
+  <data name="NoWorkoutsYet" xml:space="preserve">
+    <value>Aucun entraînement pour l'instant !</value>
+  </data>
+  <data name="CreateFirstWorkout" xml:space="preserve">
+    <value>Créez votre premier entraînement pour commencer</value>
+  </data>
+  <data name="CreateWorkout" xml:space="preserve">
+    <value>➕ Créer un entraînement</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Erreur</value>
+  </data>
+  <data name="WorkoutSessionNotFound" xml:space="preserve">
+    <value>Session d'entraînement introuvable</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="DurationFormat" xml:space="preserve">
+    <value>Durée : {0}</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Terminé</value>
+  </data>
+  <data name="StoppedEarly" xml:space="preserve">
+    <value>Arrêté prématurément</value>
+  </data>
+  <data name="NA" xml:space="preserve">
+    <value>N/D</value>
+  </data>
+  <data name="NormalizedPowerFormat" xml:space="preserve">
+    <value>Puissance normalisée (NP) : {0:F0} W</value>
+  </data>
+  <data name="IntensityFactorFormat" xml:space="preserve">
+    <value>Facteur d'intensité (IF) : {0:F2}</value>
+  </data>
+  <data name="FTPFormat" xml:space="preserve">
+    <value>FTP : {0} W</value>
+  </data>
+  <data name="FailedToExportWorkout" xml:space="preserve">
+    <value>Échec de l'exportation de l'entraînement</value>
+  </data>
+  <data name="FailedToExportFormat" xml:space="preserve">
+    <value>Échec de l'exportation : {0}</value>
+  </data>
+  <data name="DeleteWorkoutTitle" xml:space="preserve">
+    <value>Supprimer l'entraînement</value>
+  </data>
+  <data name="DeleteWorkoutConfirmation" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer cet entraînement ? Cette action est irréversible.</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="FailedToDeleteWorkout" xml:space="preserve">
+    <value>Échec de la suppression de l'entraînement</value>
+  </data>
+  <data name="AnErrorOccurredFormat" xml:space="preserve">
+    <value>Une erreur s'est produite : {0}</value>
+  </data>
+  <data name="FailedToSaveWorkoutFormat" xml:space="preserve">
+    <value>Échec de la sauvegarde de l'entraînement : {0}</value>
+  </data>
+  <data name="DiscardChangesTitle" xml:space="preserve">
+    <value>Abandonner les modifications ?</value>
+  </data>
+  <data name="DiscardChangesMessage" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir abandonner vos modifications ?</value>
+  </data>
+  <data name="Discard" xml:space="preserve">
+    <value>Abandonner</value>
+  </data>
+  <data name="KeepEditing" xml:space="preserve">
+    <value>Continuer l'édition</value>
+  </data>
+  <data name="FailedToLoadUserProfileFormat" xml:space="preserve">
+    <value>Échec du chargement du profil utilisateur : {0}</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Succès</value>
+  </data>
+  <data name="WorkoutDeletedSuccessfully" xml:space="preserve">
+    <value>Entraînement supprimé avec succès</value>
+  </data>
+  <data name="PleaseEnterWorkoutName" xml:space="preserve">
+    <value>Veuillez entrer un nom d'entraînement</value>
+  </data>
+  <data name="DeleteBlockTitle" xml:space="preserve">
+    <value>Supprimer le bloc ?</value>
+  </data>
+  <data name="DeleteBlockConfirmation" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer ce bloc ?</value>
+  </data>
+  <data name="FailedToLoadWorkoutsFormat" xml:space="preserve">
+    <value>Échec du chargement des entraînements : {0}</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+  <data name="StopSessionConfirmation" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir arrêter la session ?</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirmer</value>
+  </data>
+  <data name="SessionActiveConfirmation" xml:space="preserve">
+    <value>Une session est active. Voulez-vous arrêter et sauvegarder ?</value>
+  </data>
+  <data name="StopWorkoutConfirmation" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir arrêter cet entraînement ?</value>
+  </data>
+  <data name="WorkoutInProgressConfirmation" xml:space="preserve">
+    <value>Un entraînement est en cours. Voulez-vous vraiment quitter ?</value>
+  </data>
+  <data name="PermissionsRequired" xml:space="preserve">
+    <value>Permissions requises</value>
+  </data>
+  <data name="BluetoothPermissionsMessage" xml:space="preserve">
+    <value>Les permissions Bluetooth sont nécessaires pour scanner les appareils.</value>
+  </data>
+  <data name="BluetoothDisabled" xml:space="preserve">
+    <value>Bluetooth désactivé</value>
+  </data>
+  <data name="EnableBluetoothMessage" xml:space="preserve">
+    <value>Veuillez activer le Bluetooth pour continuer.</value>
+  </data>
+  <data name="FTPUpdatedFormat" xml:space="preserve">
+    <value>FTP mis à jour à {0}W</value>
+  </data>
+  <data name="FailedToSaveFTPFormat" xml:space="preserve">
+    <value>Échec de la sauvegarde du FTP : {0}</value>
+  </data>
+  <data name="InvalidInput" xml:space="preserve">
+    <value>Entrée invalide</value>
+  </data>
+  <data name="InvalidFTPMessage" xml:space="preserve">
+    <value>Veuillez entrer une valeur FTP numérique valide.</value>
+  </data>
+</root>

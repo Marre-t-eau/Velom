@@ -5,6 +5,7 @@ using Velom.Sources.Objects.Workout.View;
 using Velom.Sources.Services;
 using Velom.Sources.Objects;
 using System.Collections.ObjectModel;
+using Velom.Resources.Strings;
 
 namespace Velom.Sources.Pages;
 
@@ -78,7 +79,7 @@ public partial class WorkoutsListPage : ContentPage
         {
             await MainThread.InvokeOnMainThreadAsync(async () =>
             {
-                await DisplayAlert("Error", $"Failed to load workouts: {ex.Message}", "OK");
+                await DisplayAlert(AppResources.Error, string.Format(AppResources.FailedToLoadWorkoutsFormat, ex.Message), AppResources.OK);
             });
         }
     }

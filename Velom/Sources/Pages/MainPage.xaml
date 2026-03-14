@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:Velom.Resources.Strings"
              x:Class="Velom.MainPage"
              Title=""
              Shell.NavBarIsVisible="False"
@@ -22,11 +23,12 @@
                              WidthRequest="12"
                              HeightRequest="12"
                              VerticalOptions="Center" />
-                    <Label Text="⚡ Power" 
-                           FontSize="12"
-                           FontAttributes="Bold"
-                           TextColor="#0D3F40"
-                           VerticalOptions="Center" />
+                    <Label Text="⚡"/>
+                    <Label Text="{x:Static strings:AppResources.Power}"
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       TextColor="#0D3F40"
+                       VerticalOptions="Center" />
                 </HorizontalStackLayout>
             </Border>
             
@@ -41,7 +43,8 @@
                              WidthRequest="12"
                              HeightRequest="12"
                              VerticalOptions="Center" />
-                    <Label Text="🔄 Cadence" 
+                    <Label Text="🔄"/>
+                    <Label Text="{x:Static strings:AppResources.Cadence}" 
                            FontSize="12"
                            FontAttributes="Bold"
                            TextColor="#0D3F40"
@@ -60,7 +63,8 @@
                              WidthRequest="12"
                              HeightRequest="12"
                              VerticalOptions="Center" />
-                    <Label Text="❤️ HR" 
+                    <Label Text="❤️"/>
+                    <Label Text="{x:Static strings:AppResources.HR}" 
                            FontSize="12"
                            FontAttributes="Bold"
                            TextColor="#0D3F40"
@@ -80,7 +84,7 @@
                 
                 <Button Grid.Row="1"
                         x:Name="ScanButton"
-                        Text="Scan devices" 
+                        Text="{x:Static strings:AppResources.ScanDevices}" 
                         Clicked="ScanButton_Clicked"
                         BackgroundColor="#155C5D"
                         TextColor="White"
@@ -121,7 +125,7 @@
 
         <!-- Quick Actions Stacked -->
         <VerticalStackLayout Grid.Row="2" Spacing="10">
-            <Button Text="Manual Control" 
+            <Button Text="{x:Static strings:AppResources.ManualControl}" 
                     Clicked="OnManualControlClicked"
                     BackgroundColor="#155C5D"
                     TextColor="White"
@@ -129,8 +133,8 @@
                     HeightRequest="45"
                     FontSize="14"
                     FontAttributes="Bold" />
-            
-            <Button Text="Workouts" 
+
+            <Button Text="{x:Static strings:AppResources.Workouts}" 
                     Clicked="OnViewWorkoutsClicked"
                     BackgroundColor="#2D8B8E"
                     TextColor="White"
@@ -138,8 +142,8 @@
                     HeightRequest="45"
                     FontSize="14"
                     FontAttributes="Bold" />
-            
-            <Button Text="Workout History" 
+
+            <Button Text="{x:Static strings:AppResources.History}" 
                     Clicked="OnViewHistoryClicked"
                     BackgroundColor="#4DB8BA"
                     TextColor="White"
@@ -147,6 +151,16 @@
                     HeightRequest="45"
                     FontSize="14"
                     FontAttributes="Bold" />
+
+            <Button Text="{x:Static strings:AppResources.SettingsWithIcon}" 
+                    Clicked="OnViewSettingsClicked"
+                    BackgroundColor="#6DC8CA"
+                    TextColor="White"
+                    CornerRadius="8"
+                    HeightRequest="45"
+                    FontSize="14"
+                    FontAttributes="Bold">
+            </Button>
         </VerticalStackLayout>
 
         <!-- Profile Card (Compact) -->
@@ -170,7 +184,7 @@
                        BackgroundColor="#E0F2F2"
                        TextColor="#0D3F40"
                        FontSize="14" />
-                <Button Text="Save" 
+                <Button Text="{x:Static strings:AppResources.Save}" 
                         Clicked="SetNewFTP_Clicked"
                         BackgroundColor="#155C5D"
                         TextColor="White"

@@ -203,6 +203,33 @@
             50% { opacity: 0.5; }
         }
 
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .language-btn {
+            background: rgba(77, 184, 186, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(77, 184, 186, 0.3);
+            color: #4DB8BA;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn:hover {
+            background: rgba(77, 184, 186, 0.3);
+            border-color: rgba(77, 184, 186, 0.5);
+        }
+
         footer {
             text-align: center;
             padding: 2rem;
@@ -244,27 +271,34 @@
     </style>
 </head>
 <body>
+    <div class="language-selector">
+        <button class="language-btn" onclick="toggleLanguage()">
+            <span id="langIcon">🇬🇧</span>
+            <span id="langText">EN</span>
+        </button>
+    </div>
+    
     <div class="container">
         <header>
             <div class="logo">🚴</div>
             <h1>Velom</h1>
-            <p class="tagline">Control your smart bike trainer with custom workouts</p>
+            <p class="tagline" data-en="Control your smart bike trainer with custom workouts" data-fr="Contrôlez votre home trainer avec des entraînements personnalisés">Control your smart bike trainer with custom workouts</p>
             <div class="status-badge">
                 <span class="status-dot"></span>
-                Production Ready
+                <span data-en="Production Ready" data-fr="Prêt pour Production">Production Ready</span>
             </div>
             <div class="hero-buttons">
                 <a href="https://cyclingathome.app/download/Velom.Velom-Signed.apk" class="btn btn-download" download>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2z"/>
                     </svg>
-                    Download for Android
+                    <span data-en="Download for Android" data-fr="Télécharger pour Android">Download for Android</span>
                 </a>
                 <a href="https://github.com/Marre-t-eau/Velom" class="btn btn-primary" target="_blank">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                     </svg>
-                    View on GitHub
+                    <span data-en="View on GitHub" data-fr="Voir sur GitHub">View on GitHub</span>
                 </a>
             </div>
         </header>
@@ -272,64 +306,105 @@
         <section class="features">
             <div class="feature-card">
                 <div class="feature-icon">⚡</div>
-                <h3>Manual Control</h3>
-                <p>Direct power control of your smart trainer for instant resistance adjustments during your ride.</p>
+                <h3 data-en="Manual Control" data-fr="Contrôle Manuel">Manual Control</h3>
+                <p data-en="Direct power control of your smart trainer for instant resistance adjustments during your ride." data-fr="Contrôle direct de la puissance de votre home trainer pour des ajustements instantanés de résistance pendant votre sortie.">Direct power control of your smart trainer for instant resistance adjustments during your ride.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">📊</div>
-                <h3>Custom Workouts</h3>
-                <p>Build personalized training sessions with multiple blocks, power targets in Watts or % FTP, and cadence goals.</p>
+                <h3 data-en="Custom Workouts" data-fr="Entraînements Personnalisés">Custom Workouts</h3>
+                <p data-en="Build personalized training sessions with multiple blocks, power targets in Watts or % FTP, and cadence goals." data-fr="Créez des séances d'entraînement personnalisées avec plusieurs blocs, des objectifs de puissance en Watts ou % FTP, et des objectifs de cadence.">Build personalized training sessions with multiple blocks, power targets in Watts or % FTP, and cadence goals.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">📱</div>
-                <h3>Bluetooth Ready</h3>
-                <p>Seamless connection to FTMS-compatible trainers and heart rate monitors. Tested on Wahoo Kickr Core.</p>
+                <h3 data-en="Bluetooth Ready" data-fr="Compatible Bluetooth">Bluetooth Ready</h3>
+                <p data-en="Seamless connection to FTMS-compatible trainers and heart rate monitors. Tested on Wahoo Kickr Core." data-fr="Connexion transparente aux home trainers compatibles FTMS et moniteurs de fréquence cardiaque. Testé sur Wahoo Kickr Core.">Seamless connection to FTMS-compatible trainers and heart rate monitors. Tested on Wahoo Kickr Core.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">📈</div>
-                <h3>Workout History</h3>
-                <p>Track your training sessions and export your performance data in standard format.</p>
+                <h3 data-en="Workout History" data-fr="Historique des Entraînements">Workout History</h3>
+                <p data-en="Track your training sessions and export your performance data in standard format." data-fr="Suivez vos séances d'entraînement et exportez vos données de performance au format standard.">Track your training sessions and export your performance data in standard format.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">🎯</div>
-                <h3>Interval Training</h3>
-                <p>Create complex interval workouts with ramps, steady-state blocks, and customizable durations.</p>
+                <h3 data-en="Interval Training" data-fr="Entraînement par Intervalles">Interval Training</h3>
+                <p data-en="Create complex interval workouts with ramps, steady-state blocks, and customizable durations." data-fr="Créez des entraînements par intervalles complexes avec des rampes, des blocs à intensité constante et des durées personnalisables.">Create complex interval workouts with ramps, steady-state blocks, and customizable durations.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">🔒</div>
-                <h3>Privacy First</h3>
-                <p>All your data stays on your device. No external servers, no tracking, complete privacy.</p>
+                <h3 data-en="Privacy First" data-fr="Confidentialité d'Abord">Privacy First</h3>
+                <p data-en="All your data stays on your device. No external servers, no tracking, complete privacy." data-fr="Toutes vos données restent sur votre appareil. Pas de serveurs externes, pas de suivi, confidentialité totale.">All your data stays on your device. No external servers, no tracking, complete privacy.</p>
             </div>
         </section>
 
         <div class="tech-stack">
-            <h2>Built With Modern Technology</h2>
+            <h2 data-en="Built With Modern Technology" data-fr="Construit avec des Technologies Modernes">Built With Modern Technology</h2>
             <div class="tech-tags">
                 <span class="tech-tag">.NET 9</span>
                 <span class="tech-tag">C# 13.0</span>
                 <span class="tech-tag">.NET MAUI</span>
-                <span class="tech-tag">FTMS Protocol</span>
+                <span class="tech-tag" data-en="FTMS Protocol" data-fr="Protocole FTMS">FTMS Protocol</span>
                 <span class="tech-tag">MVVM</span>
                 <span class="tech-tag">Android</span>
-                <span class="tech-tag">iOS (Coming Soon)</span>
+                <span class="tech-tag" data-en="iOS (Coming Soon)" data-fr="iOS (Bientôt Disponible)">iOS (Coming Soon)</span>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>Made with ❤️ for the cycling community</p>
+        <p data-en="Made with ❤️ for the cycling community" data-fr="Fait avec ❤️ pour la communauté cycliste">Made with ❤️ for the cycling community</p>
         <p>
             <a href="https://github.com/Marre-t-eau/Velom" target="_blank">GitHub</a> • 
-            <a href="https://github.com/Marre-t-eau/Velom/issues" target="_blank">Report Issues</a>
+            <a href="https://github.com/Marre-t-eau/Velom/issues" target="_blank" data-en="Report Issues" data-fr="Signaler des Problèmes">Report Issues</a>
         </p>
-        <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(224, 242, 242, 0.7);">
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(224, 242, 242, 0.7);" data-en="© 2024 Velom Project. Open source software." data-fr="© 2024 Projet Velom. Logiciel open source.">
             © 2024 Velom Project. Open source software.
         </p>
     </footer>
+    
+    <script>
+        // Language management
+        let currentLang = localStorage.getItem('velom-language') || 'en';
+        
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('velom-language', lang);
+            
+            // Update all elements with data-en and data-fr attributes
+            document.querySelectorAll('[data-en][data-fr]').forEach(element => {
+                const text = element.getAttribute(`data-${lang}`);
+                if (text) {
+                    element.textContent = text;
+                }
+            });
+            
+            // Update language button
+            const langIcon = document.getElementById('langIcon');
+            const langText = document.getElementById('langText');
+            if (lang === 'fr') {
+                langIcon.textContent = '🇫🇷';
+                langText.textContent = 'FR';
+                document.documentElement.lang = 'fr';
+            } else {
+                langIcon.textContent = '🇬🇧';
+                langText.textContent = 'EN';
+                document.documentElement.lang = 'en';
+            }
+        }
+        
+        function toggleLanguage() {
+            const newLang = currentLang === 'en' ? 'fr' : 'en';
+            setLanguage(newLang);
+        }
+        
+        // Initialize language on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage(currentLang);
+        });
+    </script>
 </body>
 </html>

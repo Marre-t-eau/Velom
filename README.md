@@ -22,6 +22,7 @@ Velom is a cross-platform mobile application designed for cyclists who want full
   - Smart trainers (FTMS protocol)
   - Heart rate monitors
   - Tested on Wahoo Kickr Core
+- **🌍 Multi-language Support**: Available in English and French, with easy extensibility for additional languages
 
 ## 🔧 Technical Stack
 
@@ -124,6 +125,15 @@ When using % FTP mode, the app automatically converts percentages to absolute wa
 - [ ] Pre-built workout library
 - [ ] Advanced performance analytics
 - [ ] Automated APK distribution
+- [x] **Multi-language support** (English & French available)
+
+## 🌍 Internationalization
+
+Velom supports multiple languages! Currently available:
+- 🇬🇧 English
+- 🇫🇷 Français
+
+Want to contribute a translation? See our [Translation Guide](TRANSLATION_GUIDE.md) for detailed instructions on adding new languages.
 
 ## 🤝 Contributing
 

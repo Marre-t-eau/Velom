@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Velom.Sources.Messages;
 using Velom.Sources.Objects.Workout;
 using Velom.Sources.Services;
+using Velom.Resources.Strings;
 
 namespace Velom.Sources.Pages;
 
@@ -63,10 +64,10 @@ public partial class WorkoutEditorPage : ContentPage
     {
         if (sender is Button button && button.CommandParameter is WorkBlock block)
         {
-            bool confirm = await DisplayAlert("Delete Block?", 
-                "Are you sure you want to delete this block?", 
-                "Delete", "Cancel");
-            
+            bool confirm = await DisplayAlert(AppResources.DeleteBlockTitle, 
+                AppResources.DeleteBlockConfirmation, 
+                AppResources.Delete, AppResources.Cancel);
+
             if (confirm)
             {
                 _blocks.Remove(block);
@@ -77,9 +78,9 @@ public partial class WorkoutEditorPage : ContentPage
 
     private async void OnDeleteWorkoutClicked(object sender, EventArgs e)
     {
-        bool confirm = await DisplayAlert("Delete Workout?", 
-            $"Are you sure you want to delete '{WorkoutNameEntry.Text}'? This action cannot be undone.", 
-            "Delete", "Cancel");
+        bool confirm = await DisplayAlert(AppResources.DeleteWorkoutTitle, 
+            AppResources.DeleteWorkoutConfirmation, 
+            AppResources.Delete, AppResources.Cancel);
         
         if (!confirm)
             return;
@@ -91,7 +92,7 @@ public partial class WorkoutEditorPage : ContentPage
             
             if (deleted)
             {
-                await DisplayAlert("Success", "Workout deleted successfully", "OK");
+                await DisplayAlert(AppResources.OK, AppResources.DeleteWorkoutTitle, AppResources.OK);
                 
                 // Send message using WeakReferenceMessenger
                 WeakReferenceMessenger.Default.Send(new WorkoutDeletedMessage(_workout.Id));
@@ -100,12 +101,12 @@ public partial class WorkoutEditorPage : ContentPage
             }
             else
             {
-                await DisplayAlert("Error", "Failed to delete workout", "OK");
+                await DisplayAlert(AppResources.Error, AppResources.FailedToDeleteWorkout, AppResources.OK);
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+            await DisplayAlert(AppResources.Error, string.Format(AppResources.AnErrorOccurredFormat, ex.Message), AppResources.OK);
         }
     }
 
@@ -158,7 +159,7 @@ public partial class WorkoutEditorPage : ContentPage
         // Validate workout name
         if (string.IsNullOrWhiteSpace(WorkoutNameEntry.Text))
         {
-            await DisplayAlert("Error", "Please enter a workout name", "OK");
+            await DisplayAlert(AppResources.Error, AppResources.PleaseEnterWorkoutName, AppResources.OK);
             return;
         }
         
@@ -179,15 +180,15 @@ public partial class WorkoutEditorPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"Failed to save workout: {ex.Message}", "OK");
+            await DisplayAlert(AppResources.Error, string.Format(AppResources.FailedToSaveWorkoutFormat, ex.Message), AppResources.OK);
         }
     }
 
     private async void OnCancelClicked(object sender, EventArgs e)
     {
-        bool confirm = await DisplayAlert("Discard Changes?", 
-            "Are you sure you want to discard your changes?", 
-            "Discard", "Keep Editing");
+        bool confirm = await DisplayAlert(AppResources.DiscardChangesTitle, 
+            AppResources.DiscardChangesMessage, 
+            AppResources.Discard, AppResources.KeepEditing);
         
         if (confirm)
         {

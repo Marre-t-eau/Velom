@@ -1,6 +1,7 @@
 ﻿using System.Composition;
 using Velom.Sources.Objects;
 using Velom.Sources.Pages;
+using Velom.Resources.Strings;
 
 namespace Velom;
 
@@ -35,7 +36,7 @@ public partial class MainPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"Failed to load user profile: {ex.Message}", "OK");
+            await DisplayAlert(AppResources.Error, string.Format(AppResources.FailedToLoadUserProfileFormat, ex.Message), AppResources.OK);
         }
     }
 
@@ -95,13 +96,13 @@ public partial class MainPage : ContentPage
 
         if (status != PermissionStatus.Granted)
         {
-            await DisplayAlert("Permissions Required", "Bluetooth permissions are required to scan for devices.", "OK");
+            await DisplayAlert(AppResources.PermissionsRequired, AppResources.BluetoothPermissionsMessage, AppResources.OK);
             return;
         }
 
         if (!BluetoothManager.IsBluetoothEnabled())
         {
-            await DisplayAlert("Bluetooth Disabled", "Please enable Bluetooth to continue.", "OK");
+            await DisplayAlert(AppResources.BluetoothDisabled, AppResources.EnableBluetoothMessage, AppResources.OK);
             return;
         }
 
@@ -139,6 +140,13 @@ public partial class MainPage : ContentPage
         await Navigation.PushModalAsync(navigationPage);
     }
 
+    private async void OnViewSettingsClicked(object sender, EventArgs e)
+    {
+        var settingsPage = new SettingsPage();
+        var navigationPage = new NavigationPage(settingsPage);
+        await Navigation.PushModalAsync(navigationPage);
+    }
+
     private async void SetNewFTP_Clicked(object sender, EventArgs e)
     {
         if (!string.IsNullOrWhiteSpace(FTP.Text) && ushort.TryParse(FTP.Text, out ushort ftpValue))
@@ -147,16 +155,16 @@ public partial class MainPage : ContentPage
             {
                 var userInfo = await UserInfo.GetUserInfo();
                 userInfo.FTP = ftpValue;
-                await DisplayAlert("Success", $"FTP updated to {ftpValue}W", "OK");
+                await DisplayAlert(AppResources.Success, string.Format(AppResources.FTPUpdatedFormat, ftpValue), AppResources.OK);
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", $"Failed to save FTP: {ex.Message}", "OK");
+                await DisplayAlert(AppResources.Error, string.Format(AppResources.FailedToSaveFTPFormat, ex.Message), AppResources.OK);
             }
         }
         else
         {
-            await DisplayAlert("Invalid Input", "Please enter a valid numeric FTP value.", "OK");
+            await DisplayAlert(AppResources.InvalidInput, AppResources.InvalidFTPMessage, AppResources.OK);
         }
     }
 }

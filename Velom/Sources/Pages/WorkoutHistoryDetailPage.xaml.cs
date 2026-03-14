@@ -1,6 +1,7 @@
 ﻿using System.Composition;
 using Velom.Sources.Objects.WorkoutHistory;
 using Velom.Sources.Services;
+using Velom.Resources.Strings;
 
 namespace Velom.Sources.Pages;
 
@@ -32,7 +33,7 @@ public partial class WorkoutHistoryDetailPage : ContentPage
         
         if (_session == null)
         {
-            await DisplayAlert("Error", "Workout session not found", "OK");
+            await DisplayAlert(AppResources.Error, AppResources.WorkoutSessionNotFound, AppResources.OK);
             await Navigation.PopAsync();
             return;
         }
@@ -42,11 +43,11 @@ public partial class WorkoutHistoryDetailPage : ContentPage
         DateLabel.Text = $"{_session.StartTime:dddd, MMMM dd, yyyy 'at' HH:mm}";
         
         var duration = TimeSpan.FromSeconds(_session.TotalDurationSeconds);
-        DurationLabel.Text = $"Duration: {duration:hh\\:mm\\:ss}";
+        DurationLabel.Text = string.Format(AppResources.DurationFormat, duration.ToString(@"hh\:mm\:ss"));
         
         CompletedLabel.Text = _session.IsCompleted 
-            ? "Completed" 
-            : "Stopped early";
+            ? AppResources.Completed 
+            : AppResources.StoppedEarly;
         CompletedLabel.TextColor = _session.IsCompleted 
             ? Colors.Green 
             : Colors.Orange;
@@ -56,17 +57,17 @@ public partial class WorkoutHistoryDetailPage : ContentPage
         MaxPowerLabel.Text = $"{_session.MaxPower} W";
         AvgCadenceLabel.Text = _session.AverageCadence > 0 
             ? $"{_session.AverageCadence:F0} rpm" 
-            : "N/A";
+            : AppResources.NA;
         AvgHRLabel.Text = _session.AverageHeartRate > 0 
             ? $"{_session.AverageHeartRate:F0} bpm" 
-            : "N/A";
+            : AppResources.NA;
         EnergyLabel.Text = $"{_session.TotalKilojoules:F0} kJ";
         TSSLabel.Text = $"{_session.TSS:F0}";
 
         // Advanced Metrics
-        NormalizedPowerLabel.Text = $"Normalized Power (NP): {_session.NormalizedPower:F0} W";
-        IntensityFactorLabel.Text = $"Intensity Factor (IF): {_session.IntensityFactor:F2}";
-        FTPLabel.Text = $"FTP: {_session.FTP} W";
+        NormalizedPowerLabel.Text = string.Format(AppResources.NormalizedPowerFormat, _session.NormalizedPower);
+        IntensityFactorLabel.Text = string.Format(AppResources.IntensityFactorFormat, _session.IntensityFactor);
+        FTPLabel.Text = string.Format(AppResources.FTPFormat, _session.FTP);
 
         // Notes
         NotesEditor.Text = _session.Notes;
@@ -93,22 +94,22 @@ public partial class WorkoutHistoryDetailPage : ContentPage
 
             if (!success)
             {
-                await DisplayAlert("Error", "Failed to export workout", "OK");
+                await DisplayAlert(AppResources.Error, AppResources.FailedToExportWorkout, AppResources.OK);
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"Failed to export: {ex.Message}", "OK");
+            await DisplayAlert(AppResources.Error, string.Format(AppResources.FailedToExportFormat, ex.Message), AppResources.OK);
         }
     }
 
     private async void OnDeleteClicked(object sender, EventArgs e)
     {
         bool confirm = await DisplayAlert(
-            "Delete Workout", 
-            "Are you sure you want to delete this workout? This action cannot be undone.", 
-            "Delete", 
-            "Cancel");
+            AppResources.DeleteWorkoutTitle, 
+            AppResources.DeleteWorkoutConfirmation, 
+            AppResources.Delete, 
+            AppResources.Cancel);
 
         if (confirm)
         {
