@@ -420,4 +420,10 @@
   <data name="InvalidFTPMessage" xml:space="preserve">
     <value>Veuillez entrer une valeur FTP numérique valide.</value>
   </data>
+  <data name="ScanDevicesIcon" xml:space="preserve">
+    <value>🔍 Scanner</value>
+  </data>
+  <data name="ScanningIcon" xml:space="preserve">
+    <value>🔍 Recherche...</value>
+  </data>
 </root>

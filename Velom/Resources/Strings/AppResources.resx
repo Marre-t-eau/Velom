@@ -423,4 +423,10 @@
   <data name="InvalidFTPMessage" xml:space="preserve">
     <value>Please enter a valid numeric FTP value.</value>
   </data>
+  <data name="ScanDevicesIcon" xml:space="preserve">
+    <value>🔍 Scan devices</value>
+  </data>
+  <data name="ScanningIcon" xml:space="preserve">
+    <value>🔍 Scanning...</value>
+  </data>
 </root>

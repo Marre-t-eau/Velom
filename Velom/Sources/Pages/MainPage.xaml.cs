@@ -108,7 +108,7 @@ public partial class MainPage : ContentPage
 
         _isScanning = true;
         ScanButton.IsEnabled = false;
-        ScanButton.Text = "🔍 Scanning...";
+        ScanButton.Text = AppResources.ScanningIcon;
 
         BluetoothManager.StartScan();
 
