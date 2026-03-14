@@ -67,10 +67,18 @@ internal class AndroidDeviceManager : IDeviceManager
         if (characteristic != null)
         {
             fitnessMachineControlPoint = characteristic;
-            FitnessMachineControlPoint fmc = FitnessMachineControlPoint.CreateRequestControlCommand();
-            await fitnessMachineControlPoint.WriteAsync(fmc.ToByteArray());
-            fmc = FitnessMachineControlPoint.CreateStopAndResetCommand();
-            await fitnessMachineControlPoint.WriteAsync(fmc.ToByteArray());
+            try
+            {
+                FitnessMachineControlPoint fmc = FitnessMachineControlPoint.CreateRequestControlCommand();
+                await fitnessMachineControlPoint.WriteAsync(fmc.ToByteArray());
+                fmc = FitnessMachineControlPoint.CreateStopAndResetCommand();
+                await fitnessMachineControlPoint.WriteAsync(fmc.ToByteArray());
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Failed to initialize control point: {ex.Message}");
+                // Continue even if initialization fails
+            }
         }
 
         characteristic = characteristics.FirstOrDefault(c => c.Id == FitnessMachineFeature.guid);
@@ -130,28 +138,70 @@ internal class AndroidDeviceManager : IDeviceManager
 
     public async Task SetPower(ushort power)
     {
-        if (fitnessMachineControlPoint != null)
+        if (fitnessMachineControlPoint == null)
+            return;
+
+        if (Device.State != DeviceState.Connected)
+        {
+            System.Diagnostics.Debug.WriteLine("Device not connected, cannot set power");
+            return;
+        }
+
+        try
         {
             FitnessMachineControlPoint fmc = FitnessMachineControlPoint.CreateSetTargetPowerCommand(power);
             await fitnessMachineControlPoint.WriteAsync(fmc.ToByteArray());
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Failed to set power: {ex.Message}");
+            // Silently fail - the device might not be ready
         }
     }
 
     public async Task StartControllingPower()
     {
-        if (fitnessMachineControlPoint != null)
+        if (fitnessMachineControlPoint == null)
+            return;
+
+        if (Device.State != DeviceState.Connected)
+        {
+            System.Diagnostics.Debug.WriteLine("Device not connected, cannot start controlling power");
+            return;
+        }
+
+        try
         {
             FitnessMachineControlPoint fmc = FitnessMachineControlPoint.CreateStartOrResumeCommand();
             await fitnessMachineControlPoint.WriteAsync(fmc.ToByteArray());
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Failed to start controlling power: {ex.Message}");
+            // Silently fail - the device might not be ready
         }
     }
 
     public async Task StopControllingPower()
     {
-        if (fitnessMachineControlPoint != null)
+        if (fitnessMachineControlPoint == null)
+            return;
+
+        if (Device.State != DeviceState.Connected)
+        {
+            System.Diagnostics.Debug.WriteLine("Device not connected, cannot stop controlling power");
+            return;
+        }
+
+        try
         {
             FitnessMachineControlPoint fmc = FitnessMachineControlPoint.CreateStopOrPauseCommand();
             await fitnessMachineControlPoint.WriteAsync(fmc.ToByteArray());
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Failed to stop controlling power: {ex.Message}");
+            // Silently fail - the device might not be ready
         }
     }
 }
