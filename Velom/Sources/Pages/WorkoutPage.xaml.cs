@@ -240,7 +240,7 @@ public partial class WorkoutPage : BaseBikeControlPage
         await StartSessionAsync(WorkoutView.Name);
     }
 
-    private void OnPauseButtonClicked(object sender, EventArgs e)
+    private async void OnPauseButtonClicked(object sender, EventArgs e)
     {
         if (_timer.Enabled)
         {
@@ -253,6 +253,12 @@ public partial class WorkoutPage : BaseBikeControlPage
             _timer.Start();
             _recordingTimer.Start();
             PauseButton.Text = "Pause";
+
+            // Force reset power when resuming
+            if (_actualTargetPower.HasValue)
+            {
+                await UpdateTargetPowerAsync(_actualTargetPower.Value);
+            }
         }
     }
 

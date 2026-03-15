@@ -77,7 +77,7 @@ public partial class ControlPage : BaseBikeControlPage
         PowerControlSection.IsEnabled = true;
     }
 
-    private void OnPauseButtonClicked(object sender, EventArgs e)
+    private async void OnPauseButtonClicked(object sender, EventArgs e)
     {
         if (_timer.Enabled)
         {
@@ -90,6 +90,12 @@ public partial class ControlPage : BaseBikeControlPage
             _timer.Start();
             _recordingTimer.Start();
             PauseButton.Text = "Pause";
+
+            // Force reset power when resuming
+            if (_currentTargetPower.HasValue)
+            {
+                await UpdateTargetPowerAsync(_currentTargetPower.Value);
+            }
         }
     }
 
