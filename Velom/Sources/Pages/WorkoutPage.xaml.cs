@@ -82,8 +82,6 @@ public partial class WorkoutPage : BaseBikeControlPage
             
             if (currentWorkBlock != null && currentBlockIndex.HasValue)
             {
-                currentWorkBlock.TimeDone = GetTimeDoneInActualWorkBlock();
-                
                 // Update block highlighting when we switch to a new block
                 if (currentBlockIndex != _lastBlockIndex)
                 {
@@ -92,13 +90,16 @@ public partial class WorkoutPage : BaseBikeControlPage
                     {
                         WorkoutView.BlocksView[_lastBlockIndex.Value].IsCurrent = false;
                     }
-                    
+
+                    // Reset TimeDone for the new block
+                    currentWorkBlock.TimeDone = 0;
+
                     // Highlight current block
                     if (currentBlockIndex.Value < WorkoutView.BlocksView.Count)
                     {
                         var blockToScroll = WorkoutView.BlocksView[currentBlockIndex.Value];
                         blockToScroll.IsCurrent = true;
-                        
+
                         // Auto-scroll to current block using the object itself
                         Device.StartTimer(TimeSpan.FromMilliseconds(200), () =>
                         {
@@ -115,9 +116,12 @@ public partial class WorkoutPage : BaseBikeControlPage
                             return false; // Don't repeat
                         });
                     }
-                    
+
                     _lastBlockIndex = currentBlockIndex;
                 }
+
+                // Update time done for current block
+                currentWorkBlock.TimeDone = GetTimeDoneInActualWorkBlock();
             }
             
             if (newTargetedPower != _actualTargetPower)
